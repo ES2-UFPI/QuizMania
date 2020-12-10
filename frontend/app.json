@@ -1,0 +1,12 @@
+{
+  "name": "Quizmania",
+  "displayName": "Quizmania",
+  "expo": {
+    "name": "Quizmania",
+    "slug": "Quizmania",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
