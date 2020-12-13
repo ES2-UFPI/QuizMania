@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace QuizMania.WebAPI
 {
@@ -19,6 +19,11 @@ namespace QuizMania.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            // add db contexts
+            services.AddDbContext<QuizContext>(opt => { opt.UseInMemoryDatabase("InMemory Quizzes Database"); });
+
+            //services.AddDbContext<QuizContext>(opt => { opt.UseSqlServer(Configuration.GetConnectionString("AzureSqlConnection")); });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
