@@ -19,6 +19,21 @@ namespace QuizMania.WebAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.1");
 
+            modelBuilder.Entity("QuestionQuiz", b =>
+                {
+                    b.Property<long>("QuestionsId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("QuizzesId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("QuestionsId", "QuizzesId");
+
+                    b.HasIndex("QuizzesId");
+
+                    b.ToTable("QuestionQuiz");
+                });
+
             modelBuilder.Entity("QuizMania.WebAPI.Models.Answer", b =>
                 {
                     b.Property<long>("Id")
@@ -51,17 +66,12 @@ namespace QuizMania.WebAPI.Migrations
                         .HasColumnType("bigint")
                         .UseIdentityColumn();
 
-                    b.Property<long?>("QuizId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("QuizId");
 
                     b.ToTable("Questions");
                 });
@@ -78,6 +88,21 @@ namespace QuizMania.WebAPI.Migrations
                     b.ToTable("Quizzes");
                 });
 
+            modelBuilder.Entity("QuestionQuiz", b =>
+                {
+                    b.HasOne("QuizMania.WebAPI.Models.Question", null)
+                        .WithMany()
+                        .HasForeignKey("QuestionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QuizMania.WebAPI.Models.Quiz", null)
+                        .WithMany()
+                        .HasForeignKey("QuizzesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("QuizMania.WebAPI.Models.Answer", b =>
                 {
                     b.HasOne("QuizMania.WebAPI.Models.Question", null)
@@ -87,19 +112,7 @@ namespace QuizMania.WebAPI.Migrations
 
             modelBuilder.Entity("QuizMania.WebAPI.Models.Question", b =>
                 {
-                    b.HasOne("QuizMania.WebAPI.Models.Quiz", null)
-                        .WithMany("Questions")
-                        .HasForeignKey("QuizId");
-                });
-
-            modelBuilder.Entity("QuizMania.WebAPI.Models.Question", b =>
-                {
                     b.Navigation("Answers");
-                });
-
-            modelBuilder.Entity("QuizMania.WebAPI.Models.Quiz", b =>
-                {
-                    b.Navigation("Questions");
                 });
 #pragma warning restore 612, 618
         }
