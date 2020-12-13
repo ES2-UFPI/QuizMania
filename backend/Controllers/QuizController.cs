@@ -32,14 +32,7 @@ namespace QuizMania.WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Quiz>> GetQuiz(long id)
         {
-            var quiz = await _repository.GetQuizAsync(id);
-
-            if (quiz == null)
-            {
-                return NotFound();
-            }
-
-            return quiz;
+            return await _repository.GetQuizAsync(id);
         }
 
         //// PUT: api/Quiz/5
