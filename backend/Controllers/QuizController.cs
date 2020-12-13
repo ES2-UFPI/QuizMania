@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using QuizMania.WebAPI;
-using QuizMania.WebAPI.Models;
+using QuizMania.WebAPI.DTOs;
+using AutoMapper;
+using System.Threading.Tasks;
 
 namespace QuizMania.WebAPI.Controllers
 {
@@ -15,24 +12,28 @@ namespace QuizMania.WebAPI.Controllers
     public class QuizController : ControllerBase
     {
         private readonly IQuizAsyncRepository _repository;
+        private readonly IMapper _mapper;
 
-        public QuizController(IQuizAsyncRepository repository)
+        public QuizController(IQuizAsyncRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         // GET: api/Quiz
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Quiz>>> GetQuizzes()
+        public async Task<ActionResult<IEnumerable<QuizReadDTO>>> GetQuizzes()
         {
-            return await _repository.GetAllQuizzesAsync();
+            var quizzes = await _repository.GetAllQuizzesAsync();
+            return Ok(_mapper.Map<IEnumerable<QuizReadDTO>>(quizzes));
         }
 
         // GET: api/Quiz/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Quiz>> GetQuiz(long id)
+        public async Task<ActionResult<QuizReadDTO>> GetQuiz(long id)
         {
-            return await _repository.GetQuizAsync(id);
+            var quiz = await _repository.GetQuizAsync(id);
+            return quiz != null ? Ok(_mapper.Map<QuizReadDTO>(quiz)) : NotFound();
         }
 
         //// PUT: api/Quiz/5
