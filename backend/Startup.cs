@@ -21,9 +21,8 @@ namespace QuizMania.WebAPI
             services.AddControllers();
             services.AddScoped<IQuizAsyncRepository, MockQuizRepository>();
 
-            // add db contexts
+            // inject db contexts
             services.AddDbContext<QuizContext>(opt => { opt.UseInMemoryDatabase("InMemory Quizzes Database"); });
-
             //services.AddDbContext<QuizContext>(opt => { opt.UseSqlServer(Configuration.GetConnectionString("AzureSqlConnection")); });
         }
 

@@ -5,10 +5,15 @@ namespace QuizMania.WebAPI.Models
 {
     public class Quiz
     {
+        public Quiz()
+        {
+            Questions = new HashSet<Question>();
+        }
+
         [Key]
         public long Id { get; set; }
 
         [Required]
-        public ICollection<Question> Questions { get; set; }
+        public virtual ICollection<Question> Questions { get; set; }
     }
 }

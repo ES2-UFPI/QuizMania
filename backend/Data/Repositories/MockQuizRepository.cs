@@ -11,55 +11,61 @@ namespace QuizMania.WebAPI
     {
         private readonly QuizContext _context;
 
-        public MockQuizRepository(QuizContext context) {
+        public MockQuizRepository(QuizContext context)
+        {
             _context = context;
 
-            _context.Quizzes.Add(new Quiz
+            var quiz1 = new Quiz()
             {
                 Id = 1,
-                Questions = new List<Question>()
+            };
+
+            var quiz2 = new Quiz()
+            {
+                Id = 2,
+            };
+
+            var question1 = new Question()
+            {
+                Id = 1,
+                Text = "What is the answer to the meaning of life, the universe and everything?",
+                Answers = new List<Answer>()
                 {
-                    new Question()
+                    new Answer()
                     {
                         Id = 1,
-                        Text = "What is the answer to the meaning of life, the universe and everything?",
-                        Answers = new List<Answer>()
-                        {
-                            new Answer()
-                            {
-                                Id = 1,
-                                IsCorrect = false,
-                                Text = "40",
-                            },
-
-                            new Answer()
-                            {
-                                Id = 2,
-                                IsCorrect = false,
-                                Text = "41",
-                            },
-
-                            new Answer()
-                            {
-                                Id = 3,
-                                IsCorrect = true,
-                                Text = "42",
-                            },
-
-                            new Answer()
-                            {
-                                Id = 4,
-                                IsCorrect = false,
-                                Text = "43",
-                            },
-                        }
+                        IsCorrect = false,
+                        Text = "40",
                     },
 
-                    new Question()
+                    new Answer()
                     {
                         Id = 2,
-                        Text = "This is a true or false question. True or False?",
-                        Answers = new List<Answer>()
+                        IsCorrect = false,
+                        Text = "41",
+                    },
+
+                    new Answer()
+                    {
+                        Id = 3,
+                        IsCorrect = true,
+                        Text = "42",
+                    },
+
+                    new Answer()
+                    {
+                        Id = 4,
+                        IsCorrect = false,
+                        Text = "43",
+                    },
+                }
+            };
+
+            var question2 = new Question()
+            {
+                Id = 2,
+                Text = "This is a true or false question. True or False?",
+                Answers = new List<Answer>()
                         {
                             new Answer()
                             {
@@ -75,13 +81,13 @@ namespace QuizMania.WebAPI
                                 Text = "False",
                             },
                         }
-                    },
+            };
 
-                    new Question()
-                    {
-                        Id = 3,
-                        Text = "All options are correct. Which options are correct?",
-                        Answers = new List<Answer>()
+            var question3 = new Question()
+            {
+                Id = 3,
+                Text = "All options are correct. Which options are correct?",
+                Answers = new List<Answer>()
                         {
                             new Answer()
                             {
@@ -97,9 +103,25 @@ namespace QuizMania.WebAPI
                                 Text = "B",
                             },
                         }
-                    },
-                },
-            }) ;
+            };
+
+            quiz1.Questions.Add(question1);
+            quiz1.Questions.Add(question2);
+            quiz1.Questions.Add(question3);
+
+            quiz2.Questions.Add(question3);
+            quiz2.Questions.Add(question2);
+
+            question1.Quizzes.Add(quiz1);
+
+            question2.Quizzes.Add(quiz1);
+            question2.Quizzes.Add(quiz2);
+
+            question3.Quizzes.Add(quiz1);
+            question3.Quizzes.Add(quiz2);
+
+            _context.Quizzes.Add(quiz1);
+            _context.Quizzes.Add(quiz2);
 
             _context.SaveChangesAsync();
         }
