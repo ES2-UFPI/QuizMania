@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, FlatList } from "react-native";
 import { Button } from "react-native-elements";
-import { Container, Header, Pergunta, Gabarito } from "../../../components";
+import { Container, Header, Pergunta, Gabarito } from "../../../../components";
 import { useStyled } from "react-native-reflect";
 
 export default function responderQuiz() {

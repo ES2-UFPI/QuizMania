@@ -1,3 +1,5 @@
-import ResponderQuiz from "./ResponderQuiz";
+import ResponderQuiz from "./Quiz/Responder";
+import UsarGold from "./Gold/Usar";
 
-export { ResponderQuiz };
+
+export { ResponderQuiz, UsarGold };
