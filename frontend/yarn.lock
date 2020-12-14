@@ -6294,6 +6294,13 @@ react-native-reanimated@~1.13.0:
   dependencies:
     fbjs "^1.0.0"
 
+react-native-reflect@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/react-native-reflect/-/react-native-reflect-0.1.6.tgz#2926db8690b76891b75a44d9d14b0e3118190a30"
+  integrity sha512-qr/L032zEgS/QHUdlYZY8LnuCY8poMM4xMXHrAi05hJUFFx4ardExFX3NaTAh709GjyOKAc3qFYXp+B8oC8yMw==
+  dependencies:
+    lodash "^4.17.15"
+
 react-native-safe-area-context@3.1.4:
   version "3.1.4"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-3.1.4.tgz#9b7f883a5ae8da6218d17467a350434005893602"

@@ -1,20 +1,35 @@
-import React from "react";
-import { View, StyleSheet, Text } from "react-native";
-import { BACKGROUND_COLOR } from "../../constants";
-import { Button } from "react-native-elements";
+import React, { useRef, useEffect, useState } from "react";
+import { View, StyleSheet, Text, Animated } from "react-native";
+import {Alternativa} from '../index'
+export default function Pergunta({ data, perguntaAtual, responder, resposta, readOnly }) {
+  const [alternativaSelecionada, setAlternativaSelecionada] = useState(undefined)
+  useEffect(() => {
+    setAlternativaSelecionada(resposta)
+  }, [data])
 
-export default function Pergunta({ data, perguntaAtual, responder }) {
+  function renderNovaAlternativaSelecionada(resposta) {
+    setAlternativaSelecionada(resposta)
+  }
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>{perguntaAtual + " - " + data.titulo}</Text>
+      <Text style={styles.titulo}>{readOnly ? data.text: perguntaAtual + " - " + data.text}</Text>
       <View style={styles.containerRespostas}>
-        {Array(4)
-          .fill(0)
-          .map((item, index) => {
-            const chave = "alternativa" + (index + 1);
-            if (data[chave]) {
-              return <Button title={data[chave]} buttonStyle={styles.button} onPress={() => responder(perguntaAtual, index + 1)} />;
-            }
+        {data.answers.map((item, index) => {
+            return (
+               <Alternativa 
+                readOnly={readOnly}
+                key={item.id}
+                data={item}
+                chave={item.id}
+                index={index}
+                perguntaAtual={perguntaAtual}
+                responder={responder}
+                resposta={resposta}
+                correct={data.correct == item.id}
+                renderNovaAlternativaSelecionada={renderNovaAlternativaSelecionada.bind(this)}
+                selected={item.id == alternativaSelecionada}
+               />
+              );
           })}
       </View>
     </View>
@@ -24,16 +39,15 @@ export default function Pergunta({ data, perguntaAtual, responder }) {
 const styles = StyleSheet.create({
   container: {
     justifyContent: "space-around",
-    flex: 0.6
+    flex: 0.6,
   },
   containerRespostas: {
     justifyContent: "space-between",
   },
-  button: {
-    marginVertical: 15,
-  },
+  
   titulo: {
     fontSize: 21,
-    fontWeight: 'bold'
-  }
+    fontWeight: "bold",
+  },
+  
 });

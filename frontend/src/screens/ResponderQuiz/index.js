@@ -1,41 +1,96 @@
 import React, { useState, useEffect } from "react";
-import { Text, View } from "react-native";
-import { Container, Header, Pergunta } from "../../../components";
+import { Text, View, FlatList } from "react-native";
+import { Button } from "react-native-elements";
+import { Container, Header, Pergunta, Gabarito } from "../../../components";
+import { useStyled } from "react-native-reflect";
 
 export default function responderQuiz() {
   const [perguntas, setPerguntas] = useState([]);
   const [perguntaAtual, setPerguntaAtual] = useState(undefined);
-  const respostas = {};
+  const [respostas, setRespostas] = useState({});
+  const [gabaritoVisivel, setGabaritoVisivel] = useState(false);
+  const [perguntaGabarito, setPerguntaGabarito] = useState(undefined);
 
   useEffect(() => {
-    const data = [
-      {
-        titulo: "Qual é o valor de PI?",
-        alternativa1: "3.14",
-        alternativa2: "3",
-      },
-      {
-        titulo: "Qual é o melhor curso?",
-        alternativa1: "Computação",
-        alternativa2: "Música",
-      },
-    ];
-    setPerguntas(data);
+    const data = {
+      id: 1,
+      questions: [
+        {
+          id: 1,
+          correct: 3,
+          text:
+            "What is the answer to the meaning of life, the universe and everything?",
+          answers: [
+            {
+              id: 1,
+              text: "40",
+            },
+            {
+              id: 2,
+              text: "41",
+            },
+            {
+              id: 3,
+              text: "42",
+            },
+            {
+              id: 4,
+              text: "43",
+            },
+          ],
+        },
+        {
+          id: 2,
+          text: "This is a true or false question. True or False?",
+          answers: [
+            {
+              id: 5,
+              text: "True",
+            },
+            {
+              id: 6,
+              text: "False",
+            },
+          ],
+          correct: 5,
+        },
+        {
+          id: 3,
+          text: "All options are correct. Which options are correct?",
+          correct: 8,
+          answers: [
+            {
+              id: 7,
+              text: "A",
+            },
+            {
+              id: 8,
+              text: "B",
+            },
+          ],
+        },
+      ],
+    };
+    setPerguntas(data.questions);
     setPerguntaAtual(0);
   }, []);
 
   function responderPergunta(pergunta, resposta) {
-    alert("Resposta para a pergunta " + pergunta + ": Alternativa " + resposta);
-    respostas[pergunta] = resposta;
+    const novasRespostas = respostas;
+    novasRespostas[pergunta] = resposta;
+    setRespostas(novasRespostas);
+    console.log(respostas);
     if (perguntaAtual < perguntas.length - 1)
       setPerguntaAtual(perguntaAtual + 1);
-    else alert("Não tem mais pergunta");
   }
-
+  function alterPerguntaGabarito(id) {
+    setPerguntaGabarito(perguntas.find((item) => item.id == id));
+  }
+  const numColumns = 10;
   return (
     <Container>
       <Header />
-      {perguntaAtual != undefined && (
+      {perguntaAtual != undefined && !gabaritoVisivel && (
         <React.Fragment>
           {perguntaAtual > 0 && (
             <Text
@@ -46,12 +101,56 @@ export default function responderQuiz() {
               {"< "} Pergunta Anterior
             </Text>
           )}
-          <Pergunta
-            data={perguntas[perguntaAtual]}
-            perguntaAtual={perguntaAtual + 1}
-            responder={responderPergunta.bind(this)}
-          />
+          {perguntaAtual <= perguntas.length - 1 && (
+            <Pergunta
+              data={perguntas[perguntaAtual]}
+              perguntaAtual={perguntaAtual + 1}
+              responder={responderPergunta.bind(this)}
+              resposta={respostas[perguntas[perguntaAtual].id.toString()]}
+            />
+          )}
         </React.Fragment>
+      )}
+      {perguntaAtual == perguntas.length - 1 && !gabaritoVisivel && (
+        <Button
+          title="Enviar Respostas"
+          onPress={() => {
+            setGabaritoVisivel(true);
+          }}
+        />
+      )}
+      {gabaritoVisivel && (
+        <Gabarito
+          perguntas={perguntas}
+          respostas={respostas}
+          detalharPergunta={alterPerguntaGabarito.bind(this)}
+        />
+      )}
+
+      {perguntaGabarito && (
+        // <View>
+        //   <Text>{perguntaGabarito.text}</Text>
+        //   <Text>
+        //     {
+        //       perguntaGabarito.answers.find(
+        //         (item) => item.id == perguntaGabarito.correct
+        //       ).text
+        //     }
+        //   </Text>
+        //   <Text>
+        //     {
+        //       perguntaGabarito.answers.find(
+        //         (item) => item.id == respostas[perguntaGabarito.id.toString()]
+        //       ).text
+        //     }
+        //   </Text>
+        // </View>
+        <Pergunta
+          data={perguntaGabarito}
+          responder={() => {}}
+          readOnly
+          resposta={respostas[perguntaGabarito.id.toString()]}
+        />
       )}
     </Container>
   );
