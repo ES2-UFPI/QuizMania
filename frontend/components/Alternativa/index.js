@@ -45,7 +45,6 @@ export default function Alternativa({
             : {},
         ]}
         onPress={() => {
-          responder(perguntaAtual, data.id);
           renderNovaAlternativaSelecionada(data.id);
         }}
       />

@@ -18,6 +18,7 @@ export default function responderQuiz() {
         {
           id: 1,
           correct: 3,
+          moreOneAnswer: true,
           text:
             "What is the answer to the meaning of life, the universe and everything?",
           answers: [
@@ -107,17 +108,11 @@ export default function responderQuiz() {
               perguntaAtual={perguntaAtual + 1}
               responder={responderPergunta.bind(this)}
               resposta={respostas[perguntas[perguntaAtual].id.toString()]}
+              setGabaritoVisivel={setGabaritoVisivel.bind(this)}
+              proximaPergunta={!(perguntaAtual == perguntas.length - 1 && !gabaritoVisivel)}
             />
           )}
         </React.Fragment>
-      )}
-      {perguntaAtual == perguntas.length - 1 && !gabaritoVisivel && (
-        <Button
-          title="Enviar Respostas"
-          onPress={() => {
-            setGabaritoVisivel(true);
-          }}
-        />
       )}
       {gabaritoVisivel && (
         <Gabarito
