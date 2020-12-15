@@ -10,7 +10,7 @@ export default function Pergunta({
   resposta,
   readOnly,
   proximaPergunta,
-  setGabaritoVisivel
+  setGabaritoVisivel,
 }) {
   const [alternativasSelecionadas, setAlternativasSelecionadas] = useState(
     undefined
@@ -49,7 +49,7 @@ export default function Pergunta({
       }
     }
     setAlternativasSelecionadas(respostasTemp);
-    console.log(respostasTemp);
+    // console.log(respostasTemp);
   }
   return (
     <View style={styles.container}>
@@ -67,7 +67,7 @@ export default function Pergunta({
               index={index}
               perguntaAtual={perguntaAtual}
               resposta={resposta}
-              correct={data.correct == item.id}
+              correct={data.correct ? data.correct.includes(item.id) : false}
               renderNovaAlternativaSelecionada={renderNovaAlternativaSelecionada.bind(
                 this
               )}
@@ -80,29 +80,37 @@ export default function Pergunta({
           );
         })}
       </View>
-      {!readOnly && proximaPergunta ?
-      <Button
-        type="outline"
-        containerStyle={{alignSelf: 'center'}}
-        buttonStyle={{borderRadius: 20}}
-        title="Próxima Pergunta"
-        onPress={() => {
-          if(alternativasSelecionadas && alternativasSelecionadas.length > 0 )
-            responder(perguntaAtual, alternativasSelecionadas);
-          else
-            alert("Ops... Você deve selecionar pelo menos uma alternativa.")
-        }}
-      />
-      : !readOnly ?
-      <Button
-        title="Enviar Respostas"
-        type="outline"
-        containerStyle={{alignSelf: 'center'}}
-        buttonStyle={{borderRadius: 20}}
-        onPress={() => {
-          setGabaritoVisivel(true)
-        }}
-      /> : undefined}
+      {!readOnly && proximaPergunta ? (
+        <Button
+          type="outline"
+          containerStyle={{ alignSelf: "center" }}
+          buttonStyle={{ borderRadius: 20 }}
+          title="Próxima Pergunta"
+          onPress={() => {
+            if (alternativasSelecionadas && alternativasSelecionadas.length > 0)
+              responder(perguntaAtual, alternativasSelecionadas);
+            else
+              alert("Ops... Você deve selecionar pelo menos uma alternativa.");
+          }}
+        />
+      ) : !readOnly ? (
+        <Button
+          title="Enviar Respostas"
+          type="outline"
+          containerStyle={{ alignSelf: "center" }}
+          buttonStyle={{ borderRadius: 20 }}
+          onPress={() => {
+            if (
+              alternativasSelecionadas &&
+              alternativasSelecionadas.length > 0
+            ) {
+              responder(perguntaAtual, alternativasSelecionadas);
+              setGabaritoVisivel(true);
+            } else
+              alert("Ops... Você deve selecionar pelo menos uma alternativa.");
+          }}
+        />
+      ) : undefined}
     </View>
   );
 }
@@ -114,7 +122,7 @@ const styles = StyleSheet.create({
   },
   containerRespostas: {
     justifyContent: "space-between",
-    marginVertical: 10
+    marginVertical: 10,
   },
 
   titulo: {
