@@ -17,7 +17,8 @@ export default function responderQuiz() {
       questions: [
         {
           id: 1,
-          correct: 3,
+          correct: [3, 1],
+          moreOneAnswer: true,
           text:
             "What is the answer to the meaning of life, the universe and everything?",
           answers: [
@@ -52,12 +53,12 @@ export default function responderQuiz() {
               text: "False",
             },
           ],
-          correct: 5,
+          correct: [5],
         },
         {
           id: 3,
           text: "All options are correct. Which options are correct?",
-          correct: 8,
+          correct: [8],
           answers: [
             {
               id: 7,
@@ -79,7 +80,7 @@ export default function responderQuiz() {
     const novasRespostas = respostas;
     novasRespostas[pergunta] = resposta;
     setRespostas(novasRespostas);
-    console.log(respostas);
+    // console.log(respostas);
     if (perguntaAtual < perguntas.length - 1)
       setPerguntaAtual(perguntaAtual + 1);
   }
@@ -107,17 +108,11 @@ export default function responderQuiz() {
               perguntaAtual={perguntaAtual + 1}
               responder={responderPergunta.bind(this)}
               resposta={respostas[perguntas[perguntaAtual].id.toString()]}
+              setGabaritoVisivel={setGabaritoVisivel.bind(this)}
+              proximaPergunta={!(perguntaAtual == perguntas.length - 1 && !gabaritoVisivel)}
             />
           )}
         </React.Fragment>
-      )}
-      {perguntaAtual == perguntas.length - 1 && !gabaritoVisivel && (
-        <Button
-          title="Enviar Respostas"
-          onPress={() => {
-            setGabaritoVisivel(true);
-          }}
-        />
       )}
       {gabaritoVisivel && (
         <Gabarito

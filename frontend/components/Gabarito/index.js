@@ -3,9 +3,23 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 export default function Gabarito({ perguntas, respostas, detalharPergunta }) {
   const [indexSelecionado, setIndexSelecionado] = useState(undefined);
+
+  function isEqual(first, second) {
+    if (first.length !== second.length) {
+      return false;
+    }
+    for (let i = 0; i < first.length; i++) {
+      if (!second.includes(first[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
   return (
     <View style={styles.container}>
-      <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}>Você acertou {"33,33%"} do quiz!</Text>
+      <Text style={{ fontSize: 20, fontWeight: "bold", textAlign: "center" }}>
+        Você acertou {"33,33%"} do quiz!
+      </Text>
       <View style={styles.containerPerguntas}>
         {perguntas.map((item, index) => (
           <TouchableOpacity
@@ -19,7 +33,7 @@ export default function Gabarito({ perguntas, respostas, detalharPergunta }) {
                 styles.pergunta,
                 indexSelecionado == index
                   ? { backgroundColor: "gray" }
-                  : item.correct == respostas[item.id.toString()]
+                  : isEqual(respostas[item.id.toString()], item.correct)
                   ? { backgroundColor: "green" }
                   : { backgroundColor: "red" },
               ]}
@@ -36,7 +50,7 @@ export default function Gabarito({ perguntas, respostas, detalharPergunta }) {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    paddingTop: 30
+    paddingTop: 30,
   },
   containerPerguntas: { width: "100%", flexDirection: "row", flexWrap: "wrap" },
   pergunta: {
