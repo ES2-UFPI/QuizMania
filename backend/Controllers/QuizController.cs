@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace QuizMania.WebAPI.Controllers
 {
-    [Route("api/Quiz")]
+    [Route("")]
     [ApiController]
     public class QuizController : ControllerBase
     {
@@ -22,7 +22,6 @@ namespace QuizMania.WebAPI.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/Quiz
         [HttpGet]
         public async Task<ActionResult<IEnumerable<QuizReadDTO>>> GetQuizzes()
         {
@@ -30,7 +29,6 @@ namespace QuizMania.WebAPI.Controllers
             return Ok(_mapper.Map<IEnumerable<QuizReadDTO>>(quizzes));
         }
 
-        // GET: api/Quiz/5
         [HttpGet("{id}")]
         public async Task<ActionResult<QuizReadDTO>> GetQuiz(long id)
         {
