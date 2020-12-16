@@ -8,7 +8,8 @@ namespace QuizMania.WebAPI.Profiles
     {
         public QuestionProfile()
         {
-            CreateMap<Question, QuestionReadDTO>();
+            CreateMap<Question, QuestionReadDTO>()
+                .ForMember(dest => dest.HasMultipleCorrectAnswers, opt => opt.MapFrom<QuestionReadDTO.MultipleCorrectAnswersResolver>());
         }
     }
 }
