@@ -31,7 +31,7 @@ export default function Pergunta({
     var respostasTemp;
     if (alternativasSelecionadas == undefined) respostasTemp = [];
     else respostasTemp = [...alternativasSelecionadas];
-    if (data.moreOneAnswer) {
+    if (data.hasMultipleCorrectAnswers) {
       if (respostasTemp.includes(resposta)) {
         respostasTemp = removeItemOnce(respostasTemp, resposta);
       } else {
