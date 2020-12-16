@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuizMania.WebAPI;
 
@@ -15,17 +14,15 @@ namespace QuizMania.WebAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.1");
 
             modelBuilder.Entity("QuestionQuiz", b =>
                 {
                     b.Property<long>("QuestionsId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("QuizzesId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("QuestionsId", "QuizzesId");
 
@@ -34,23 +31,22 @@ namespace QuizMania.WebAPI.Migrations
                     b.ToTable("QuestionQuiz");
                 });
 
-            modelBuilder.Entity("QuizMania.WebAPI.Models.Answer", b =>
+            modelBuilder.Entity("QuizMania.WebAPI.Models.Choice", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .UseIdentityColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsCorrect")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long?>("QuestionId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -63,13 +59,12 @@ namespace QuizMania.WebAPI.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .UseIdentityColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -80,8 +75,7 @@ namespace QuizMania.WebAPI.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .UseIdentityColumn();
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -103,16 +97,16 @@ namespace QuizMania.WebAPI.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("QuizMania.WebAPI.Models.Answer", b =>
+            modelBuilder.Entity("QuizMania.WebAPI.Models.Choice", b =>
                 {
                     b.HasOne("QuizMania.WebAPI.Models.Question", null)
-                        .WithMany("Answers")
+                        .WithMany("Choices")
                         .HasForeignKey("QuestionId");
                 });
 
             modelBuilder.Entity("QuizMania.WebAPI.Models.Question", b =>
                 {
-                    b.Navigation("Answers");
+                    b.Navigation("Choices");
                 });
 #pragma warning restore 612, 618
         }

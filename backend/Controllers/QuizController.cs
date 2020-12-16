@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using QuizMania.WebAPI.DTOs;
 using AutoMapper;
 using System.Threading.Tasks;
+using QuizMania.WebAPI.Models;
+using System.Linq;
 
 namespace QuizMania.WebAPI.Controllers
 {
@@ -32,6 +34,40 @@ namespace QuizMania.WebAPI.Controllers
         {
             var quiz = await _repository.GetQuizAsync(id);
             return quiz != null ? Ok(_mapper.Map<QuizReadDTO>(quiz)) : NotFound();
+        }
+
+        //POST: api/Quiz/
+        [HttpPost]
+        public async Task<ActionResult<QuizFeedbackReadDTO>> PostQuizFeedback(QuizFeedbackReceivedDTO quizReceived)
+        {
+            int rightAnswerNumber = 0;
+            Question question;
+
+            QuizFeedback quizFeedback = _mapper.Map<QuizFeedback>(quizReceived);
+
+            var quizFeedbackRead = new QuizFeedbackReadDTO()
+            {
+                QuizId = quizFeedback.QuizId
+            };
+
+            Quiz quiz = await _repository.GetQuizAsync(quizFeedback.QuizId);
+
+            foreach (var questionAnswer in quizFeedback.QuestionAnswers)
+            {
+                question = (Question)quiz.Questions.Where(q => q.Id == questionAnswer.QuestionId).First();
+
+                var correctAnswers = question.Choices.Where(c => c.IsCorrect).Select(c => c.Id).ToList();
+
+                if (Enumerable.SequenceEqual(correctAnswers, questionAnswer.Answers.OrderBy(q=>q)))
+                    rightAnswerNumber++;
+
+                quizFeedbackRead.QuestionAnswers.Add(new QuestionAnswerDTO { QuestionId = question.Id, Answers = correctAnswers });
+            }
+
+            quizFeedbackRead.GoldGained = (rightAnswerNumber * 100) / quiz.Questions.Count;
+            quizFeedbackRead.ExperienceGained = (rightAnswerNumber * 100) / quiz.Questions.Count;
+
+            return Ok(quizFeedbackRead);
         }
 
         //// PUT: api/Quiz/5

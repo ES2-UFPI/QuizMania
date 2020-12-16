@@ -4,11 +4,11 @@ using QuizMania.WebAPI.DTOs;
 
 namespace QuizMania.WebAPI.Profiles
 {
-    public class AnswerProfile : Profile
+    public class ChoiceProfile : Profile
     {
-        public AnswerProfile()
+        public ChoiceProfile()
         {
-            CreateMap<Answer, AnswerReadDTO>();
+            CreateMap<Choice, ChoiceReadDTO>();
         }
     }
 }
