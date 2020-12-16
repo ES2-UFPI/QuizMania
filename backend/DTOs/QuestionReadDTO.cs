@@ -6,11 +6,11 @@ namespace QuizMania.WebAPI.DTOs
     {
         public long Id { get; set; }
         public string Text { get; set; }
-        public virtual ICollection<AnswerReadDTO> Answers { get; set; }
+        public virtual ICollection<ChoiceReadDTO> Choices { get; set; }
 
         public QuestionReadDTO()
         {
-            Answers = new HashSet<AnswerReadDTO>();
+            Choices = new HashSet<ChoiceReadDTO>();
         }
     }
 }

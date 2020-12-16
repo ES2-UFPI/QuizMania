@@ -2,7 +2,7 @@
 
 namespace QuizMania.WebAPI.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -10,9 +10,9 @@ namespace QuizMania.WebAPI.Migrations
                 name: "Questions",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Text = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Text = table.Column<string>(type: "TEXT", maxLength: 512, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -23,8 +23,8 @@ namespace QuizMania.WebAPI.Migrations
                 name: "Quizzes",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true)
                 },
                 constraints: table =>
                 {
@@ -35,11 +35,11 @@ namespace QuizMania.WebAPI.Migrations
                 name: "Answers",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IsCorrect = table.Column<bool>(type: "bit", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    QuestionId = table.Column<long>(type: "bigint", nullable: true)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    IsCorrect = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Text = table.Column<string>(type: "TEXT", maxLength: 256, nullable: false),
+                    QuestionId = table.Column<long>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -56,8 +56,8 @@ namespace QuizMania.WebAPI.Migrations
                 name: "QuestionQuiz",
                 columns: table => new
                 {
-                    QuestionsId = table.Column<long>(type: "bigint", nullable: false),
-                    QuizzesId = table.Column<long>(type: "bigint", nullable: false)
+                    QuestionsId = table.Column<long>(type: "INTEGER", nullable: false),
+                    QuizzesId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

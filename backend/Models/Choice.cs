@@ -2,7 +2,7 @@
 
 namespace QuizMania.WebAPI.Models
 {
-    public class Answer
+    public class Choice
     {
         [Key]
         public long Id { get; set; }
