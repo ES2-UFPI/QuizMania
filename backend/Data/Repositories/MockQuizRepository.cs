@@ -112,9 +112,6 @@ namespace QuizMania.WebAPI
             quiz2.Questions.Add(question2);
 
             _context.Quizzes.Add(quiz1);
-
-            
-
             _context.Quizzes.Add(quiz2);
 
             _context.SaveChangesAsync();
@@ -143,7 +140,9 @@ namespace QuizMania.WebAPI
 
         public void SaveQuizFeedback(QuizFeedback quizFeedback)
         {
-           _context.QuizFeedbacks.Add(quizFeedback);
+            _context.QuizFeedbacks.Add(quizFeedback);
+
+            _context.DetachAllEntities();
         }
 
         public async Task<int> SaveChangesAsync()

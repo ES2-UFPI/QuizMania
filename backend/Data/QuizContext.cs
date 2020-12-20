@@ -10,6 +10,11 @@ namespace QuizMania.WebAPI
             Database.EnsureCreated();
         }
 
+        public void DetachAllEntities()
+        {
+            ChangeTracker.Clear();
+        }
+
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Choice> Choices { get; set; }

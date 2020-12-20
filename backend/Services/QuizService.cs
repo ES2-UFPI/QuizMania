@@ -44,7 +44,6 @@ namespace QuizMania.WebAPI.Services
 
                 qtAnswer.Question = await _repository.GetQuestionAsync(qtAnswerReceived.QuestionId);
                 
-
                 if (qtAnswer.Question == null)
                     return null;
 
@@ -56,6 +55,7 @@ namespace QuizMania.WebAPI.Services
                         return null;
                     
                     qtAnswer.Answers.Add(choice);
+                    
                 }
 
                 quizFb.QuestionAnswers.Add(qtAnswer);
@@ -71,15 +71,16 @@ namespace QuizMania.WebAPI.Services
             quizFb.ExperienceGained = (rightAnswerNumber * 100) / quiz.Questions.Count;
 
             //Save awnsers
-            /*_repository.SaveQuizFeedback(quizFb);
-            await _repository.SaveChangesAsync();*/
+            _repository.SaveQuizFeedback(quizFb);
+            await _repository.SaveChangesAsync();
             
+            //fill with correct answers
             foreach(var qtAnswer in quizFb.QuestionAnswers)
             {
                 qtAnswer.Answers = qtAnswer.Question.Choices.Where(c => c.IsCorrect).ToList();
             }
 
-            //Return right answers
+            //Return correct answers
             return quizFb;
         }
     }
