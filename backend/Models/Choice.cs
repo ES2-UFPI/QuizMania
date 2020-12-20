@@ -1,9 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace QuizMania.WebAPI.Models
 {
     public class Choice
     {
+        public Choice()
+        {
+            QuestionAnswers = new HashSet<QuestionAnswer>();
+        }
+
         [Key]
         public long Id { get; set; }
 
@@ -13,5 +19,8 @@ namespace QuizMania.WebAPI.Models
         [Required]
         [MaxLength(256)]
         public string Text { get; set; }
+
+        [Required]
+        public virtual ICollection<QuestionAnswer> QuestionAnswers { get; set; }
     }
 }

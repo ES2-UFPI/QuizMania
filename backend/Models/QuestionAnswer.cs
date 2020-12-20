@@ -10,16 +10,16 @@ namespace QuizMania.WebAPI.Models
     {
         public QuestionAnswer()
         {
-            Answers = new HashSet<long>();
+            Answers = new HashSet<Choice>();
         }
 
         [Key]
         public int Id { get; set; }
 
         [Required]
-        public virtual long QuestionId { get; set; }
+        public Question Question { get; set; }
 
         [Required]
-        public virtual ICollection<long> Answers { get; set; }
+        public virtual ICollection<Choice> Answers { get; set; }
     }
 }

@@ -15,15 +15,34 @@ namespace QuizMania.WebAPI
             _context = context;
         }
 
-
-        public async Task<IEnumerable<Quiz>> GetAllQuizzesAsync()
+        public Task<IEnumerable<Quiz>> GetAllQuizzesAsync()
         {
-            return await _context.Quizzes.ToListAsync();
+            throw new NotImplementedException();
         }
 
         public async Task<Quiz> GetQuizAsync(long id)
         {
             return await _context.Quizzes.FindAsync(id);
+        }
+
+        public Task<Choice> GetChoiceAsync(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Question> GetQuestionAsync(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> SaveChangesAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SaveQuizFeedback(QuizFeedback quizFeedback)
+        {
+            throw new NotImplementedException();
         }
     }
 }

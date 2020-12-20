@@ -7,10 +7,13 @@ namespace QuizMania.WebAPI
     {
         public QuizContext(DbContextOptions<QuizContext> options) : base(options)
         {
+            Database.EnsureCreated();
         }
 
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<Question> Questions { get; set; }
-        public DbSet<Choice> Answers { get; set; }
+        public DbSet<Choice> Choices { get; set; }
+        public DbSet<QuizFeedback> QuizFeedbacks { get; set; }
+        public DbSet<QuestionAnswer> QuestionAnswers {get; set;}
     }
 }

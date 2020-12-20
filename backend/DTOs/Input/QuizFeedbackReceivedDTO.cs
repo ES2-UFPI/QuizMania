@@ -1,7 +1,5 @@
-﻿using System;
+﻿using QuizMania.WebAPI.DTOs.Input;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace QuizMania.WebAPI.DTOs
 {
@@ -9,11 +7,11 @@ namespace QuizMania.WebAPI.DTOs
     {
         public long QuizId { get; set; }
 
-        public ICollection<QuestionAnswerDTO> QuestionAnswers { get; set; }
+        public ICollection<QuestionAnswerReceivedDTO> QuestionAnswers { get; set; }
 
         public QuizFeedbackReceivedDTO()
         {
-            QuestionAnswers = new HashSet<QuestionAnswerDTO>();
+            QuestionAnswers = new HashSet<QuestionAnswerReceivedDTO>();
         }
     }
 }

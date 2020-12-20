@@ -25,7 +25,7 @@ namespace QuizMania.WebAPI
         {
             services.AddControllers();
             services.AddScoped<IQuizAsyncRepository, MockQuizRepository>();
-  
+            services.AddScoped<IQuizService, QuizService>();
 
             inMemorySqlite = new SqliteConnection(Configuration.GetConnectionString("SqliteInMemoryConnection"));
             inMemorySqlite.Open();

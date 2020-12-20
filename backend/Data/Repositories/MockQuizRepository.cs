@@ -111,20 +111,15 @@ namespace QuizMania.WebAPI
             quiz2.Questions.Add(question3);
             quiz2.Questions.Add(question2);
 
-            question1.Quizzes.Add(quiz1);
-
-            question2.Quizzes.Add(quiz1);
-            question2.Quizzes.Add(quiz2);
-
-            question3.Quizzes.Add(quiz1);
-            question3.Quizzes.Add(quiz2);
-
             _context.Quizzes.Add(quiz1);
+
+            
+
             _context.Quizzes.Add(quiz2);
 
             _context.SaveChangesAsync();
+               
         }
-
 
         public async Task<IEnumerable<Quiz>> GetAllQuizzesAsync()
         {
@@ -134,6 +129,26 @@ namespace QuizMania.WebAPI
         public async Task<Quiz> GetQuizAsync(long id)
         {
             return await _context.Quizzes.FindAsync(id);
+        }
+
+        public async Task<Question> GetQuestionAsync(long id)
+        {
+            return await _context.Questions.FindAsync(id);
+        }
+
+        public async Task<Choice> GetChoiceAsync(long id)
+        {
+            return await _context.Choices.FindAsync(id);
+        }
+
+        public void SaveQuizFeedback(QuizFeedback quizFeedback)
+        {
+           _context.QuizFeedbacks.Add(quizFeedback);
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _context.SaveChangesAsync();   
         }
     }
 }
