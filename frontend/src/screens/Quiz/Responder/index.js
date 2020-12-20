@@ -4,82 +4,35 @@ import { Button } from "react-native-elements";
 import { Container, Header, Pergunta, Gabarito } from "../../../../components";
 import { useStyled } from "react-native-reflect";
 
-export default function responderQuiz() {
-  const [perguntas, setPerguntas] = useState([]);
+export default function responderQuiz({navigation, route }) {
+  const [quiz, setQuiz] = useState(route.params.quiz)
+  const [perguntas, setPerguntas] = useState(route.params.quiz.questions || []);
   const [perguntaAtual, setPerguntaAtual] = useState(undefined);
   const [respostas, setRespostas] = useState({});
   const [gabaritoVisivel, setGabaritoVisivel] = useState(false);
   const [perguntaGabarito, setPerguntaGabarito] = useState(undefined);
 
   useEffect(() => {
-    const data = {
-      id: 1,
-      questions: [
-        {
-          id: 1,
-          correct: 3,
-          text:
-            "What is the answer to the meaning of life, the universe and everything?",
-          answers: [
-            {
-              id: 1,
-              text: "40",
-            },
-            {
-              id: 2,
-              text: "41",
-            },
-            {
-              id: 3,
-              text: "42",
-            },
-            {
-              id: 4,
-              text: "43",
-            },
-          ],
-        },
-        {
-          id: 2,
-          text: "This is a true or false question. True or False?",
-          answers: [
-            {
-              id: 5,
-              text: "True",
-            },
-            {
-              id: 6,
-              text: "False",
-            },
-          ],
-          correct: 5,
-        },
-        {
-          id: 3,
-          text: "All options are correct. Which options are correct?",
-          correct: 8,
-          answers: [
-            {
-              id: 7,
-              text: "A",
-            },
-            {
-              id: 8,
-              text: "B",
-            },
-          ],
-        },
-      ],
-    };
-    setPerguntas(data.questions);
-    setPerguntaAtual(0);
-  }, []);
+    const focusListener = navigation.addListener("focus", () => {      
+      // Call ur function here.. or add logic.     
+      setQuiz(route.params.quiz)
+      setPerguntas(route.params.quiz.questions)
+      setRespostas({})
+      setGabaritoVisivel(false)
+      setPerguntaGabarito(undefined)
+      setPerguntaAtual(0);
+    });
+
+    // focusListener()
+    return focusListener
+
+  }, [navigation]);
 
   function responderPergunta(pergunta, resposta) {
     const novasRespostas = respostas;
     novasRespostas[pergunta] = resposta;
     setRespostas(novasRespostas);
-    console.log(respostas);
+    // console.log(respostas);
     if (perguntaAtual < perguntas.length - 1)
       setPerguntaAtual(perguntaAtual + 1);
   }
@@ -107,17 +60,11 @@ export default function responderQuiz() {
               perguntaAtual={perguntaAtual + 1}
               responder={responderPergunta.bind(this)}
               resposta={respostas[perguntas[perguntaAtual].id.toString()]}
+              setGabaritoVisivel={setGabaritoVisivel.bind(this)}
+              proximaPergunta={!(perguntaAtual == perguntas.length - 1 && !gabaritoVisivel)}
             />
           )}
         </React.Fragment>
-      )}
-      {perguntaAtual == perguntas.length - 1 && !gabaritoVisivel && (
-        <Button
-          title="Enviar Respostas"
-          onPress={() => {
-            setGabaritoVisivel(true);
-          }}
-        />
       )}
       {gabaritoVisivel && (
         <Gabarito

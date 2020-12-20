@@ -28,30 +28,30 @@ namespace QuizMania.WebAPI
             {
                 Id = 1,
                 Text = "What is the answer to the meaning of life, the universe and everything?",
-                Answers = new List<Answer>()
+                Choices = new List<Choice>()
                 {
-                    new Answer()
+                    new Choice()
                     {
                         Id = 1,
                         IsCorrect = false,
                         Text = "40",
                     },
 
-                    new Answer()
+                    new Choice()
                     {
                         Id = 2,
                         IsCorrect = false,
                         Text = "41",
                     },
 
-                    new Answer()
+                    new Choice()
                     {
                         Id = 3,
                         IsCorrect = true,
                         Text = "42",
                     },
 
-                    new Answer()
+                    new Choice()
                     {
                         Id = 4,
                         IsCorrect = false,
@@ -64,16 +64,16 @@ namespace QuizMania.WebAPI
             {
                 Id = 2,
                 Text = "This is a true or false question. True or False?",
-                Answers = new List<Answer>()
+                Choices = new List<Choice>()
                         {
-                            new Answer()
+                            new Choice()
                             {
                                 Id = 5,
                                 IsCorrect = true,
                                 Text = "True",
                             },
 
-                            new Answer()
+                            new Choice()
                             {
                                 Id = 6,
                                 IsCorrect = false,
@@ -86,16 +86,16 @@ namespace QuizMania.WebAPI
             {
                 Id = 3,
                 Text = "All options are correct. Which options are correct?",
-                Answers = new List<Answer>()
+                Choices = new List<Choice>()
                         {
-                            new Answer()
+                            new Choice()
                             {
                                 Id = 7,
                                 IsCorrect = true,
                                 Text = "A",
                             },
 
-                            new Answer()
+                            new Choice()
                             {
                                 Id = 8,
                                 IsCorrect = true,
