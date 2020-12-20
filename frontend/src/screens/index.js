@@ -1,3 +1,4 @@
 import ResponderQuiz from "./ResponderQuiz";
 import ListarQuiz from './Quiz/Listar';
-export { ResponderQuiz, ListarQuiz };
+import ProgressaoNivel from './Nivel/Progressao';
+export { ResponderQuiz, ListarQuiz, ProgressaoNivel };
