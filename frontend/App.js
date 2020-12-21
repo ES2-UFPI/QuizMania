@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { ResponderQuiz, ListarQuiz, ProgressaoNivel } from "./src/screens";
+import { ResponderQuiz, ListarQuiz, UsarGold, ProgressaoNivel } from "./src/screens";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
@@ -38,7 +38,7 @@ export default function App() {
         />
         <Tab.Screen
           name="Loja"
-          component={ProgressaoNivel}
+          component={UsarGold}
           options={{
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons

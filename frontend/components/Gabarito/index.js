@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-
+import ResponsiveList from '../ResponsiveList'
 export default function Gabarito({ perguntas, respostas, detalharPergunta }) {
   const [indexSelecionado, setIndexSelecionado] = useState(undefined);
 
@@ -17,10 +17,8 @@ export default function Gabarito({ perguntas, respostas, detalharPergunta }) {
   }
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 20, fontWeight: "bold", textAlign: "center" }}>
-        Você acertou {"33,33%"} do quiz!
-      </Text>
-      <View style={styles.containerPerguntas}>
+      <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}>Você acertou {"33,33%"} do quiz!</Text>
+      <ResponsiveList>
         {perguntas.map((item, index) => (
           <TouchableOpacity
             onPress={() => {
@@ -42,7 +40,7 @@ export default function Gabarito({ perguntas, respostas, detalharPergunta }) {
             </View>
           </TouchableOpacity>
         ))}
-      </View>
+      </ResponsiveList>
     </View>
   );
 }
