@@ -5,7 +5,7 @@ using QuizMania.WebAPI.DTOs;
 using AutoMapper;
 using System.Threading.Tasks;
 using QuizMania.WebAPI.Models;
-using System.Linq;
+using QuizMania.WebAPI.Services;
 
 namespace QuizMania.WebAPI.Controllers
 {
@@ -13,61 +13,35 @@ namespace QuizMania.WebAPI.Controllers
     [ApiController]
     public class QuizController : ControllerBase
     {
-        private readonly IQuizAsyncRepository _repository;
         private readonly IMapper _mapper;
+        private readonly IQuizService _quizService;
 
-        public QuizController(IQuizAsyncRepository repository, IMapper mapper)
+        public QuizController(IMapper mapper, IQuizService quizService)
         {
-            _repository = repository;
             _mapper = mapper;
+            _quizService = quizService;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<QuizReadDTO>>> GetQuizzes()
         {
-            var quizzes = await _repository.GetAllQuizzesAsync();
-            return Ok(_mapper.Map<IEnumerable<QuizReadDTO>>(quizzes));
+            var quizzes = await _quizService.GetQuizzesAsync();
+            return quizzes != null ? Ok(_mapper.Map<IEnumerable<QuizReadDTO>>(quizzes)) : NotFound();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<QuizReadDTO>> GetQuiz(long id)
         {
-            var quiz = await _repository.GetQuizAsync(id);
+            var quiz = await _quizService.GetQuizAsync(id);
             return quiz != null ? Ok(_mapper.Map<QuizReadDTO>(quiz)) : NotFound();
         }
 
         //POST: api/Quiz/
         [HttpPost]
-        public async Task<ActionResult<QuizFeedbackReadDTO>> PostQuizFeedback(QuizFeedbackReceivedDTO quizReceived)
+        public async Task<ActionResult<QuizFeedbackReceivedDTO>> PostQuizFeedback(QuizFeedbackReceivedDTO quizReceived)
         {
-            int rightAnswerNumber = 0;
-            Question question;
-
-            QuizFeedback quizFeedback = _mapper.Map<QuizFeedback>(quizReceived);
-
-            var quizFeedbackRead = new QuizFeedbackReadDTO()
-            {
-                QuizId = quizFeedback.QuizId
-            };
-
-            Quiz quiz = await _repository.GetQuizAsync(quizFeedback.QuizId);
-
-            foreach (var questionAnswer in quizFeedback.QuestionAnswers)
-            {
-                question = (Question)quiz.Questions.Where(q => q.Id == questionAnswer.QuestionId).First();
-
-                var correctAnswers = question.Choices.Where(c => c.IsCorrect).Select(c => c.Id).ToList();
-
-                if (Enumerable.SequenceEqual(correctAnswers, questionAnswer.Answers.OrderBy(q=>q)))
-                    rightAnswerNumber++;
-
-                quizFeedbackRead.QuestionAnswers.Add(new QuestionAnswerDTO { QuestionId = question.Id, Answers = correctAnswers });
-            }
-
-            quizFeedbackRead.GoldGained = (rightAnswerNumber * 100) / quiz.Questions.Count;
-            quizFeedbackRead.ExperienceGained = (rightAnswerNumber * 100) / quiz.Questions.Count;
-
-            return Ok(quizFeedbackRead);
+            QuizFeedback quizFeedback = await _quizService.SaveQuizAnswer(quizReceived);
+            return quizFeedback != null ? Ok(_mapper.Map<QuizFeedbackReadDTO>(quizFeedback)) : NotFound();
         }
 
         //// PUT: api/Quiz/5

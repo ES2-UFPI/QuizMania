@@ -17,7 +17,7 @@ namespace QuizMania.WebAPI.Models
         public long Id { get; set; }
         
         [Required]
-        public long QuizId { get; set; }
+        public Quiz Quiz { get; set; }
 
         [Required]
         public ICollection<QuestionAnswer> QuestionAnswers { get; set; }
