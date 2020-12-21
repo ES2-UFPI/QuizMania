@@ -1,6 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+<<<<<<< HEAD
+import { ResponderQuiz, UsarGold } from "./src/screens";
+export default function App() {
+  return <UsarGold />;
+=======
 import { ResponderQuiz, ListarQuiz } from "./src/screens";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -51,6 +56,7 @@ export default function App() {
       </Tab.Navigator>
     </NavigationContainer>
   );
+>>>>>>> develop
 }
 
 const styles = StyleSheet.create({
