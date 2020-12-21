@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace QuizMania.WebAPI.Controllers
 {
-    [Route("")]
+    [Route("/quiz")]
     [ApiController]
     public class QuizController : ControllerBase
     {

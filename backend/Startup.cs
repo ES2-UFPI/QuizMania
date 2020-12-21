@@ -22,10 +22,12 @@ namespace QuizMania.WebAPI
         {
             services.AddControllers();
             services.AddScoped<IQuizAsyncRepository, MockQuizRepository>();
+            services.AddScoped<ICharacterAsyncRepository, MockCharacterRepository>();
 
             //services.AddDbContext<QuizContext>(opt => { opt.UseInMemoryDatabase("InMemory Quizzes Database"); });
             //services.AddDbContext<QuizContext>(opt => { opt.UseSqlServer(Configuration.GetConnectionString("AzureSqlConnection")); });
             services.AddDbContext<QuizContext>(opt => { opt.UseSqlite(Configuration.GetConnectionString("SqliteInMemoryConnection")); });
+            services.AddDbContext<CharacterContext>(opt => { opt.UseSqlite(Configuration.GetConnectionString("SqliteInMemoryConnection")); });
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -43,7 +45,7 @@ namespace QuizMania.WebAPI
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("v1/swagger.json", "QuizMania Web API v0.1.2");
             });
 
             app.UseHttpsRedirection();
