@@ -1,12 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-<<<<<<< HEAD
-import { ResponderQuiz, UsarGold } from "./src/screens";
-export default function App() {
-  return <UsarGold />;
-=======
-import { ResponderQuiz, ListarQuiz } from "./src/screens";
+import { ResponderQuiz, ListarQuiz, UsarGold, ProgressaoNivel } from "./src/screens";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
@@ -20,6 +15,7 @@ const QuizStack = () => (
   <Stack.Navigator>
     <Stack.Screen name="Listar Quizzes" component={ListarQuiz} />
     <Stack.Screen name="Responder Quiz" component={ResponderQuiz} />
+    <Stack.Screen name="Progressão" component={ProgressaoNivel} />
   </Stack.Navigator>
 );
 
@@ -42,7 +38,7 @@ export default function App() {
         />
         <Tab.Screen
           name="Loja"
-          component={ResponderQuiz}
+          component={UsarGold}
           options={{
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons
@@ -56,7 +52,6 @@ export default function App() {
       </Tab.Navigator>
     </NavigationContainer>
   );
->>>>>>> develop
 }
 
 const styles = StyleSheet.create({

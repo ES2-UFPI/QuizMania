@@ -61,6 +61,7 @@ export default function responderQuiz({navigation, route }) {
               responder={responderPergunta.bind(this)}
               resposta={respostas[perguntas[perguntaAtual].id.toString()]}
               setGabaritoVisivel={setGabaritoVisivel.bind(this)}
+              navigation={navigation}
               proximaPergunta={!(perguntaAtual == perguntas.length - 1 && !gabaritoVisivel)}
             />
           )}

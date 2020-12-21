@@ -17,15 +17,8 @@ export default function Gabarito({ perguntas, respostas, detalharPergunta }) {
   }
   return (
     <View style={styles.container}>
-<<<<<<< HEAD
       <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}>Você acertou {"33,33%"} do quiz!</Text>
       <ResponsiveList>
-=======
-      <Text style={{ fontSize: 20, fontWeight: "bold", textAlign: "center" }}>
-        Você acertou {"33,33%"} do quiz!
-      </Text>
-      <View style={styles.containerPerguntas}>
->>>>>>> develop
         {perguntas.map((item, index) => (
           <TouchableOpacity
             onPress={() => {
