@@ -10,7 +10,8 @@ const ProgressBar = props => {
     progressDuration,
     indeterminateDuration,
     onCompletion,
-    backgroundColor
+    backgroundColor,
+    min,max
   } = props;
 
   const [timer] = useState(new Animated.Value(0));
@@ -39,8 +40,8 @@ const ProgressBar = props => {
       Animated.timing(width, {
         duration: animated ? progressDuration : 0,
         toValue: progress
-      }).start(() => {
-        onCompletion();
+      }).start(({finished}) => {
+        onCompletion()
       });
     }
   }, [

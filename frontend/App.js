@@ -15,6 +15,7 @@ const QuizStack = () => (
   <Stack.Navigator>
     <Stack.Screen name="Listar Quizzes" component={ListarQuiz} />
     <Stack.Screen name="Responder Quiz" component={ResponderQuiz} />
+    <Stack.Screen name="Progressão" component={ProgressaoNivel} />
   </Stack.Navigator>
 );
 

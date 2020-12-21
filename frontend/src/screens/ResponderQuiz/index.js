@@ -3,30 +3,56 @@ import { Text, View, FlatList } from "react-native";
 import { Button } from "react-native-elements";
 import { Container, Header, Pergunta, Gabarito } from "../../../components";
 import { useStyled } from "react-native-reflect";
-
-export default function responderQuiz({navigation, route }) {
-  const [quiz, setQuiz] = useState(route.params.quiz)
+import { useFocusEffect } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
+export default function responderQuiz({ navigation, route }) {
+  const [quiz, setQuiz] = useState(route.params.quiz);
   const [perguntas, setPerguntas] = useState(route.params.quiz.questions || []);
   const [perguntaAtual, setPerguntaAtual] = useState(undefined);
   const [respostas, setRespostas] = useState({});
   const [gabaritoVisivel, setGabaritoVisivel] = useState(false);
   const [perguntaGabarito, setPerguntaGabarito] = useState(undefined);
 
-  useEffect(() => {
-    const focusListener = navigation.addListener("focus", () => {      
-      // Call ur function here.. or add logic.     
-      setQuiz(route.params.quiz)
-      setPerguntas(route.params.quiz.questions)
-      setRespostas({})
-      setGabaritoVisivel(false)
-      setPerguntaGabarito(undefined)
-      setPerguntaAtual(0);
-    });
+  // useEffect(() => {
+  //   const isFocused = useIsFocused();
 
-    // focusListener()
-    return focusListener
+  //   if (isFocused) {
+  //     if (route.params.notReload) {
+  //       alert("roi");
+  //       setGabaritoVisivel(true);
+  //     } else {
+  //       setQuiz(route.params.quiz);
+  //       setPerguntas(route.params.quiz.questions);
+  //       setRespostas({});
+  //       setGabaritoVisivel(false);
+  //       setPerguntaGabarito(undefined);
+  //       setPerguntaAtual(0);
+  //     }
+  //   }
+  // }, [navigation]);
 
-  }, [navigation]);
+  useFocusEffect(
+    React.useCallback(() => {
+      const unsubscribe = () => {
+        alert(route.params.notReload)
+        if (route.params.notReload) {
+          console.log("not")
+
+          setGabaritoVisivel(true);
+        } else {
+          alert(route.params.notReload)
+          setQuiz(route.params.quiz);
+          setPerguntas(route.params.quiz.questions);
+          setRespostas({});
+          setGabaritoVisivel(false);
+          setPerguntaGabarito(undefined);
+          setPerguntaAtual(0);
+        }
+      };
+
+      return () => unsubscribe();
+    }, [])
+  );
 
   function responderPergunta(pergunta, resposta) {
     const novasRespostas = respostas;
@@ -61,7 +87,10 @@ export default function responderQuiz({navigation, route }) {
               responder={responderPergunta.bind(this)}
               resposta={respostas[perguntas[perguntaAtual].id.toString()]}
               setGabaritoVisivel={setGabaritoVisivel.bind(this)}
-              proximaPergunta={!(perguntaAtual == perguntas.length - 1 && !gabaritoVisivel)}
+              navigation={navigation}
+              proximaPergunta={
+                !(perguntaAtual == perguntas.length - 1 && !gabaritoVisivel)
+              }
             />
           )}
         </React.Fragment>

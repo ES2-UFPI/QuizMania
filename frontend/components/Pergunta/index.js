@@ -11,6 +11,7 @@ export default function Pergunta({
   readOnly,
   proximaPergunta,
   setGabaritoVisivel,
+  navigation
 }) {
   const [alternativasSelecionadas, setAlternativasSelecionadas] = useState(
     undefined
@@ -105,7 +106,7 @@ export default function Pergunta({
               alternativasSelecionadas.length > 0
             ) {
               responder(perguntaAtual, alternativasSelecionadas);
-              setGabaritoVisivel(true);
+              navigation.navigate("Progressão")
             } else
               alert("Ops... Você deve selecionar pelo menos uma alternativa.");
           }}
