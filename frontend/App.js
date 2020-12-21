@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { ResponderQuiz, ListarQuiz, UsarGold, ProgressaoNivel } from "./src/screens";
+import { ResponderQuiz, ListarQuiz, UsarGold, ProgressaoNivel,XpGanho } from "./src/screens";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
@@ -13,9 +13,11 @@ const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
 const QuizStack = () => (
   <Stack.Navigator>
+    <Stack.Screen name="Progressão" component={ProgressaoNivel} />
     <Stack.Screen name="Listar Quizzes" component={ListarQuiz} />
     <Stack.Screen name="Responder Quiz" component={ResponderQuiz} />
-    <Stack.Screen name="Progressão" component={ProgressaoNivel} />
+    
+    <Stack.Screen name="XP Ganho" component={XpGanho} />
   </Stack.Navigator>
 );
 

@@ -106,7 +106,7 @@ export default function Pergunta({
               alternativasSelecionadas.length > 0
             ) {
               responder(perguntaAtual, alternativasSelecionadas);
-              navigation.navigate("Progressão")
+              navigation.navigate("XP Ganho")
             } else
               alert("Ops... Você deve selecionar pelo menos uma alternativa.");
           }}
