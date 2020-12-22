@@ -11,8 +11,11 @@ export default function Pergunta({
   readOnly,
   proximaPergunta,
   setGabaritoVisivel,
+  submitRespostas,
+  isCorrect,
   navigation
 }) {
+  const [loadingResposta, setLoadingResposta] = useState(false)
   const [alternativasSelecionadas, setAlternativasSelecionadas] = useState(
     undefined
   );
@@ -52,34 +55,39 @@ export default function Pergunta({
     setAlternativasSelecionadas(respostasTemp);
     // console.log(respostasTemp);
   }
+
+  function mapChoices(choices) {
+    return choices.map((item, index) => {
+      return (
+        <Alternativa
+          readOnly={readOnly}
+          key={item.id}
+          data={item}
+          chave={item.id}
+          index={index}
+          perguntaAtual={perguntaAtual}
+          resposta={resposta}
+          correct={isCorrect(item, data)}
+          renderNovaAlternativaSelecionada={renderNovaAlternativaSelecionada.bind(
+            this
+          )}
+          selected={
+            alternativasSelecionadas
+              ? alternativasSelecionadas.includes(item.id)
+              : false
+          }
+        />
+      );
+    })
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>
-        {readOnly ? data.text : perguntaAtual + " - " + data.text}
+        {readOnly ? data.question.text : perguntaAtual + " - " + data.text}
       </Text>
       <View style={styles.containerRespostas}>
-        {data.answers.map((item, index) => {
-          return (
-            <Alternativa
-              readOnly={readOnly}
-              key={item.id}
-              data={item}
-              chave={item.id}
-              index={index}
-              perguntaAtual={perguntaAtual}
-              resposta={resposta}
-              correct={data.correct ? data.correct.includes(item.id) : false}
-              renderNovaAlternativaSelecionada={renderNovaAlternativaSelecionada.bind(
-                this
-              )}
-              selected={
-                alternativasSelecionadas
-                  ? alternativasSelecionadas.includes(item.id)
-                  : false
-              }
-            />
-          );
-        })}
+        {data.choices ? mapChoices(data.choices) : mapChoices(data.question.choices)}
       </View>
       {!readOnly && proximaPergunta ? (
         <Button
@@ -89,7 +97,7 @@ export default function Pergunta({
           title="Próxima Pergunta"
           onPress={() => {
             if (alternativasSelecionadas && alternativasSelecionadas.length > 0)
-              responder(perguntaAtual, alternativasSelecionadas);
+              responder(data.id, alternativasSelecionadas);
             else
               alert("Ops... Você deve selecionar pelo menos uma alternativa.");
           }}
@@ -100,13 +108,21 @@ export default function Pergunta({
           type="outline"
           containerStyle={{ alignSelf: "center" }}
           buttonStyle={{ borderRadius: 20 }}
+          loading={loadingResposta}
           onPress={() => {
             if (
               alternativasSelecionadas &&
               alternativasSelecionadas.length > 0
             ) {
-              responder(perguntaAtual, alternativasSelecionadas);
-              navigation.navigate("Progressão")
+              responder(data.id, alternativasSelecionadas);
+              try{
+                submitRespostas()
+                alert("Ok!")
+                //navigation.navigate("Progressão")
+              } catch(error) {
+                alert(error.toString())
+              }
+              setLoadingResposta(false)
             } else
               alert("Ops... Você deve selecionar pelo menos uma alternativa.");
           }}

@@ -22,7 +22,7 @@ export default function Gabarito({ perguntas, respostas, detalharPergunta }) {
         {perguntas.map((item, index) => (
           <TouchableOpacity
             onPress={() => {
-              detalharPergunta(item.id);
+              detalharPergunta(item.question.id);
               setIndexSelecionado(index);
             }}
           >
@@ -31,7 +31,7 @@ export default function Gabarito({ perguntas, respostas, detalharPergunta }) {
                 styles.pergunta,
                 indexSelecionado == index
                   ? { backgroundColor: "gray" }
-                  : isEqual(respostas[item.id.toString()], item.correct)
+                  : isEqual(respostas[item.question.id], item.answersId)
                   ? { backgroundColor: "green" }
                   : { backgroundColor: "red" },
               ]}

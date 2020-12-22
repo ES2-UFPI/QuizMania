@@ -31,13 +31,13 @@ export default function Alternativa({
   return (
     <Animated.View style={{ transform: [{ translateY: translateValue }] }}>
       <Button
-        title={data.text}
+        title={data.text ? data.text : data.question.text}
         buttonStyle={[
           styles.button,
           readOnly
-            ? correct
+            ? correct && selected
               ? { backgroundColor: "green" }
-              : selected
+              : (correct && !selected) || (!correct && selected)
               ? { backgroundColor: "red" }
               : { backgroundColor: "gray" }
             : selected
@@ -45,7 +45,7 @@ export default function Alternativa({
             : {},
         ]}
         onPress={() => {
-          renderNovaAlternativaSelecionada(data.id);
+          !readOnly ? renderNovaAlternativaSelecionada(data.id) : undefined
         }}
       />
     </Animated.View>
