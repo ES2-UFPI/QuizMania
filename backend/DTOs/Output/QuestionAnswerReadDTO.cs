@@ -15,6 +15,5 @@ namespace QuizMania.WebAPI.DTOs
         {
             AnswersId = new HashSet<long>();
         }
-
     }
 }

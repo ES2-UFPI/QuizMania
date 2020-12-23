@@ -28,7 +28,7 @@ namespace QuizMania.WebAPI.Services
 
         public async Task<QuizFeedback> SaveQuizAnswer(QuizFeedbackReceivedDTO quizFbReceived)
         {
-            int rightAnswerNumber = 0;
+            float rightAnswerNumber = 0;
 
             QuizFeedback quizFb = new QuizFeedback();
             QuizFeedback quizReadFb = new QuizFeedback();
@@ -55,24 +55,28 @@ namespace QuizMania.WebAPI.Services
                         return null;
                     
                     qtAnswer.Answers.Add(choice);
-                    
                 }
 
                 quizFb.QuestionAnswers.Add(qtAnswer);
 
-                var correctAnswers = qtAnswer.Question.Choices.Where(c => c.IsCorrect).Select(c => c.Id).ToHashSet();
+                var correctAnswerIds = qtAnswer.Question.Choices.Where(c => c.IsCorrect).Select(c => c.Id).ToHashSet();
+                var AnswerIds = qtAnswerReceived.AnswerIds.ToHashSet();
 
-                if (Enumerable.SequenceEqual(correctAnswers, qtAnswerReceived.AnswerIds.OrderBy(q => q)))
-                    rightAnswerNumber++;
+                int hits = Enumerable.Intersect(AnswerIds, correctAnswerIds).Count();
+                int misses = AnswerIds.Except(correctAnswerIds).Count();
+
+                if (misses <= hits)
+                {
+                    rightAnswerNumber += (float) (hits - misses) / correctAnswerIds.Count();
+                }
             }
 
             quizFb.Quiz = quiz;
-            quizFb.GoldGained = (rightAnswerNumber * 100) / quiz.Questions.Count;
-            quizFb.ExperienceGained = (rightAnswerNumber * 100) / quiz.Questions.Count;
-
+            quizFb.PercentageOfCorrectAnswers = (float) Math.Round(rightAnswerNumber * 100 / quiz.Questions.Count, 2);
+            
             //Save awnsers
-            _repository.SaveQuizFeedback(quizFb);
-            await _repository.SaveChangesAsync();
+            //_repository.SaveQuizFeedback(quizFb);
+            //await _repository.SaveChangesAsync();
             
             //fill with correct answers
             foreach(var qtAnswer in quizFb.QuestionAnswers)

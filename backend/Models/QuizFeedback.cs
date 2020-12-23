@@ -23,6 +23,9 @@ namespace QuizMania.WebAPI.Models
         public ICollection<QuestionAnswer> QuestionAnswers { get; set; }
 
         [Required]
+        public float PercentageOfCorrectAnswers { get; set; }
+
+        [Required]
         public int GoldGained { get; set; }
 
         [Required]
