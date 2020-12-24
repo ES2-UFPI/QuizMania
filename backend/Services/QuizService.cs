@@ -9,21 +9,21 @@ namespace QuizMania.WebAPI.Services
 {
     public class QuizService : IQuizService
     {
-        private readonly IQuizAsyncRepository _repository;
+        private readonly IQuizAsyncRepository _quizRepo;
 
-        public QuizService(IQuizAsyncRepository repository)
+        public QuizService(IQuizAsyncRepository quizRepo)
         {
-            _repository = repository;
+            _quizRepo = quizRepo;
         }
 
         public async Task<IEnumerable<Quiz>> GetQuizzesAsync()
         {
-            return await _repository.GetAllQuizzesAsync();
+            return await _quizRepo.GetAllQuizzesAsync();
         }
 
         public async Task<Quiz> GetQuizAsync(long id)
         {
-            return await _repository.GetQuizAsync(id);
+            return await _quizRepo.GetQuizAsync(id);
         }
 
         public async Task<QuizFeedback> SaveQuizAnswer(QuizFeedbackReceivedDTO quizFbReceived)
@@ -33,34 +33,34 @@ namespace QuizMania.WebAPI.Services
             QuizFeedback quizFb = new QuizFeedback();
             QuizFeedback quizReadFb = new QuizFeedback();
 
-            Quiz quiz = await _repository.GetQuizAsync(quizFbReceived.QuizId);
+            quizFb.Quiz = await _quizRepo.GetQuizAsync(quizFbReceived.QuizId);
             
-            if (quiz == null)
+            if (quizFb.Quiz == null)
                 return null;
 
             foreach (var qtAnswerReceived in quizFbReceived.QuestionAnswers)
             {
                 var qtAnswer = new QuestionAnswer();
 
-                qtAnswer.Question = await _repository.GetQuestionAsync(qtAnswerReceived.QuestionId);
+                qtAnswer.Question = await _quizRepo.GetQuestionAsync(qtAnswerReceived.QuestionId);
                 
                 if (qtAnswer.Question == null)
                     return null;
 
-                foreach (var answerID in qtAnswerReceived.AnswerIds)
+                foreach (var answerID in qtAnswerReceived.ChosenAnswerIds)
                 {
-                    var choice = await _repository.GetChoiceAsync(answerID);
+                    var chonsenAnswer = await _quizRepo.GetAnswerAsync(answerID);
                    
-                    if (choice == null)
+                    if (chonsenAnswer == null)
                         return null;
                     
-                    qtAnswer.Answers.Add(choice);
+                    qtAnswer.ChosenAnswers.Add(chonsenAnswer);
                 }
 
                 quizFb.QuestionAnswers.Add(qtAnswer);
 
-                var correctAnswerIds = qtAnswer.Question.Choices.Where(c => c.IsCorrect).Select(c => c.Id).ToHashSet();
-                var AnswerIds = qtAnswerReceived.AnswerIds.ToHashSet();
+                var correctAnswerIds = qtAnswer.Question.Answers.Where(c => c.IsCorrect).Select(c => c.Id).ToHashSet();
+                var AnswerIds = qtAnswerReceived.ChosenAnswerIds.ToHashSet();
 
                 int hits = Enumerable.Intersect(AnswerIds, correctAnswerIds).Count();
                 int misses = AnswerIds.Except(correctAnswerIds).Count();
@@ -71,8 +71,7 @@ namespace QuizMania.WebAPI.Services
                 }
             }
 
-            quizFb.Quiz = quiz;
-            quizFb.PercentageOfCorrectAnswers = (float) Math.Round(rightAnswerNumber * 100 / quiz.Questions.Count, 2);
+            quizFb.PercentageOfCorrectChosenAnswers = (float) Math.Round(rightAnswerNumber * 100 / quizFb.Quiz.Questions.Count, 2);
             
             //Save awnsers
             //_repository.SaveQuizFeedback(quizFb);
@@ -81,7 +80,7 @@ namespace QuizMania.WebAPI.Services
             //fill with correct answers
             foreach(var qtAnswer in quizFb.QuestionAnswers)
             {
-                qtAnswer.Answers = qtAnswer.Question.Choices.Where(c => c.IsCorrect).ToList();
+                qtAnswer.ChosenAnswers = qtAnswer.Question.Answers.Where(c => c.IsCorrect).ToList();
             }
 
             //Return correct answers

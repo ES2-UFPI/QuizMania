@@ -28,30 +28,30 @@ namespace QuizMania.WebAPI
             {
                 Id = 1,
                 Text = "What is the answer to the meaning of life, the universe and everything?",
-                Choices = new List<Choice>()
+                Answers = new List<Answer>()
                 {
-                    new Choice()
+                    new Answer()
                     {
                         Id = 1,
                         IsCorrect = false,
                         Text = "40",
                     },
 
-                    new Choice()
+                    new Answer()
                     {
                         Id = 2,
                         IsCorrect = false,
                         Text = "41",
                     },
 
-                    new Choice()
+                    new Answer()
                     {
                         Id = 3,
                         IsCorrect = true,
                         Text = "42",
                     },
 
-                    new Choice()
+                    new Answer()
                     {
                         Id = 4,
                         IsCorrect = false,
@@ -64,16 +64,16 @@ namespace QuizMania.WebAPI
             {
                 Id = 2,
                 Text = "This is a true or false question. True or False?",
-                Choices = new List<Choice>()
+                Answers = new List<Answer>()
                         {
-                            new Choice()
+                            new Answer()
                             {
                                 Id = 5,
                                 IsCorrect = true,
                                 Text = "True",
                             },
 
-                            new Choice()
+                            new Answer()
                             {
                                 Id = 6,
                                 IsCorrect = false,
@@ -86,16 +86,16 @@ namespace QuizMania.WebAPI
             {
                 Id = 3,
                 Text = "All options are correct. Which options are correct?",
-                Choices = new List<Choice>()
+                Answers = new List<Answer>()
                         {
-                            new Choice()
+                            new Answer()
                             {
                                 Id = 7,
                                 IsCorrect = true,
                                 Text = "A",
                             },
 
-                            new Choice()
+                            new Answer()
                             {
                                 Id = 8,
                                 IsCorrect = true,
@@ -133,9 +133,9 @@ namespace QuizMania.WebAPI
             return await _context.Questions.FindAsync(id);
         }
 
-        public async Task<Choice> GetChoiceAsync(long id)
+        public async Task<Answer> GetAnswerAsync(long id)
         {
-            return await _context.Choices.FindAsync(id);
+            return await _context.Answers.FindAsync(id);
         }
 
         public void SaveQuizFeedback(QuizFeedback quizFeedback)

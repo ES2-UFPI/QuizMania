@@ -25,7 +25,7 @@ namespace QuizMania.WebAPI
             return await _context.Quizzes.FindAsync(id);
         }
 
-        public Task<Choice> GetChoiceAsync(long id)
+        public Task<Answer> GetAnswerAsync(long id)
         {
             throw new NotImplementedException();
         }

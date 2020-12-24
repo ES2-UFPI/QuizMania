@@ -12,7 +12,7 @@ namespace QuizMania.WebAPI.DTOs
 
         public ICollection<QuestionAnswerReadDTO> QuestionAnswers { get; set; }
 
-        public float PercentageOfCorrectAnswers { get; set; }
+        public float PercentageOfCorrectChosenAnswers { get; set; }
 
         public int GoldGained { get; set; }
 
