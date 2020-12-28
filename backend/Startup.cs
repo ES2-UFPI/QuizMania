@@ -19,7 +19,6 @@ namespace QuizMania.WebAPI
         }
 
         public IConfiguration Configuration { get; }
-        private SqliteConnection inMemorySqlite;
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -31,7 +30,7 @@ namespace QuizMania.WebAPI
             services.AddScoped<IQuizService, QuizService>();
             services.AddScoped<ICharacterService, CharacterService>();
 
-            inMemorySqlite = new SqliteConnection(Configuration.GetConnectionString("SqliteInMemoryConnection"));
+            var inMemorySqlite = new SqliteConnection(Configuration.GetConnectionString("SqliteInMemoryConnection"));
             inMemorySqlite.Open();
 
             services.AddDbContext<QuizContext>(opt => { opt.UseSqlite(inMemorySqlite); });
