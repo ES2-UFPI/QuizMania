@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using QuizMania.WebAPI.Models;
 using QuizMania.WebAPI.DTOs;
 
@@ -10,23 +11,25 @@ namespace QuizMania.WebAPI.Services
     public class QuizService : IQuizService
     {
         private readonly IQuizAsyncRepository _quizRepo;
+        private readonly IMapper _mapper;
 
-        public QuizService(IQuizAsyncRepository quizRepo)
+        public QuizService(IQuizAsyncRepository quizRepo, IMapper mapper)
         {
             _quizRepo = quizRepo;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Quiz>> GetQuizzesAsync()
+        public async Task<IEnumerable<QuizReadDTO>> GetQuizzesAsync()
         {
-            return await _quizRepo.GetAllQuizzesAsync();
+            return _mapper.Map<IEnumerable<QuizReadDTO>>(await _quizRepo.GetAllQuizzesAsync());
         }
 
-        public async Task<Quiz> GetQuizAsync(long id)
+        public async Task<QuizReadDTO> GetQuizAsync(long id)
         {
-            return await _quizRepo.GetQuizAsync(id);
+            return _mapper.Map<QuizReadDTO>(await _quizRepo.GetQuizAsync(id));
         }
 
-        public async Task<QuizFeedback> SaveQuizAnswer(QuizFeedbackReceivedDTO quizFbReceived)
+        public async Task<QuizFeedbackReadDTO> SaveQuizAnswer(QuizFeedbackReceivedDTO quizFbReceived)
         {
             float rightAnswerNumber = 0;
 
@@ -84,7 +87,7 @@ namespace QuizMania.WebAPI.Services
             }
 
             //Return correct answers
-            return quizFb;
+            return _mapper.Map<QuizFeedbackReadDTO>(quizFb);
         }
     }
 }

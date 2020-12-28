@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using QuizMania.WebAPI.DTOs;
-using AutoMapper;
 using System.Threading.Tasks;
-using QuizMania.WebAPI.Models;
 using QuizMania.WebAPI.Services;
 
 namespace QuizMania.WebAPI.Controllers
@@ -13,12 +10,10 @@ namespace QuizMania.WebAPI.Controllers
     [ApiController]
     public class QuizController : ControllerBase
     {
-        private readonly IMapper _mapper;
         private readonly IQuizService _quizService;
 
-        public QuizController(IMapper mapper, IQuizService quizService)
+        public QuizController(IQuizService quizService)
         {
-            _mapper = mapper;
             _quizService = quizService;
         }
 
@@ -26,22 +21,22 @@ namespace QuizMania.WebAPI.Controllers
         public async Task<ActionResult<IEnumerable<QuizReadDTO>>> GetQuizzes()
         {
             var quizzes = await _quizService.GetQuizzesAsync();
-            return quizzes != null ? Ok(_mapper.Map<IEnumerable<QuizReadDTO>>(quizzes)) : NotFound();
+            return quizzes != null ? Ok(quizzes) : NotFound();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<QuizReadDTO>> GetQuiz(long id)
         {
             var quiz = await _quizService.GetQuizAsync(id);
-            return quiz != null ? Ok(_mapper.Map<QuizReadDTO>(quiz)) : NotFound();
+            return quiz != null ? Ok(quiz) : NotFound();
         }
 
         //POST: api/Quiz/
         [HttpPost]
         public async Task<ActionResult<QuizFeedbackReceivedDTO>> PostQuizFeedback(QuizFeedbackReceivedDTO quizReceived)
         {
-            QuizFeedback quizFeedback = await _quizService.SaveQuizAnswer(quizReceived);
-            return quizFeedback != null ? Ok(_mapper.Map<QuizFeedbackReadDTO>(quizFeedback)) : NotFound();
+            var quizFeedback = await _quizService.SaveQuizAnswer(quizReceived);
+            return quizFeedback != null ? Ok(quizFeedback) : NotFound();
         }
 
         //// PUT: api/Quiz/5
