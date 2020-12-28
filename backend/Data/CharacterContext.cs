@@ -7,6 +7,12 @@ namespace QuizMania.WebAPI
     {
         public CharacterContext(DbContextOptions<CharacterContext> options) : base(options)
         {
+            Database.EnsureCreated();
+        }
+
+        public void DetachAllEntities()
+        {
+            ChangeTracker.Clear();
         }
 
         public DbSet<Character> Characters { get; set; }
