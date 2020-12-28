@@ -24,15 +24,16 @@ namespace QuizMania.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
             services.AddScoped<IQuizAsyncRepository, MockQuizRepository>();
             services.AddScoped<ICharacterAsyncRepository, MockCharacterRepository>();
+
             services.AddScoped<IQuizService, QuizService>();
+            services.AddScoped<ICharacterService, CharacterService>();
 
             inMemorySqlite = new SqliteConnection(Configuration.GetConnectionString("SqliteInMemoryConnection"));
             inMemorySqlite.Open();
 
-            //services.AddDbContext<QuizContext>(opt => { opt.UseInMemoryDatabase("InMemory Quizzes Database"); });
-            //services.AddDbContext<QuizContext>(opt => { opt.UseSqlServer(Configuration.GetConnectionString("AzureSqlConnection")); });
             services.AddDbContext<QuizContext>(opt => { opt.UseSqlite(inMemorySqlite); });
             services.AddDbContext<CharacterContext>(opt => { opt.UseSqlite(inMemorySqlite); });
 

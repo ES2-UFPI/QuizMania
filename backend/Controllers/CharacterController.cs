@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using QuizMania.WebAPI.DTOs;
 using AutoMapper;
-using System.Threading.Tasks;
-using QuizMania.WebAPI.Models;
-using System.Linq;
+using QuizMania.WebAPI.DTOs;
+using QuizMania.WebAPI.Services;
+
 
 namespace QuizMania.WebAPI.Controllers
 {
@@ -13,27 +11,20 @@ namespace QuizMania.WebAPI.Controllers
     [ApiController]
     public class CharacterController : ControllerBase
     {
-        private readonly ICharacterAsyncRepository _characterRepo;
+        private readonly ICharacterService _characterService;
         private readonly IMapper _mapper;
 
-        public CharacterController(ICharacterAsyncRepository characterRepo, IMapper mapper)
+        public CharacterController(ICharacterService characterService, IMapper mapper)
         {
-            _characterRepo = characterRepo;
+            _characterService = characterService;
             _mapper = mapper;
         }
 
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<CharacterReadDTO>>> GetCharacters()
-        //{
-        //    var characters = await _characterRepo.GetAllCharactersAsync();
-        //    return Ok(_mapper.Map<IEnumerable<CharacterReadDTO>>(characters));
-        //}
-
         [HttpGet("{id}")]
-        public async Task<ActionResult<CharacterReadDTO>> GetCharacter(long id)
+        public async Task<ActionResult<CharacterInfoDTO>> GetCharacter(long id)
         {
-            var character = await _characterRepo.GetCharacterAsync(id);
-            return character != null ? Ok(_mapper.Map<CharacterReadDTO>(character)) : NotFound();
+            var character = await _characterService.GetCharacterAsync(id);
+            return character != null ? Ok(_mapper.Map<CharacterInfoDTO>(character)) : NotFound();
         }
     }
 }
