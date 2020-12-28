@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using QuizMania.WebAPI.Models;
+using QuizMania.WebAPI.DTOs;
 
 namespace QuizMania.WebAPI.Services
 {
@@ -10,10 +11,17 @@ namespace QuizMania.WebAPI.Services
         public const float LevelExperienceConst = 0.14f;
 
         private readonly ICharacterAsyncRepository _characterRepo;
+        private readonly IMapper _mapper;
 
-        public CharacterService(ICharacterAsyncRepository characterRepo)
+        public CharacterService(ICharacterAsyncRepository characterRepo, IMapper mapper)
         {
             _characterRepo = characterRepo;
+            _mapper = mapper;
+        }
+
+        public async Task<CharacterInfoDTO> GetCharacterInfoAsync(long id)
+        {
+            return _mapper.Map<CharacterInfoDTO>(await _characterRepo.GetCharacterAsync(id));
         }
 
         public static int GetCurrentLevel(int totalXP)
@@ -24,16 +32,6 @@ namespace QuizMania.WebAPI.Services
         public static int GetExperienceSinceLevel(int totalXP, int level)
         {
             return Math.Max(0, (int)(totalXP - Math.Pow((level - 1) / LevelExperienceConst, 2)));
-        }
-
-        public async Task<IEnumerable<Character>> GetAllCharactersAsync()
-        {
-            return await _characterRepo.GetAllCharactersAsync();
-        }
-
-        public async Task<Character> GetCharacterAsync(long id)
-        {
-            return await _characterRepo.GetCharacterAsync(id);
         }
     }
 }

@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using QuizMania.WebAPI.Models;
+using QuizMania.WebAPI.DTOs;
 
 namespace QuizMania.WebAPI.Services
 {
     public interface ICharacterService
     {
-        Task<IEnumerable<Character>> GetAllCharactersAsync();
-        Task<Character> GetCharacterAsync(long id);
+        Task<CharacterInfoDTO> GetCharacterInfoAsync(long id);
     }
 }

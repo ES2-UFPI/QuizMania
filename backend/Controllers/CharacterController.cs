@@ -12,19 +12,17 @@ namespace QuizMania.WebAPI.Controllers
     public class CharacterController : ControllerBase
     {
         private readonly ICharacterService _characterService;
-        private readonly IMapper _mapper;
 
-        public CharacterController(ICharacterService characterService, IMapper mapper)
+        public CharacterController(ICharacterService characterService)
         {
             _characterService = characterService;
-            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<CharacterInfoDTO>> GetCharacter(long id)
         {
-            var character = await _characterService.GetCharacterAsync(id);
-            return character != null ? Ok(_mapper.Map<CharacterInfoDTO>(character)) : NotFound();
+            var character = await _characterService.GetCharacterInfoAsync(id);
+            return character != null ? Ok(character) : NotFound();
         }
     }
 }
