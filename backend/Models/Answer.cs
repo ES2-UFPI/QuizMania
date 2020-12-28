@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace QuizMania.WebAPI.Models
 {
-    public class Choice
+    public class Answer
     {
-        public Choice()
+        public Answer()
         {
             QuestionAnswers = new HashSet<QuestionAnswer>();
         }

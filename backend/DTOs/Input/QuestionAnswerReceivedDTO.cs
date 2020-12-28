@@ -9,11 +9,11 @@ namespace QuizMania.WebAPI.DTOs.Input
     {
         public long QuestionId { get; set; }
 
-        public ICollection<long> AnswerIds { get; set; }
+        public ICollection<long> ChosenAnswerIds { get; set; }
 
         public QuestionAnswerReceivedDTO()
         {
-            AnswerIds = new HashSet<long>();
+            ChosenAnswerIds = new HashSet<long>();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace QuizMania.WebAPI
         Task<IEnumerable<Quiz>> GetAllQuizzesAsync();
         Task<Quiz> GetQuizAsync(long id);
         public Task<Question> GetQuestionAsync(long id);
-        public Task<Choice> GetChoiceAsync(long id);
+        public Task<Answer> GetAnswerAsync(long id);
         void SaveQuizFeedback(QuizFeedback quizFeedback);
         Task<int> SaveChangesAsync();
     }

@@ -17,7 +17,7 @@ namespace QuizMania.WebAPI
 
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<Question> Questions { get; set; }
-        public DbSet<Choice> Choices { get; set; }
+        public DbSet<Answer> Answers { get; set; }
         public DbSet<QuizFeedback> QuizFeedbacks { get; set; }
         public DbSet<QuestionAnswer> QuestionAnswers {get; set;}
     }

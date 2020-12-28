@@ -10,7 +10,7 @@ namespace QuizMania.WebAPI.DTOs
         {
             public bool Resolve(Question source, QuestionReadDTO destination, bool destMember, ResolutionContext context)
             {
-                var answers = source.Choices;
+                var answers = source.Answers;
                 var hasAnswer = false;
                 foreach (var ans in answers)
                 {
@@ -35,11 +35,11 @@ namespace QuizMania.WebAPI.DTOs
         public long Id { get; set; }
         public string Text { get; set; }
         public bool HasMultipleCorrectAnswers { get; set; }
-        public virtual ICollection<ChoiceReadDTO> Choices { get; set; }
+        public virtual ICollection<AnswerReadDTO> Answers { get; set; }
 
         public QuestionReadDTO()
         {
-            Choices = new HashSet<ChoiceReadDTO>();
+            Answers = new HashSet<AnswerReadDTO>();
         }
     }
 }

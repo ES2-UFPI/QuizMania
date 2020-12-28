@@ -10,7 +10,7 @@ namespace QuizMania.WebAPI.Models
     {
         public QuestionAnswer()
         {
-            Answers = new HashSet<Choice>();
+            ChosenAnswers = new HashSet<Answer>();
         }
 
         [Key]
@@ -20,6 +20,6 @@ namespace QuizMania.WebAPI.Models
         public Question Question { get; set; }
 
         [Required]
-        public virtual ICollection<Choice> Answers { get; set; }
+        public virtual ICollection<Answer> ChosenAnswers { get; set; }
     }
 }
