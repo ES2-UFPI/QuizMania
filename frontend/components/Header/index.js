@@ -1,8 +1,27 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { View, StyleSheet, Image, ImageBackground, Text } from "react-native";
 import { BACKGROUND_COLOR } from "../../constants";
-
+import API from '../../services'
 export default function Header() {
+
+  const [personagem, setPersonagem] = useState({})
+
+
+  useEffect(() => {
+    getData();
+
+  }, [])
+
+
+  async function getData() {
+    try {
+      const data = await API.obterPersonagem({})
+      setPersonagem(data)
+    } catch (error) {
+      alert(error.toString())
+    }
+  }
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -14,7 +33,7 @@ export default function Header() {
           justifyContent: "center",
         }}
       >
-        <Text style={styles.textImage}>600</Text>
+        {personagem.gold && <Text style={styles.textImage}>{personagem.gold}</Text>}
       </ImageBackground>
       <ImageBackground
         source={require("../../assets/images/vidas.png")}
@@ -25,7 +44,7 @@ export default function Header() {
           justifyContent: "center",
         }}
       >
-        <Text style={styles.textImage}>4</Text>
+        {personagem.healthPoints &&  <Text style={styles.textImage}>{personagem.healthPoints}</Text>}
       </ImageBackground>
     </View>
   );
