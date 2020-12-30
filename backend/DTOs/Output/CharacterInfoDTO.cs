@@ -6,14 +6,6 @@ namespace QuizMania.WebAPI.DTOs
 {
     public class CharacterInfoDTO
     {
-        public class CurrentXPResolver : IValueResolver<Character, CharacterInfoDTO, int>
-        {
-            public int Resolve(Character source, CharacterInfoDTO destination, int destMember, ResolutionContext context)
-            {
-                return CharacterService.GetExperienceSinceLevel(source.TotalXP, CharacterService.GetCurrentLevel(source.TotalXP));
-            }
-        }
-
         public long Id { get; set; }
 
         public string Name { get; set; }

@@ -1,9 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace QuizMania.WebAPI.Models
 {
     public class Character
     {
+        private const float LevelExperienceConst = 0.14f;
+
+        public Character()
+        {
+            QuizFeedbacks = new HashSet<QuizFeedback>();
+        }
+
         [Key]
         public long Id { get; set; }
 
@@ -14,13 +23,17 @@ namespace QuizMania.WebAPI.Models
         [Required]
         public int HealthPoints { get; set; }
 
-        [Required]
-        public int Level { get; set; }
+        public int Level => (int) Math.Floor(LevelExperienceConst * Math.Sqrt(TotalXP)) + 1; 
+
+        public int CurrentLevelXP => Math.Max(0, (int)(TotalXP - Math.Pow((Level - 1) / LevelExperienceConst, 2)));
 
         [Required]
         public int TotalXP { get; set; }
 
         [Required]
         public int Gold { get; set; }
+
+        [Required]
+        public ICollection<QuizFeedback> QuizFeedbacks { get; set; }
     }
 }

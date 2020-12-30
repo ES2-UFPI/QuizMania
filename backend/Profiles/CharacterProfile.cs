@@ -8,8 +8,7 @@ namespace QuizMania.WebAPI.Profiles
     {
         public CharacterProfile()
         {
-            CreateMap<Character, CharacterInfoDTO>()
-                .ForMember(dest => dest.CurrentLevelXP, opt => opt.MapFrom<CharacterInfoDTO.CurrentXPResolver>());
+            CreateMap<Character, CharacterInfoDTO>();
         }
     }
 }
