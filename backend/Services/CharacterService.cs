@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using QuizMania.WebAPI.Models;
 using QuizMania.WebAPI.DTOs;
+using System.Linq;
 
 namespace QuizMania.WebAPI.Services
 {
@@ -22,16 +23,29 @@ namespace QuizMania.WebAPI.Services
         public async Task<CharacterInfoDTO> GetCharacterInfoAsync(long id)
         {
             return _mapper.Map<CharacterInfoDTO>(await _characterRepo.GetCharacterAsync(id));
-        }
+        } 
 
-        public static int GetCurrentLevel(int totalXP)
+        public async Task<bool> SaveQuizfeedback(QuizFeedback quizFeedback, long characterId)
         {
-            return (int)Math.Floor(LevelExperienceConst * Math.Sqrt(totalXP)) + 1;
-        }
+            var character = await _characterRepo.GetCharacterAsync(characterId);
 
-        public static int GetExperienceSinceLevel(int totalXP, int level)
-        {
-            return Math.Max(0, (int)(totalXP - Math.Pow((level - 1) / LevelExperienceConst, 2)));
+            if (character == null)
+                return false;
+
+            character.QuizFeedbacks.Add(quizFeedback);
+            
+            if(character.QuizFeedbacks.Where(q => q.Quiz.Id == quizFeedback.Quiz.Id).Count() == 1)
+            {
+                quizFeedback.ExperienceGained = (int)quizFeedback.PercentageOfCorrectChosenAnswers;
+                quizFeedback.GoldGained = (int)quizFeedback.PercentageOfCorrectChosenAnswers;
+
+                character.TotalXP += quizFeedback.ExperienceGained;
+                character.Gold += quizFeedback.GoldGained;
+            }
+
+            await _characterRepo.SaveChangesAsync();
+
+            return true;
         }
     }
 }

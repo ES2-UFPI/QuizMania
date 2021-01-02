@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace QuizMania.WebAPI.Models
 {
@@ -10,6 +7,8 @@ namespace QuizMania.WebAPI.Models
     {
         public QuizFeedback()
         {
+            GoldGained = 0;
+            ExperienceGained = 0;
             QuestionAnswers = new HashSet<QuestionAnswer>();
         }
 

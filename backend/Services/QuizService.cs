@@ -11,11 +11,13 @@ namespace QuizMania.WebAPI.Services
     public class QuizService : IQuizService
     {
         private readonly IQuizAsyncRepository _quizRepo;
+        private readonly ICharacterService _characterService;
         private readonly IMapper _mapper;
 
-        public QuizService(IQuizAsyncRepository quizRepo, IMapper mapper)
+        public QuizService(IQuizAsyncRepository quizRepo, ICharacterService characterService, IMapper mapper)
         {
             _quizRepo = quizRepo;
+            _characterService = characterService;
             _mapper = mapper;
         }
 
@@ -34,8 +36,7 @@ namespace QuizMania.WebAPI.Services
             float rightAnswerNumber = 0;
 
             QuizFeedback quizFb = new QuizFeedback();
-            QuizFeedback quizReadFb = new QuizFeedback();
-
+    
             quizFb.Quiz = await _quizRepo.GetQuizAsync(quizFbReceived.QuizId);
             
             if (quizFb.Quiz == null)
@@ -75,13 +76,13 @@ namespace QuizMania.WebAPI.Services
             }
 
             quizFb.PercentageOfCorrectChosenAnswers = (float) Math.Round(rightAnswerNumber * 100 / quizFb.Quiz.Questions.Count, 2);
-            
+
             //Save awnsers
-            //_repository.SaveQuizFeedback(quizFb);
-            //await _repository.SaveChangesAsync();
+            if ( !(await _characterService.SaveQuizfeedback(quizFb, 1)) )
+                return null;
             
             //fill with correct answers
-            foreach(var qtAnswer in quizFb.QuestionAnswers)
+            foreach (var qtAnswer in quizFb.QuestionAnswers)
             {
                 qtAnswer.ChosenAnswers = qtAnswer.Question.Answers.Where(c => c.IsCorrect).ToList();
             }

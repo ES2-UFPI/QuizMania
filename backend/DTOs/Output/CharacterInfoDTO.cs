@@ -1,8 +1,4 @@
-﻿using AutoMapper;
-using QuizMania.WebAPI.Models;
-using QuizMania.WebAPI.Services;
-
-namespace QuizMania.WebAPI.DTOs
+﻿namespace QuizMania.WebAPI.DTOs
 {
     public class CharacterInfoDTO
     {

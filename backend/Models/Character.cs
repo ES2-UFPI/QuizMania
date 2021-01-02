@@ -10,6 +10,7 @@ namespace QuizMania.WebAPI.Models
 
         public Character()
         {
+            TotalXP = 0;
             QuizFeedbacks = new HashSet<QuizFeedback>();
         }
 
