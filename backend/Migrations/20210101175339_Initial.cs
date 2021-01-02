@@ -7,6 +7,22 @@ namespace QuizMania.WebAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Characters",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 32, nullable: false),
+                    HealthPoints = table.Column<int>(type: "INTEGER", nullable: false),
+                    TotalXP = table.Column<int>(type: "INTEGER", nullable: false),
+                    Gold = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Characters", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Questions",
                 columns: table => new
                 {
@@ -32,7 +48,7 @@ namespace QuizMania.WebAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Choices",
+                name: "Answers",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -43,9 +59,9 @@ namespace QuizMania.WebAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Choices", x => x.Id);
+                    table.PrimaryKey("PK_Answers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Choices_Questions_QuestionId",
+                        name: "FK_Answers_Questions_QuestionId",
                         column: x => x.QuestionId,
                         principalTable: "Questions",
                         principalColumn: "Id",
@@ -83,12 +99,20 @@ namespace QuizMania.WebAPI.Migrations
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     QuizId = table.Column<long>(type: "INTEGER", nullable: true),
+                    PercentageOfCorrectChosenAnswers = table.Column<float>(type: "REAL", nullable: false),
                     GoldGained = table.Column<int>(type: "INTEGER", nullable: false),
-                    ExperienceGained = table.Column<int>(type: "INTEGER", nullable: false)
+                    ExperienceGained = table.Column<int>(type: "INTEGER", nullable: false),
+                    CharacterId = table.Column<long>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_QuizFeedbacks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuizFeedbacks_Characters_CharacterId",
+                        column: x => x.CharacterId,
+                        principalTable: "Characters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_QuizFeedbacks_Quizzes_QuizId",
                         column: x => x.QuizId,
@@ -124,23 +148,23 @@ namespace QuizMania.WebAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChoiceQuestionAnswer",
+                name: "AnswerQuestionAnswer",
                 columns: table => new
                 {
-                    AnswersId = table.Column<long>(type: "INTEGER", nullable: false),
+                    ChosenAnswersId = table.Column<long>(type: "INTEGER", nullable: false),
                     QuestionAnswersId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChoiceQuestionAnswer", x => new { x.AnswersId, x.QuestionAnswersId });
+                    table.PrimaryKey("PK_AnswerQuestionAnswer", x => new { x.ChosenAnswersId, x.QuestionAnswersId });
                     table.ForeignKey(
-                        name: "FK_ChoiceQuestionAnswer_Choices_AnswersId",
-                        column: x => x.AnswersId,
-                        principalTable: "Choices",
+                        name: "FK_AnswerQuestionAnswer_Answers_ChosenAnswersId",
+                        column: x => x.ChosenAnswersId,
+                        principalTable: "Answers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ChoiceQuestionAnswer_QuestionAnswers_QuestionAnswersId",
+                        name: "FK_AnswerQuestionAnswer_QuestionAnswers_QuestionAnswersId",
                         column: x => x.QuestionAnswersId,
                         principalTable: "QuestionAnswers",
                         principalColumn: "Id",
@@ -148,13 +172,13 @@ namespace QuizMania.WebAPI.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChoiceQuestionAnswer_QuestionAnswersId",
-                table: "ChoiceQuestionAnswer",
+                name: "IX_AnswerQuestionAnswer_QuestionAnswersId",
+                table: "AnswerQuestionAnswer",
                 column: "QuestionAnswersId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Choices_QuestionId",
-                table: "Choices",
+                name: "IX_Answers_QuestionId",
+                table: "Answers",
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
@@ -173,6 +197,11 @@ namespace QuizMania.WebAPI.Migrations
                 column: "QuizzesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_QuizFeedbacks_CharacterId",
+                table: "QuizFeedbacks",
+                column: "CharacterId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_QuizFeedbacks_QuizId",
                 table: "QuizFeedbacks",
                 column: "QuizId");
@@ -181,13 +210,13 @@ namespace QuizMania.WebAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ChoiceQuestionAnswer");
+                name: "AnswerQuestionAnswer");
 
             migrationBuilder.DropTable(
                 name: "QuestionQuiz");
 
             migrationBuilder.DropTable(
-                name: "Choices");
+                name: "Answers");
 
             migrationBuilder.DropTable(
                 name: "QuestionAnswers");
@@ -197,6 +226,9 @@ namespace QuizMania.WebAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "QuizFeedbacks");
+
+            migrationBuilder.DropTable(
+                name: "Characters");
 
             migrationBuilder.DropTable(
                 name: "Quizzes");

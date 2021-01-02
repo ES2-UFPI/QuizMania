@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using QuizMania.WebAPI.Services;
 using Microsoft.Data.Sqlite;
+using QuizMania.WebAPI.Data;
 
 namespace QuizMania.WebAPI
 {
@@ -19,7 +20,7 @@ namespace QuizMania.WebAPI
         }
 
         public IConfiguration Configuration { get; }
-
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -30,12 +31,11 @@ namespace QuizMania.WebAPI
             services.AddScoped<IQuizService, QuizService>();
             services.AddScoped<ICharacterService, CharacterService>();
 
-            var inMemorySqlite = new SqliteConnection(Configuration.GetConnectionString("SqliteInMemoryConnection"));
-            inMemorySqlite.Open();
-
-            services.AddDbContext<QuizContext>(opt => { opt.UseSqlite(inMemorySqlite); });
-            services.AddDbContext<CharacterContext>(opt => { opt.UseSqlite(inMemorySqlite); });
-
+            var inMemorySqliteQuizConnection = new SqliteConnection(Configuration.GetConnectionString("SqliteInMemoryConnection"));
+            inMemorySqliteQuizConnection.Open();
+            
+            services.AddDbContext<DatabaseContext>(opt => { opt.UseSqlite(inMemorySqliteQuizConnection); });
+           
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddSwaggerGen();
