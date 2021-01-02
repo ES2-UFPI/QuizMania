@@ -1,50 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using QuizMania.WebAPI.Data;
 using QuizMania.WebAPI.Models;
 
 namespace QuizMania.WebAPI
 {
     public class MockCharacterRepository : ICharacterAsyncRepository
     {
-        private readonly CharacterContext _characterContext;
+        private readonly DatabaseContext _context;
 
-        public MockCharacterRepository(CharacterContext characterContext)
+        public MockCharacterRepository(DatabaseContext context)
         {
-            _characterContext = characterContext;
-
-            // mock characters
-            _characterContext.Add(new Character()
-            {
-                Id = 1,
-                Name = "Gandalf",
-                Level = 1,
-                TotalXP = 5,
-                Gold = 10,
-                HealthPoints = 100,
-            });
-
-            _characterContext.Add(new Character()
-            {
-                Id = 2,
-                Name = "Jurema",
-                Level = 2,
-                TotalXP = 55,
-                Gold = 70,
-                HealthPoints = 80,
-            });
-
-            _characterContext.SaveChangesAsync();
+            _context = context;
         }
 
         public async Task<IEnumerable<Character>> GetAllCharactersAsync()
         {
-            return await _characterContext.Characters.ToListAsync();
+            return await _context.Characters.ToListAsync();
         }
 
         public async Task<Character> GetCharacterAsync(long id)
         {
-            return await _characterContext.Characters.FindAsync(id);
+            return await _context.Characters.Include(c=>c.QuizFeedbacks)
+                                            .FirstOrDefaultAsync(c=>c.Id == id);
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _context.SaveChangesAsync(); ;
         }
     }
 }

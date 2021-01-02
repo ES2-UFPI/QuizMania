@@ -1,48 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using QuizMania.WebAPI.Data;
 using QuizMania.WebAPI.Models;
 
 namespace QuizMania.WebAPI
 {
     public class SqlQuizRepository : IQuizAsyncRepository
     {
-        private readonly QuizContext _context;
+        private readonly DatabaseContext _context;
 
-        public SqlQuizRepository(QuizContext context)
+        public SqlQuizRepository(DatabaseContext context)
         {
             _context = context;
         }
 
-        public Task<IEnumerable<Quiz>> GetAllQuizzesAsync()
+        public async Task<IEnumerable<Quiz>> GetAllQuizzesAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Quizzes.Include(qz => qz.Questions)
+                                         .ThenInclude(q => q.Answers)
+                                         .ToListAsync();
         }
 
         public async Task<Quiz> GetQuizAsync(long id)
         {
-            return await _context.Quizzes.FindAsync(id);
+            return await _context.Quizzes.Include(qz => qz.Questions)
+                                         .ThenInclude(q => q.Answers)
+                                         .FirstOrDefaultAsync(qz => qz.Id == id);
         }
 
-        public Task<Answer> GetAnswerAsync(long id)
+        public async Task<Question> GetQuestionAsync(long id)
         {
-            throw new NotImplementedException();
+            return await _context.Questions.Include(q => q.Answers)
+                                           .FirstOrDefaultAsync(q => q.Id == id);
         }
 
-        public Task<Question> GetQuestionAsync(long id)
+        public async Task<Answer> GetAnswerAsync(long id)
         {
-            throw new NotImplementedException();
+            return await _context.Answers.FindAsync(id);
         }
 
-        public Task<int> SaveChangesAsync()
+        public async Task<int> SaveChangesAsync()
         {
-            throw new NotImplementedException();
-        }
-
-        public void SaveQuizFeedback(QuizFeedback quizFeedback)
-        {
-            throw new NotImplementedException();
+            return await _context.SaveChangesAsync();
         }
     }
 }

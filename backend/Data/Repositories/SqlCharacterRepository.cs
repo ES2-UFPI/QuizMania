@@ -1,27 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using QuizMania.WebAPI.Data;
 using QuizMania.WebAPI.Models;
 
 namespace QuizMania.WebAPI
 {
     public class SqlCharacterRepository : ICharacterAsyncRepository
     {
-        private readonly CharacterContext _characterContext;
+        private readonly DatabaseContext _context;
 
-        public SqlCharacterRepository(CharacterContext characterContext)
+        public SqlCharacterRepository (DatabaseContext context)
         {
-            _characterContext = characterContext;
+            _context = context;
         }
 
         public async Task<IEnumerable<Character>> GetAllCharactersAsync()
         {
-            return await _characterContext.Characters.ToListAsync();
+            return await _context.Characters.ToListAsync();
         }
 
         public async Task<Character> GetCharacterAsync(long id)
         {
-            return await _characterContext.Characters.FindAsync(id);
+            return await _context.Characters.Include(c => c.QuizFeedbacks)
+                                            .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _context.SaveChangesAsync(); ;
         }
     }
 }
