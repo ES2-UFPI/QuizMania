@@ -68,7 +68,12 @@ export default function AvancoNivel({ navigation }) {
                 source={require("../../../../assets/images/success.gif")}
               />
               <Text style={{marginVertical: 30}}>Você avançou de nível!</Text>
-              <Button title="Continuar "/>
+              <Button title="Continuar " onPress={() => {
+                navigation.goBack()
+                navigation.goBack()
+                navigation.goBack()
+                navigation.goBack()
+              }}/>
             </View>
           </View>
         </Modal>
