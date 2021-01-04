@@ -6,11 +6,11 @@ using QuizMania.WebAPI.Models;
 
 namespace QuizMania.WebAPI
 {
-    public class MockCharacterRepository : ICharacterAsyncRepository
+    public class CharacterRepository : ICharacterAsyncRepository
     {
         private readonly DatabaseContext _context;
 
-        public MockCharacterRepository(DatabaseContext context)
+        public CharacterRepository (DatabaseContext context)
         {
             _context = context;
         }
@@ -22,8 +22,8 @@ namespace QuizMania.WebAPI
 
         public async Task<Character> GetCharacterAsync(long id)
         {
-            return await _context.Characters.Include(c=>c.QuizFeedbacks)
-                                            .FirstOrDefaultAsync(c=>c.Id == id);
+            return await _context.Characters.Include(c => c.QuizFeedbacks)
+                                            .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<int> SaveChangesAsync()

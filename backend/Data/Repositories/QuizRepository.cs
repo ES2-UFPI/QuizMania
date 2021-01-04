@@ -6,11 +6,11 @@ using QuizMania.WebAPI.Models;
 
 namespace QuizMania.WebAPI
 {
-    public class SqlQuizRepository : IQuizAsyncRepository
+    public class QuizRepository : IQuizAsyncRepository
     {
         private readonly DatabaseContext _context;
 
-        public SqlQuizRepository(DatabaseContext context)
+        public QuizRepository(DatabaseContext context)
         {
             _context = context;
         }
