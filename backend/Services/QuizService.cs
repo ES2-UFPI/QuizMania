@@ -78,7 +78,7 @@ namespace QuizMania.WebAPI.Services
             quizFb.PercentageOfCorrectChosenAnswers = (float) Math.Round(rightAnswerNumber * 100 / quizFb.Quiz.Questions.Count, 2);
 
             //Save awnsers
-            if ( !(await _characterService.SaveQuizfeedback(quizFb, 1)) )
+            if ( !(await _characterService.SaveQuizfeedback(quizFb, quizFbReceived.CharacterId)) )
                 return null;
             
             //fill with correct answers
