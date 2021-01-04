@@ -9,6 +9,6 @@ namespace QuizMania.WebAPI.Services
     public interface ICharacterService
     {
         Task<CharacterInfoDTO> GetCharacterInfoAsync(long id);
-        Task<bool> SaveQuizfeedback(QuizFeedback quizFeedback, long characterId);
+        Task<bool> SaveQuizfeedback(QuizFeedback quizFeedback);
     }
 }

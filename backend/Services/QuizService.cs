@@ -36,11 +36,13 @@ namespace QuizMania.WebAPI.Services
             float rightAnswerNumber = 0;
 
             QuizFeedback quizFb = new QuizFeedback();
-    
+
             quizFb.Quiz = await _quizRepo.GetQuizAsync(quizFbReceived.QuizId);
             
             if (quizFb.Quiz == null)
                 return null;
+
+            quizFb.Character = new Character() { Id = quizFbReceived.CharacterId };
 
             foreach (var qtAnswerReceived in quizFbReceived.QuestionAnswers)
             {
@@ -78,7 +80,7 @@ namespace QuizMania.WebAPI.Services
             quizFb.PercentageOfCorrectChosenAnswers = (float) Math.Round(rightAnswerNumber * 100 / quizFb.Quiz.Questions.Count, 2);
 
             //Save awnsers
-            if ( !(await _characterService.SaveQuizfeedback(quizFb, quizFbReceived.CharacterId)) )
+            if ( !(await _characterService.SaveQuizfeedback(quizFb)) )
                 return null;
             
             //fill with correct answers

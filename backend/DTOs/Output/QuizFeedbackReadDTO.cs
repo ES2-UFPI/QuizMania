@@ -4,6 +4,8 @@ namespace QuizMania.WebAPI.DTOs
 {
     public class QuizFeedbackReadDTO
     {
+        public long CharacterId { get; set; }
+
         public long QuizId { get; set; }
 
         public ICollection<QuestionAnswerReadDTO> QuestionAnswers { get; set; }

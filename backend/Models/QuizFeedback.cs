@@ -14,7 +14,10 @@ namespace QuizMania.WebAPI.Models
 
         [Key]
         public long Id { get; set; }
-        
+
+        [Required]
+        public Character Character { get; set; }
+
         [Required]
         public Quiz Quiz { get; set; }
 

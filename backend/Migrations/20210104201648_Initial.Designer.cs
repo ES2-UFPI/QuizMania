@@ -9,7 +9,7 @@ using QuizMania.WebAPI.Data;
 namespace QuizMania.WebAPI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20210101175339_Initial")]
+    [Migration("20210104201648_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -151,13 +151,16 @@ namespace QuizMania.WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<long?>("CharacterId")
+                    b.Property<long>("CharacterId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ExperienceGained")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("GoldGained")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("LevelGained")
                         .HasColumnType("INTEGER");
 
                     b.Property<float>("PercentageOfCorrectChosenAnswers")
@@ -227,13 +230,17 @@ namespace QuizMania.WebAPI.Migrations
 
             modelBuilder.Entity("QuizMania.WebAPI.Models.QuizFeedback", b =>
                 {
-                    b.HasOne("QuizMania.WebAPI.Models.Character", null)
+                    b.HasOne("QuizMania.WebAPI.Models.Character", "Character")
                         .WithMany("QuizFeedbacks")
-                        .HasForeignKey("CharacterId");
+                        .HasForeignKey("CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("QuizMania.WebAPI.Models.Quiz", "Quiz")
                         .WithMany()
                         .HasForeignKey("QuizId");
+
+                    b.Navigation("Character");
 
                     b.Navigation("Quiz");
                 });

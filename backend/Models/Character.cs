@@ -35,6 +35,6 @@ namespace QuizMania.WebAPI.Models
         public int Gold { get; set; }
 
         [Required]
-        public ICollection<QuizFeedback> QuizFeedbacks { get; set; }
+        public virtual ICollection<QuizFeedback> QuizFeedbacks { get; set; }
     }
 }

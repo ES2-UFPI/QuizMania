@@ -98,11 +98,12 @@ namespace QuizMania.WebAPI.Migrations
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    CharacterId = table.Column<long>(type: "INTEGER", nullable: false),
                     QuizId = table.Column<long>(type: "INTEGER", nullable: true),
                     PercentageOfCorrectChosenAnswers = table.Column<float>(type: "REAL", nullable: false),
                     GoldGained = table.Column<int>(type: "INTEGER", nullable: false),
                     ExperienceGained = table.Column<int>(type: "INTEGER", nullable: false),
-                    CharacterId = table.Column<long>(type: "INTEGER", nullable: true)
+                    LevelGained = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -112,7 +113,7 @@ namespace QuizMania.WebAPI.Migrations
                         column: x => x.CharacterId,
                         principalTable: "Characters",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_QuizFeedbacks_Quizzes_QuizId",
                         column: x => x.QuizId,

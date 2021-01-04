@@ -25,13 +25,14 @@ namespace QuizMania.WebAPI.Services
             return _mapper.Map<CharacterInfoDTO>(await _characterRepo.GetCharacterAsync(id));
         } 
 
-        public async Task<bool> SaveQuizfeedback(QuizFeedback quizFeedback, long characterId)
+        public async Task<bool> SaveQuizfeedback(QuizFeedback quizFeedback)
         {
-            var character = await _characterRepo.GetCharacterAsync(characterId);
+            var character = await _characterRepo.GetCharacterAsync(quizFeedback.Character.Id);
 
             if (character == null)
                 return false;
 
+            quizFeedback.Character = character;
             character.QuizFeedbacks.Add(quizFeedback);
             
             if(character.QuizFeedbacks.Where(q => q.Quiz.Id == quizFeedback.Quiz.Id).Count() == 1)
