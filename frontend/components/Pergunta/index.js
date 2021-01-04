@@ -118,7 +118,7 @@ export default function Pergunta({
               try{
                 submitRespostas()
                 alert("Ok!")
-                //navigation.navigate("Progressão")
+                navigation.navigate("XP Ganho")
               } catch(error) {
                 alert(error.toString())
               }

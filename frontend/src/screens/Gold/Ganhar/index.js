@@ -45,7 +45,7 @@ export default function XpGanho({ navigation }) {
           title="Continuar"
           onPress={() => {
             if(true) {
-              navigation.navigate("Gold Ganho")
+              navigation.navigate("Progressão")
             } else {
               navigation.goBack();
               
