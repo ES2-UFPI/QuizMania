@@ -29,5 +29,8 @@ namespace QuizMania.WebAPI.Models
 
         [Required]
         public int ExperienceGained { get; set; }
+
+        [Required]
+        public int LevelGained { get; set; }
     }
 }

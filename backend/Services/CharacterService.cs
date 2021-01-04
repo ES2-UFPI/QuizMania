@@ -39,8 +39,12 @@ namespace QuizMania.WebAPI.Services
                 quizFeedback.ExperienceGained = (int)quizFeedback.PercentageOfCorrectChosenAnswers;
                 quizFeedback.GoldGained = (int)quizFeedback.PercentageOfCorrectChosenAnswers;
 
+                var prevLevel = character.Level;
+
                 character.TotalXP += quizFeedback.ExperienceGained;
                 character.Gold += quizFeedback.GoldGained;
+
+                quizFeedback.LevelGained = character.Level - prevLevel;
             }
 
             await _characterRepo.SaveChangesAsync();

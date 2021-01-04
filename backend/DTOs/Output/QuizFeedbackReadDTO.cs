@@ -13,5 +13,7 @@ namespace QuizMania.WebAPI.DTOs
         public int GoldGained { get; set; }
 
         public int ExperienceGained { get; set; }
+
+        public int LevelGained { get; set; }
     }
 }
