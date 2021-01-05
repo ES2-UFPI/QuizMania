@@ -52,7 +52,7 @@ namespace QuizMania.WebAPI
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("v1/swagger.json", "QuizMania Web API v0.1.2");
+                c.SwaggerEndpoint("v1/swagger.json", "QuizMania Web API v0.1.3");
             });
 
             app.UseHttpsRedirection();
