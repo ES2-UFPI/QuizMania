@@ -9,7 +9,7 @@ using QuizMania.WebAPI.Data;
 namespace QuizMania.WebAPI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20210104201648_Initial")]
+    [Migration("20210105235826_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -95,6 +95,34 @@ namespace QuizMania.WebAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Characters");
+                });
+
+            modelBuilder.Entity("QuizMania.WebAPI.Models.GoldExpense", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("CharacterId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("ExpenseAuthorized")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ExpenseRequested")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RemainingGold")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("ResquestTime")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CharacterId");
+
+                    b.ToTable("GoldExpense");
                 });
 
             modelBuilder.Entity("QuizMania.WebAPI.Models.Question", b =>
@@ -215,6 +243,15 @@ namespace QuizMania.WebAPI.Migrations
                         .HasForeignKey("QuestionId");
                 });
 
+            modelBuilder.Entity("QuizMania.WebAPI.Models.GoldExpense", b =>
+                {
+                    b.HasOne("QuizMania.WebAPI.Models.Character", null)
+                        .WithMany("GoldExpenses")
+                        .HasForeignKey("CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("QuizMania.WebAPI.Models.QuestionAnswer", b =>
                 {
                     b.HasOne("QuizMania.WebAPI.Models.Question", "Question")
@@ -247,6 +284,8 @@ namespace QuizMania.WebAPI.Migrations
 
             modelBuilder.Entity("QuizMania.WebAPI.Models.Character", b =>
                 {
+                    b.Navigation("GoldExpenses");
+
                     b.Navigation("QuizFeedbacks");
                 });
 
