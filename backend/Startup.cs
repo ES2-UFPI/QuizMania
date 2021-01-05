@@ -6,6 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using QuizMania.WebAPI.Services;
+using Microsoft.Data.Sqlite;
+using QuizMania.WebAPI.Data;
 
 namespace QuizMania.WebAPI
 {
@@ -17,16 +20,22 @@ namespace QuizMania.WebAPI
         }
 
         public IConfiguration Configuration { get; }
-
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<IQuizAsyncRepository, MockQuizRepository>();
 
-            //services.AddDbContext<QuizContext>(opt => { opt.UseInMemoryDatabase("InMemory Quizzes Database"); });
-            //services.AddDbContext<QuizContext>(opt => { opt.UseSqlServer(Configuration.GetConnectionString("AzureSqlConnection")); });
-            services.AddDbContext<QuizContext>(opt => { opt.UseSqlite(Configuration.GetConnectionString("SqliteInMemoryConnection")); });
+            services.AddScoped<IQuizAsyncRepository, QuizRepository>();
+            services.AddScoped<ICharacterAsyncRepository, CharacterRepository>();
 
+            services.AddScoped<IQuizService, QuizService>();
+            services.AddScoped<ICharacterService, CharacterService>();
+
+            var inMemorySqliteQuizConnection = new SqliteConnection(Configuration.GetConnectionString("SqliteInMemoryConnection"));
+            inMemorySqliteQuizConnection.Open();
+            
+            services.AddDbContext<DatabaseContext>(opt => { opt.UseSqlite(inMemorySqliteQuizConnection); });
+           
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddSwaggerGen();
@@ -43,7 +52,7 @@ namespace QuizMania.WebAPI
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("v1/swagger.json", "QuizMania Web API v0.1.2");
             });
 
             app.UseHttpsRedirection();

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using QuizMania.WebAPI.Data;
 
 namespace QuizMania.WebAPI
 {
@@ -7,7 +8,11 @@ namespace QuizMania.WebAPI
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            DatabaseInitializer.SeedAsync(host).Wait();
+
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace QuizMania.WebAPI.Models
 {
@@ -10,16 +7,16 @@ namespace QuizMania.WebAPI.Models
     {
         public QuestionAnswer()
         {
-            Answers = new HashSet<long>();
+            ChosenAnswers = new HashSet<Answer>();
         }
 
         [Key]
         public int Id { get; set; }
 
         [Required]
-        public virtual long QuestionId { get; set; }
+        public Question Question { get; set; }
 
         [Required]
-        public virtual ICollection<long> Answers { get; set; }
+        public virtual ICollection<Answer> ChosenAnswers { get; set; }
     }
 }

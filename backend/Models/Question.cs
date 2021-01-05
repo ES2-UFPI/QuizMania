@@ -8,7 +8,7 @@ namespace QuizMania.WebAPI.Models
     {
         public Question()
         {
-            Choices = new HashSet<Choice>();
+            Answers = new HashSet<Answer>();
             Quizzes = new HashSet<Quiz>();
         }
 
@@ -20,7 +20,7 @@ namespace QuizMania.WebAPI.Models
         public string Text { get; set; }
 
         [Required]
-        public virtual ICollection<Choice> Choices { get; set; }
+        public virtual ICollection<Answer> Answers { get; set; }
 
         [Required]
         [JsonIgnore]

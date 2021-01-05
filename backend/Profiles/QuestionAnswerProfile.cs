@@ -8,8 +8,7 @@ namespace QuizMania.WebAPI.Profiles
     {
         public QuestionAnswerProfile()
         {
-            CreateMap<QuestionAnswerDTO, QuestionAnswer>();
-            CreateMap<QuestionAnswer, QuestionAnswerDTO>();
+            CreateMap<QuestionAnswer, QuestionAnswerReadDTO>().ForMember(dest => dest.ChosenAnswerIds, opt => opt.MapFrom(src=> src.ChosenAnswers));
         }
     }
 }

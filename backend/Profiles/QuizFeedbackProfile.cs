@@ -9,7 +9,6 @@ namespace QuizMania.WebAPI.Profiles
         public QuizFeedbackProfile()
         {
             CreateMap<QuizFeedback, QuizFeedbackReadDTO>();
-            CreateMap<QuizFeedbackReceivedDTO, QuizFeedback>();
         }
     }
 }

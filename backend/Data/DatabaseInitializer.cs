@@ -1,19 +1,37 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using QuizMania.WebAPI.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using QuizMania.WebAPI.Models;
 
-namespace QuizMania.WebAPI
+namespace QuizMania.WebAPI.Data
 {
-    public class MockQuizRepository : IQuizAsyncRepository
+    public static class DatabaseInitializer
     {
-        private readonly QuizContext _context;
-
-        public MockQuizRepository(QuizContext context)
+        private static async Task ContextSeeder(DatabaseContext context)
         {
-            _context = context;
+            context.Database.EnsureCreated();
 
+            // mock characters
+            context.Add(new Character()
+            {
+                Id = 1,
+                Name = "Gandalf",
+                TotalXP = 5,
+                Gold = 10,
+                HealthPoints = 100,
+            });
+
+            context.Add(new Character()
+            {
+                Id = 2,
+                Name = "Jurema",
+                TotalXP = 55,
+                Gold = 70,
+                HealthPoints = 80,
+            });
+
+            // mock quizzes
             var quiz1 = new Quiz()
             {
                 Id = 1,
@@ -28,30 +46,30 @@ namespace QuizMania.WebAPI
             {
                 Id = 1,
                 Text = "What is the answer to the meaning of life, the universe and everything?",
-                Choices = new List<Choice>()
+                Answers = new List<Answer>()
                 {
-                    new Choice()
+                    new Answer()
                     {
                         Id = 1,
                         IsCorrect = false,
                         Text = "40",
                     },
 
-                    new Choice()
+                    new Answer()
                     {
                         Id = 2,
                         IsCorrect = false,
                         Text = "41",
                     },
 
-                    new Choice()
+                    new Answer()
                     {
                         Id = 3,
                         IsCorrect = true,
                         Text = "42",
                     },
 
-                    new Choice()
+                    new Answer()
                     {
                         Id = 4,
                         IsCorrect = false,
@@ -64,16 +82,16 @@ namespace QuizMania.WebAPI
             {
                 Id = 2,
                 Text = "This is a true or false question. True or False?",
-                Choices = new List<Choice>()
+                Answers = new List<Answer>()
                         {
-                            new Choice()
+                            new Answer()
                             {
                                 Id = 5,
                                 IsCorrect = true,
                                 Text = "True",
                             },
 
-                            new Choice()
+                            new Answer()
                             {
                                 Id = 6,
                                 IsCorrect = false,
@@ -86,16 +104,16 @@ namespace QuizMania.WebAPI
             {
                 Id = 3,
                 Text = "All options are correct. Which options are correct?",
-                Choices = new List<Choice>()
+                Answers = new List<Answer>()
                         {
-                            new Choice()
+                            new Answer()
                             {
                                 Id = 7,
                                 IsCorrect = true,
                                 Text = "A",
                             },
 
-                            new Choice()
+                            new Answer()
                             {
                                 Id = 8,
                                 IsCorrect = true,
@@ -111,29 +129,19 @@ namespace QuizMania.WebAPI
             quiz2.Questions.Add(question3);
             quiz2.Questions.Add(question2);
 
-            question1.Quizzes.Add(quiz1);
+            context.Quizzes.Add(quiz1);
+            context.Quizzes.Add(quiz2);
 
-            question2.Quizzes.Add(quiz1);
-            question2.Quizzes.Add(quiz2);
-
-            question3.Quizzes.Add(quiz1);
-            question3.Quizzes.Add(quiz2);
-
-            _context.Quizzes.Add(quiz1);
-            _context.Quizzes.Add(quiz2);
-
-            _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
-
-        public async Task<IEnumerable<Quiz>> GetAllQuizzesAsync()
+        public static async Task SeedAsync(IHost host)
         {
-            return await _context.Quizzes.ToListAsync();
-        }
-
-        public async Task<Quiz> GetQuizAsync(long id)
-        {
-            return await _context.Quizzes.FindAsync(id);
+            using (var scope = host.Services.CreateScope())
+            using (var context = scope.ServiceProvider.GetService<DatabaseContext>())
+            {
+                await ContextSeeder(context);
+            }
         }
     }
 }
