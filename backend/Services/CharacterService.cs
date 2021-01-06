@@ -52,5 +52,29 @@ namespace QuizMania.WebAPI.Services
 
             return true;
         }
+
+        public async Task<GoldExpenseRequestResultDTO> TryExpendGold(GoldExpenseRequestDTO expenseRequest)
+        {
+            var character = await _characterRepo.GetCharacterAsync(expenseRequest.CharacterId);
+
+            if (character == null)
+                return null;
+
+            var expense = _mapper.Map<GoldExpense>(expenseRequest);
+
+            expense.ResquestTime = DateTime.Now;
+            expense.ExpenseAuthorized = character.Gold >= expenseRequest.ExpenseRequested;
+
+            if (expense.ExpenseAuthorized)
+            {
+                character.Gold -= expenseRequest.ExpenseRequested;
+            }
+
+            expense.RemainingGold = character.Gold;
+
+            _characterRepo.SaveChangesAsync();
+
+            return _mapper.Map<GoldExpenseRequestResultDTO>(expense);
+        }
     }
 }

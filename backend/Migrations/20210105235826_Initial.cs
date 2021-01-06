@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace QuizMania.WebAPI.Migrations
 {
@@ -45,6 +46,29 @@ namespace QuizMania.WebAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Quizzes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GoldExpense",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CharacterId = table.Column<long>(type: "INTEGER", nullable: false),
+                    ResquestTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ExpenseRequested = table.Column<int>(type: "INTEGER", nullable: false),
+                    ExpenseAuthorized = table.Column<bool>(type: "INTEGER", nullable: false),
+                    RemainingGold = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GoldExpense", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GoldExpense_Characters_CharacterId",
+                        column: x => x.CharacterId,
+                        principalTable: "Characters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -183,6 +207,11 @@ namespace QuizMania.WebAPI.Migrations
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GoldExpense_CharacterId",
+                table: "GoldExpense",
+                column: "CharacterId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_QuestionAnswers_QuestionId",
                 table: "QuestionAnswers",
                 column: "QuestionId");
@@ -212,6 +241,9 @@ namespace QuizMania.WebAPI.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AnswerQuestionAnswer");
+
+            migrationBuilder.DropTable(
+                name: "GoldExpense");
 
             migrationBuilder.DropTable(
                 name: "QuestionQuiz");

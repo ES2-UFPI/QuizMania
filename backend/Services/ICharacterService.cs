@@ -10,5 +10,6 @@ namespace QuizMania.WebAPI.Services
     {
         Task<CharacterInfoDTO> GetCharacterInfoAsync(long id);
         Task<bool> SaveQuizfeedback(QuizFeedback quizFeedback);
+        Task<GoldExpenseRequestResultDTO> TryExpendGold(GoldExpenseRequestDTO expenseRequest);
     }
 }
