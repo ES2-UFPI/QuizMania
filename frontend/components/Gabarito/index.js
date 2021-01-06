@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import ResponsiveList from '../ResponsiveList'
-export default function Gabarito({ perguntas, respostas, detalharPergunta }) {
+export default function Gabarito({ perguntas, respostas, detalharPergunta, percentageOfCorrectChosenAnswers }) {
   const [indexSelecionado, setIndexSelecionado] = useState(undefined);
 
   function isEqual(first, second) {
@@ -17,7 +17,7 @@ export default function Gabarito({ perguntas, respostas, detalharPergunta }) {
   }
   return (
     <View style={styles.container}>
-      <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}>Você acertou {"33,33%"} do quiz!</Text>
+      <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}>Você acertou {`${percentageOfCorrectChosenAnswers}%`} do quiz!</Text>
       <ResponsiveList>
         {perguntas.map((item, index) => (
           <TouchableOpacity
@@ -31,7 +31,7 @@ export default function Gabarito({ perguntas, respostas, detalharPergunta }) {
                 styles.pergunta,
                 indexSelecionado == index
                   ? { backgroundColor: "gray" }
-                  : isEqual(respostas[item.question.id], item.answersId)
+                  : isEqual(respostas[item.question.id], item.chosenAnswerIds)
                   ? { backgroundColor: "green" }
                   : { backgroundColor: "red" },
               ]}

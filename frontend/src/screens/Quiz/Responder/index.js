@@ -14,7 +14,8 @@ export default function responderQuiz({ navigation, route }) {
   const [gabaritoVisivel, setGabaritoVisivel] = useState(false);
   const [perguntaGabarito, setPerguntaGabarito] = useState(undefined);
   const [perguntasGabarito, setPerguntasGabarito] = useState(undefined);
-
+  const [percentage, setPercentage] = useState(0)
+  const [paramsToRoute, setParamsToRoute] = useState({})
   useEffect(() => {
     const focusListener = navigation.addListener("focus", () => {
       // Call ur function here.. or add logic.
@@ -38,14 +39,19 @@ export default function responderQuiz({ navigation, route }) {
       respostaTemp['questionId'] = key
       respostaTemp['answerIds'] = respostas[key]
       respostasToSubmit.questionAnswers.push(respostaTemp)
-      console.log(key + ": " + respostas[key]);
+      //console.log(key + ": " + respostas[key]);
     });
     respostasToSubmit['quizId'] = quiz.id
-    console.log(respostasToSubmit)
+    console.log(JSON.stringify(respostasToSubmit))
 
     const data = await API.responderQuiz(respostasToSubmit)
-    console.log(data)
-
+    console.log(JSON.stringify(data))
+    setPercentage(data.percentageOfCorrectChosenAnswers)
+    setParamsToRoute({
+      xpGanho: data.experienceGained,
+      goldGanho: data.goldGained,
+      nivelGanho: data.levelGained
+    })
     setPerguntasGabarito(data.questionAnswers)
     setGabaritoVisivel(true)
   }
@@ -54,32 +60,31 @@ export default function responderQuiz({ navigation, route }) {
     const novasRespostas = respostas;
     novasRespostas[pergunta] = resposta;
     setRespostas(novasRespostas);
-    // console.log(respostas);
+    // //console.log(respostas);
     if (perguntaAtual < perguntas.length - 1)
       setPerguntaAtual(perguntaAtual + 1);
   }
   function alterPerguntaGabarito(id) {
-    console.log(perguntasGabarito)
+    //console.log(perguntasGabarito)
     setPerguntaGabarito(perguntasGabarito.find((item) => item.question.id == id));
   }
 
 
 
   function isCorrect(alternativa, pergunta) {
-    console.log(alternativa)
-    console.log(pergunta)
+    //console.log(alternativa)
+    //console.log(pergunta)
     const contexto = pergunta
     const idPergunta = pergunta.question ? pergunta.question.id : pergunta.id
-    const correct = contexto.answersId ? contexto.answersId.includes(alternativa.id) : false
-    console.log(correct)
+    const correct = contexto.chosenAnswerIds ? contexto.chosenAnswerIds.includes(alternativa.id) : false
+    //console.log(correct)
     return correct
     
   }
 
   const numColumns = 10;
   return (
-    <Container>
-      <Header />
+    <Container navigation={navigation} >
       {perguntaAtual != undefined && !gabaritoVisivel && (
         <React.Fragment>
           {perguntaAtual > 0 && (
@@ -110,8 +115,10 @@ export default function responderQuiz({ navigation, route }) {
       )}
       {gabaritoVisivel && (
         <Gabarito
+        navigation={navigation}
           perguntas={perguntasGabarito}
           respostas={respostas}
+          percentageOfCorrectChosenAnswers={percentage}
           detalharPergunta={alterPerguntaGabarito.bind(this)}
         />
       )}
@@ -138,6 +145,8 @@ export default function responderQuiz({ navigation, route }) {
           data={perguntaGabarito}
           responder={() => {}}
           readOnly
+          navigation={navigation}
+          paramRota={paramsToRoute}
           resposta={respostas[perguntaGabarito.question.id]}
           isCorrect={isCorrect.bind(this)}
         />

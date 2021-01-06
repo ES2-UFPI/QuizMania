@@ -1,9 +1,9 @@
 import React from "react";
 
-import { Image, View, Text } from "react-native";
+import { Image, View, Text, AsyncStorage } from "react-native";
 
 import { Card, Button } from "react-native-elements";
-
+import API from '../../services'
 export default function CardItem({index}) {
   return (
     <Card containerStyle={{ width: 130 }}>
@@ -31,7 +31,7 @@ export default function CardItem({index}) {
             marginBottom: 5,
           }}
         >
-          {index * 600}
+          {index * 2}
         </Text>
         <Image
           source={require("../../assets/images/moeda.png")}
@@ -42,7 +42,32 @@ export default function CardItem({index}) {
       <Button
         title="Obter"
         type="clear"
-        onPress={() => alert("Obtendo item..." + index)}
+        onPress={async () => {
+          // alert("Obtendo item..." + index)
+          try {
+            const response = await API.gastarGold({"expenseRequested": index*2})
+            if(response.expenseAuthorized) {
+              let data = JSON.parse(await AsyncStorage.getItem("data"))
+              if (data) {
+                const {goldLocal, vidaLocal} = data
+                data.goldLocal -= index * 2
+                data.vidaLocal += index
+                await AsyncStorage.setItem("data", JSON.stringify(data))
+              } else {
+                data = {}
+                data['goldLocal'] = index * 2
+                data['vidaLocal'] = index
+                await AsyncStorage.setItem("data", JSON.stringify(data))
+              }
+              alert("Compra efetuada com sucesso!")
+              } else {
+                alert("Saldo inscuficiente!")
+              }
+          } catch(error) {
+            console.log(error)
+            alert("Ocorreu um erro na compra...")
+          }
+        }}
       />
     </Card>
   );

@@ -37,14 +37,27 @@ class ApiConnection {
   }
 
   async responderQuiz(data) {
+    data["characterId"] = 1
     try {
+      console.log(data)
       const response = await this.api.post(`quiz/`, data);
       return response.data;
     } catch (error) {
-      alert(error.toString()) 
+      //alert(error)
+      console.log("error: ", error.response) 
     }
   }
 
+  async gastarGold (data) {
+    data["characterId"] = 1
+    try {
+      const response = await this.api.post(`expendGold/`, data);
+      
+      return response.data;
+    } catch (error) {
+      throw error
+    }
+  }
 }
 
 export default new ApiConnection();
