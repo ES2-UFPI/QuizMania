@@ -35,7 +35,7 @@ namespace QuizMania.WebAPI.Services
             quizFeedback.Character = character;
             character.QuizFeedbacks.Add(quizFeedback);
             
-            if(character.QuizFeedbacks.Where(q => q.Quiz.Id == quizFeedback.Quiz.Id).Count() == 1)
+            if(character.QuizFeedbacks.Where(c => c.Quiz.Id == quizFeedback.Quiz.Id).Count() == 1)
             {
                 quizFeedback.ExperienceGained = (int)quizFeedback.PercentageOfCorrectChosenAnswers;
                 quizFeedback.GoldGained = (int)quizFeedback.PercentageOfCorrectChosenAnswers;
