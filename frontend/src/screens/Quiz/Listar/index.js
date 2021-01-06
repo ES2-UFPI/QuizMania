@@ -24,8 +24,7 @@ export default function ListarQuizzes({navigation}) {
 
   const numColumns = 10;
   return (
-    <Container>
-      <Header />
+    <Container navigation={navigation} >
       <FlatList
         data={quizzes}
         renderItem={({ item, index }) => (

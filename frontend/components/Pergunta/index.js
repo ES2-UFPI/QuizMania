@@ -13,6 +13,7 @@ export default function Pergunta({
   setGabaritoVisivel,
   submitRespostas,
   isCorrect,
+  paramRota,
   navigation
 }) {
   const [loadingResposta, setLoadingResposta] = useState(false)
@@ -53,7 +54,7 @@ export default function Pergunta({
       }
     }
     setAlternativasSelecionadas(respostasTemp);
-    // console.log(respostasTemp);
+    // //console.log(respostasTemp);
   }
 
   function mapChoices(choices) {
@@ -87,7 +88,7 @@ export default function Pergunta({
         {readOnly ? data.question.text : perguntaAtual + " - " + data.text}
       </Text>
       <View style={styles.containerRespostas}>
-        {data.choices ? mapChoices(data.choices) : mapChoices(data.question.choices)}
+        {data.answers ? mapChoices(data.answers) : mapChoices(data.question.answers)}
       </View>
       {!readOnly && proximaPergunta ? (
         <Button
@@ -118,7 +119,7 @@ export default function Pergunta({
               try{
                 submitRespostas()
                 alert("Ok!")
-                navigation.navigate("XP Ganho")
+//                navigation.navigate("Gabarito")
               } catch(error) {
                 alert(error.toString())
               }
@@ -127,7 +128,17 @@ export default function Pergunta({
               alert("Ops... Você deve selecionar pelo menos uma alternativa.");
           }}
         />
-      ) : undefined}
+      ) : (<Button
+        title="Continuar"
+        type="outline"
+        containerStyle={{ alignSelf: "center" }}
+        buttonStyle={{ borderRadius: 20 }}
+        loading={loadingResposta}
+        onPress={() => {
+          navigation.navigate("XP Ganho", {dados: paramRota})
+        }}
+      />
+    ) }
     </View>
   );
 }

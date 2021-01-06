@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react";
-import { View, StyleSheet, Image, ImageBackground, Text } from "react-native";
+import { View, StyleSheet, Image, ImageBackground, Text, AsyncStorage } from "react-native";
 import { BACKGROUND_COLOR } from "../../constants";
 import API from '../../services'
-export default function Header() {
+export default function Header({navigation}) {
 
   const [personagem, setPersonagem] = useState({})
 
@@ -10,15 +10,22 @@ export default function Header() {
   useEffect(() => {
     getData();
 
-  }, [])
+  }, [navigation])
 
 
   async function getData() {
     try {
       const data = await API.obterPersonagem({})
+      const dataLocal =  JSON.parse(await AsyncStorage.getItem("data"))
+      let extra = 0;
+      if(dataLocal) {
+        extra = dataLocal.vidaLocal
+      }
+      data.healthPoints += extra
+      //console.log(data)
       setPersonagem(data)
     } catch (error) {
-      alert(error.toString())
+      alert(error)
     }
   }
 
@@ -33,8 +40,12 @@ export default function Header() {
           justifyContent: "center",
         }}
       >
-        {personagem.gold && <Text style={styles.textImage}>{personagem.gold}</Text>}
+        {personagem && <Text style={styles.textImage}>{personagem.gold }</Text>}
       </ImageBackground>
+      <Text onPress={() => {
+        alert("atualizando..")
+        getData()
+        }}>Atualizar dados</Text>
       <ImageBackground
         source={require("../../assets/images/vidas.png")}
         style={{
@@ -44,7 +55,7 @@ export default function Header() {
           justifyContent: "center",
         }}
       >
-        {personagem.healthPoints &&  <Text style={styles.textImage}>{personagem.healthPoints}</Text>}
+        {personagem && <Text style={styles.textImage}>{personagem.healthPoints}</Text>}
       </ImageBackground>
     </View>
   );

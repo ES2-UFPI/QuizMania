@@ -16,12 +16,12 @@ import LottieView from "lottie-react-native";
 
 export default function AvancoNivel({ navigation }) {
   const [xpAtual, setXpAtual] = useState(300);
-  const [rendernew, setRendernew] = useState(false);
   const [xpMax, setxpMax] = useState(600);
   function isNextLevel() {
     return xpAtual + 300 >= xpMax;
   }
-
+  
+  const [rendernew, setRendernew] = useState(false);
   useEffect(() => {
     setTimeout(() => {
       setRendernew(true);
@@ -35,8 +35,7 @@ export default function AvancoNivel({ navigation }) {
   }
 
   return (
-    <Container notscroll>
-      <Header />
+    <Container  notscroll>
       <View style={styles.centeredView}>
         <Modal
           animationType="fade"
