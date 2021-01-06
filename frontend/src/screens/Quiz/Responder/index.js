@@ -37,7 +37,7 @@ export default function responderQuiz({ navigation, route }) {
     Object.keys(respostas).forEach(function (key) {
       const respostaTemp = {}
       respostaTemp['questionId'] = key
-      respostaTemp['answerIds'] = respostas[key]
+      respostaTemp['chosenAnswerIds'] = respostas[key]
       respostasToSubmit.questionAnswers.push(respostaTemp)
       //console.log(key + ": " + respostas[key]);
     });

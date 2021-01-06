@@ -42,6 +42,10 @@ export default function Header({navigation}) {
       >
         {personagem && <Text style={styles.textImage}>{personagem.gold }</Text>}
       </ImageBackground>
+      <Text onPress={() => {
+        alert("atualizando..")
+        getData()
+        }}>Atualizar dados</Text>
       <ImageBackground
         source={require("../../assets/images/vidas.png")}
         style={{
