@@ -39,6 +39,18 @@ namespace QuizMania.WebAPI.Controllers
             return quizFeedback != null ? Ok(quizFeedback) : NotFound();
         }
 
+        [HttpDelete]
+        public async Task<ActionResult<DeleteQuizRequestResultDTO>> DeleteQuiz(DeleteQuizRequestDTO deleteRequest)
+        {
+            var result = await _quizService.DeleteQuiz(deleteRequest);
+            switch (result._result)
+            {
+                case DeleteQuizRequestResultDTO.RequestResult.Success: return Ok(result);
+                case DeleteQuizRequestResultDTO.RequestResult.QuizNotFound: return NotFound(result);
+                default: return BadRequest(result);
+            }
+        }
+
         //// PUT: api/Quiz/5
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         //[HttpPut("{id}")]

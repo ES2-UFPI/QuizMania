@@ -31,6 +31,20 @@ namespace QuizMania.WebAPI
                                          .FirstOrDefaultAsync(qz => qz.Id == id);
         }
 
+        public async Task<bool> DeleteQuizAsync(long id)
+        {
+            var quiz = await _context.Quizzes.FindAsync(id);
+            if (quiz == null)
+            {
+                return false;
+            }
+
+            _context.Quizzes.Remove(quiz);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
         public async Task<Question> GetQuestionAsync(long id)
         {
             return await _context.Questions.Include(q => q.Answers)
