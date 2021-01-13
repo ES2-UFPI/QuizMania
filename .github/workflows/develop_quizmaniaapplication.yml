@@ -6,7 +6,7 @@ name: Build and deploy ASP.Net Core app to Azure Web App - quizmaniaapplication
 on:
   push:
     branches:
-      - develop
+      - develop/feature/azure-ci-cd_#53
 
 jobs:
   build-and-deploy:
