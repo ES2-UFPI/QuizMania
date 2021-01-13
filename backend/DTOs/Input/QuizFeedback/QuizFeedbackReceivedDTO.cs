@@ -1,7 +1,7 @@
 ﻿using QuizMania.WebAPI.DTOs;
 using System.Collections.Generic;
 
-namespace QuizMania.WebAPI.DTOs
+namespace QuizMania.WebAPI.DTOs.Input
 {
     public class QuizFeedbackReceivedDTO
     {

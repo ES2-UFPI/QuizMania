@@ -56,6 +56,11 @@ namespace QuizMania.WebAPI
             return await _context.Answers.FindAsync(id);
         }
 
+        public void AddQuiz(Quiz quiz)
+        {
+            _context.Quizzes.Add(quiz);
+        }
+
         public async Task<int> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync();

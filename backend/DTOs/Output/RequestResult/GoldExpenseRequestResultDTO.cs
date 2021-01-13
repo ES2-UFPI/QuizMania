@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QuizMania.WebAPI.DTOs
+namespace QuizMania.WebAPI.DTOs.Output
 {
     public class GoldExpenseRequestResultDTO
     {
