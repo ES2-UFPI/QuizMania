@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using QuizMania.WebAPI.DTOs;
+using QuizMania.WebAPI.DTOs.Input;
+using QuizMania.WebAPI.DTOs.Output;
 using QuizMania.WebAPI.Services;
 
 

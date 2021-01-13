@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using QuizMania.WebAPI.DTOs.Input;
+using QuizMania.WebAPI.DTOs.Output;
 using QuizMania.WebAPI.DTOs;
 using System.Threading.Tasks;
 using QuizMania.WebAPI.Services;
@@ -31,11 +33,17 @@ namespace QuizMania.WebAPI.Controllers
             return quiz != null ? Ok(quiz) : NotFound();
         }
 
-        //POST: api/Quiz/
         [HttpPost]
-        public async Task<ActionResult<QuizFeedbackReceivedDTO>> PostQuizFeedback(QuizFeedbackReceivedDTO quizReceived)
+        public async Task<ActionResult<QuizReadDTO>> PostQuiz(QuizReceivedDTO quizReceived)
         {
-            var quizFeedback = await _quizService.SaveQuizAnswer(quizReceived);
+            var quiz = await _quizService.SaveQuizAsync(quizReceived);
+            return quiz != null ? Ok(quiz) : NotFound();
+        }
+
+        [HttpPost("quiz-feedback")]
+        public async Task<ActionResult<QuizFeedbackReadDTO>> PostQuizFeedback(QuizFeedbackReceivedDTO quizFbReceived)
+        {
+            var quizFeedback = await _quizService.SaveQuizAnswerAsync(quizFbReceived);
             return quizFeedback != null ? Ok(quizFeedback) : NotFound();
         }
 

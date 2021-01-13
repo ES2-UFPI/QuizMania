@@ -2,7 +2,8 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using QuizMania.WebAPI.Models;
-using QuizMania.WebAPI.DTOs;
+using QuizMania.WebAPI.DTOs.Input;
+using QuizMania.WebAPI.DTOs.Output;
 using System.Linq;
 
 namespace QuizMania.WebAPI.Services

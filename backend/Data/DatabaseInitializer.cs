@@ -15,7 +15,6 @@ namespace QuizMania.WebAPI.Data
             // mock characters
             var char1 = new Character()
             {
-                Id = 1,
                 Name = "Gandalf",
                 TotalXP = 5,
                 Gold = 10,
@@ -24,7 +23,6 @@ namespace QuizMania.WebAPI.Data
 
             var char2 = new Character()
             {
-                Id = 2,
                 Name = "Jurema",
                 TotalXP = 55,
                 Gold = 70,
@@ -49,34 +47,29 @@ namespace QuizMania.WebAPI.Data
 
             var question1 = new Question()
             {
-                Id = 1,
                 Text = "What is the answer to the meaning of life, the universe and everything?",
                 Answers = new List<Answer>()
                 {
                     new Answer()
                     {
-                        Id = 1,
                         IsCorrect = false,
                         Text = "40",
                     },
 
                     new Answer()
                     {
-                        Id = 2,
                         IsCorrect = false,
                         Text = "41",
                     },
 
                     new Answer()
                     {
-                        Id = 3,
                         IsCorrect = true,
                         Text = "42",
                     },
 
                     new Answer()
                     {
-                        Id = 4,
                         IsCorrect = false,
                         Text = "43",
                     },
@@ -85,20 +78,17 @@ namespace QuizMania.WebAPI.Data
 
             var question2 = new Question()
             {
-                Id = 2,
                 Text = "This is a true or false question. True or False?",
                 Answers = new List<Answer>()
                         {
                             new Answer()
                             {
-                                Id = 5,
                                 IsCorrect = true,
                                 Text = "True",
                             },
 
                             new Answer()
                             {
-                                Id = 6,
                                 IsCorrect = false,
                                 Text = "False",
                             },
@@ -107,20 +97,17 @@ namespace QuizMania.WebAPI.Data
 
             var question3 = new Question()
             {
-                Id = 3,
                 Text = "All options are correct. Which options are correct?",
                 Answers = new List<Answer>()
                         {
                             new Answer()
                             {
-                                Id = 7,
                                 IsCorrect = true,
                                 Text = "A",
                             },
 
                             new Answer()
                             {
-                                Id = 8,
                                 IsCorrect = true,
                                 Text = "B",
                             },
