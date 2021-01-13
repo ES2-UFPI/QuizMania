@@ -166,7 +166,12 @@ namespace QuizMania.WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<long?>("OwnerId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Quizzes");
                 });
@@ -261,6 +266,15 @@ namespace QuizMania.WebAPI.Migrations
                         .HasForeignKey("QuizFeedbackId");
 
                     b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("QuizMania.WebAPI.Models.Quiz", b =>
+                {
+                    b.HasOne("QuizMania.WebAPI.Models.Character", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId");
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("QuizMania.WebAPI.Models.QuizFeedback", b =>
