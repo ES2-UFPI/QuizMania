@@ -9,5 +9,6 @@ namespace QuizMania.WebAPI.Services
         Task<IEnumerable<QuizReadDTO>> GetQuizzesAsync();
         Task<QuizReadDTO> GetQuizAsync(long id);
         Task<QuizFeedbackReadDTO> SaveQuizAnswer(QuizFeedbackReceivedDTO quizFbReceived);
+        Task<DeleteQuizRequestResultDTO> DeleteQuiz(DeleteQuizRequestDTO deleteRequest);
     }
 }

@@ -31,6 +31,33 @@ namespace QuizMania.WebAPI.Services
             return _mapper.Map<QuizReadDTO>(await _quizRepo.GetQuizAsync(id));
         }
 
+        public async Task<DeleteQuizRequestResultDTO> DeleteQuiz(DeleteQuizRequestDTO deleteRequest)
+        {
+            var result = new DeleteQuizRequestResultDTO
+            {
+                Request = deleteRequest
+            };
+
+            var quiz = await _quizRepo.GetQuizAsync(deleteRequest.QuizId);
+            
+            if (quiz == null)
+            {
+                result._result = DeleteQuizRequestResultDTO.RequestResult.QuizNotFound;
+                return result;
+            }
+
+            if (quiz.Owner.Id != deleteRequest.CharacterId)
+            {
+                result._result = DeleteQuizRequestResultDTO.RequestResult.CharacterNotOwner;
+                return result;
+            }
+
+            var deleted = await _quizRepo.DeleteQuizAsync(deleteRequest.QuizId);
+            
+            result._result = deleted ? DeleteQuizRequestResultDTO.RequestResult.Success : DeleteQuizRequestResultDTO.RequestResult.BadRequest;
+            return result;
+        }
+
         public async Task<QuizFeedbackReadDTO> SaveQuizAnswer(QuizFeedbackReceivedDTO quizFbReceived)
         {
             float rightAnswerNumber = 0;
