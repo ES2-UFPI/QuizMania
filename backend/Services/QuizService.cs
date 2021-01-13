@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using QuizMania.WebAPI.Models;
+using QuizMania.WebAPI.DTOs.Input;
+using QuizMania.WebAPI.DTOs.Output;
 using QuizMania.WebAPI.DTOs;
 
 namespace QuizMania.WebAPI.Services
@@ -58,7 +60,7 @@ namespace QuizMania.WebAPI.Services
             return result;
         }
 
-        public async Task<QuizFeedbackReadDTO> SaveQuizAnswer(QuizFeedbackReceivedDTO quizFbReceived)
+        public async Task<QuizFeedbackReadDTO> SaveQuizAnswerAsync(QuizFeedbackReceivedDTO quizFbReceived)
         {
             float rightAnswerNumber = 0;
 
@@ -118,6 +120,17 @@ namespace QuizMania.WebAPI.Services
 
             //Return correct answers
             return _mapper.Map<QuizFeedbackReadDTO>(quizFb);
+        }
+
+        public async Task<QuizReadDTO> SaveQuizAsync(QuizReceivedDTO quizReceived)
+        {
+            var quiz = _mapper.Map<Quiz>(quizReceived);
+            
+            _quizRepo.AddQuiz(quiz);
+
+            await _quizRepo.SaveChangesAsync();
+
+            return _mapper.Map<QuizReadDTO>(quiz);
         }
     }
 }

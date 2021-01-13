@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using QuizMania.WebAPI.Models;
 
-namespace QuizMania.WebAPI.DTOs
+namespace QuizMania.WebAPI.DTOs.Output
 {
     public class QuizReadDTO
     {

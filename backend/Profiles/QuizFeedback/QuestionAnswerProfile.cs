@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using QuizMania.WebAPI.Models;
-using QuizMania.WebAPI.DTOs;
+using QuizMania.WebAPI.DTOs.Output;
 
 namespace QuizMania.WebAPI.Profiles
 {

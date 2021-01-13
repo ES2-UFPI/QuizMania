@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using QuizMania.WebAPI.Models;
-using QuizMania.WebAPI.DTOs;
+using QuizMania.WebAPI.DTOs.Input;
+using QuizMania.WebAPI.DTOs.Output;
 
 namespace QuizMania.WebAPI.Profiles
 {
@@ -8,9 +9,8 @@ namespace QuizMania.WebAPI.Profiles
     {
         public GoldExpenseProfile()
         {
-            CreateMap<GoldExpense, GoldExpenseRequestResultDTO>();
-            CreateMap<GoldExpense, GoldExpenseRequestDTO>();
             CreateMap<GoldExpenseRequestDTO, GoldExpense>();
+            CreateMap<GoldExpense, GoldExpenseRequestDTO>();   
         }
     }
 }

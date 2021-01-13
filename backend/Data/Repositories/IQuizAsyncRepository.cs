@@ -11,6 +11,7 @@ namespace QuizMania.WebAPI
         Task<bool> DeleteQuizAsync(long id);
         Task<Question> GetQuestionAsync(long id);
         Task<Answer> GetAnswerAsync(long id);
+        public void AddQuiz(Quiz quiz);
         Task<int> SaveChangesAsync();
     }
 }

@@ -2,7 +2,7 @@
 using QuizMania.WebAPI.Models;
 using AutoMapper;
 
-namespace QuizMania.WebAPI.DTOs
+namespace QuizMania.WebAPI.DTOs.Output
 {
     public class QuestionReadDTO
     {
