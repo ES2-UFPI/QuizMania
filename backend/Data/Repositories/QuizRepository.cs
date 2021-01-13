@@ -17,14 +17,16 @@ namespace QuizMania.WebAPI
 
         public async Task<IEnumerable<Quiz>> GetAllQuizzesAsync()
         {
-            return await _context.Quizzes.Include(qz => qz.Questions)
+            return await _context.Quizzes.Include(o => o.Owner)
+                                         .Include(qz => qz.Questions)
                                          .ThenInclude(q => q.Answers)
                                          .ToListAsync();
         }
 
         public async Task<Quiz> GetQuizAsync(long id)
         {
-            return await _context.Quizzes.Include(qz => qz.Questions)
+            return await _context.Quizzes.Include(o => o.Owner)
+                                         .Include(qz => qz.Questions)
                                          .ThenInclude(q => q.Answers)
                                          .FirstOrDefaultAsync(qz => qz.Id == id);
         }

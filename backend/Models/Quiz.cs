@@ -14,6 +14,9 @@ namespace QuizMania.WebAPI.Models
         public long Id { get; set; }
 
         [Required]
+        public Character Owner { get; set; }
+
+        [Required]
         public virtual ICollection<Question> Questions { get; set; }
     }
 }
