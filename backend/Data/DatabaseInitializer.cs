@@ -13,33 +13,38 @@ namespace QuizMania.WebAPI.Data
             context.Database.EnsureCreated();
 
             // mock characters
-            context.Add(new Character()
+            var char1 = new Character()
             {
                 Id = 1,
                 Name = "Gandalf",
                 TotalXP = 5,
                 Gold = 10,
                 HealthPoints = 100,
-            });
+            };
 
-            context.Add(new Character()
+            var char2 = new Character()
             {
                 Id = 2,
                 Name = "Jurema",
                 TotalXP = 55,
                 Gold = 70,
                 HealthPoints = 80,
-            });
+            };
+
+            context.Characters.Add(char1);
+            context.Characters.Add(char2);
 
             // mock quizzes
             var quiz1 = new Quiz()
             {
                 Id = 1,
+                Owner = char1,
             };
 
             var quiz2 = new Quiz()
             {
                 Id = 2,
+                Owner = char2,
             };
 
             var question1 = new Question()
