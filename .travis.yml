@@ -9,3 +9,6 @@ before_script:
   - cd frontend && npm install -g npm@latest
 script:
   - npm ci
+branches:
+  only:
+  - develop
