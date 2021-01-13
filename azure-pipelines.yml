@@ -5,7 +5,7 @@
 
 trigger:
 - main
-
+  
 pool:
   vmImage: 'windows-latest'
 
@@ -15,9 +15,9 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
- - script: dotnet restore
+- script: dotnet restore
   displayName: 'dotnet restore'
-  
+
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
