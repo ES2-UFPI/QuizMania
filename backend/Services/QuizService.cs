@@ -163,6 +163,51 @@ namespace QuizMania.WebAPI.Services
             return result;
         }
 
+        public async Task<DeleteQuestionResponseDTO> DeleteQuestionAsync(DeleteQuestionRequestDTO deleteRequest)
+        {
+            var result = new DeleteQuestionResponseDTO()
+            {
+                Request = deleteRequest
+            };
+
+            var quiz = await _quizRepo.GetQuizAsync(deleteRequest.QuizId);
+
+            if (quiz == null)
+            {
+                result._result = DeleteQuestionResponseDTO.RequestResult.QuizNotFound;
+                return result;
+            }
+
+            if (quiz.Owner.Id != deleteRequest.CharacterId)
+            {
+                result._result = DeleteQuestionResponseDTO.RequestResult.CharacterNotOwner;
+                return result;
+            }
+
+            var question = quiz.Questions.Where(q => q.Id == deleteRequest.QuestionId).FirstOrDefault();
+
+            if (question == null)
+            {
+                result._result = DeleteQuestionResponseDTO.RequestResult.QuestionNotFound;
+                return result;
+            }
+                
+            _quizRepo.DeleteQuestion(question);
+
+            try
+            {
+                await _quizRepo.SaveChangesAsync();
+                result._result = DeleteQuestionResponseDTO.RequestResult.Success;
+
+            }
+            catch (Exception)
+            {
+                result._result = DeleteQuestionResponseDTO.RequestResult.BadRequest;
+            }
+
+            return result;
+        }
+
         public async Task<SaveQuizFeedbackResponseDTO> SaveQuizFeedbackAsync(SaveQuizFb_QuizFeedbackDTO quizFbReceived)
         {
             float rightAnswerNumber = 0;

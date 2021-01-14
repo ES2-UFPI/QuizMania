@@ -68,6 +68,18 @@ namespace QuizMania.WebAPI.Controllers
             }
         }
 
+        [HttpDelete("question")]
+        public async Task<ActionResult<DeleteQuestionResponseDTO>> DeleteQuestion(DeleteQuestionRequestDTO deleteRequest)
+        {
+            var result = await _quizService.DeleteQuestionAsync(deleteRequest);
+            switch (result._result)
+            {
+                case DeleteQuestionResponseDTO.RequestResult.Success: return Ok(result);
+                case DeleteQuestionResponseDTO.RequestResult.QuizNotFound: return NotFound(result);
+                default: return BadRequest(result);
+            }
+        }
+
         [HttpPost("feedback")]
         public async Task<ActionResult<SaveQuizFeedbackResponseDTO>> PostQuizFeedback(SaveQuizFb_QuizFeedbackDTO quizFbReceived)
         {
