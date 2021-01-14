@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using QuizMania.WebAPI.Models;
-using QuizMania.WebAPI.DTOs;
+using QuizMania.WebAPI.DTOs.Input;
+using QuizMania.WebAPI.DTOs.Output;
 
 namespace QuizMania.WebAPI.Profiles
 {
@@ -10,6 +11,7 @@ namespace QuizMania.WebAPI.Profiles
         {
             CreateMap<Answer, long>().ConvertUsing(c => c.Id);
             CreateMap<Answer, AnswerReadDTO>();
+            CreateMap<SaveQuiz_AnswerDTO, Answer>();
         }
     }
 }

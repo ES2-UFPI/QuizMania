@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using QuizMania.WebAPI.Models;
-using QuizMania.WebAPI.DTOs;
+using QuizMania.WebAPI.DTOs.Input;
+using QuizMania.WebAPI.DTOs.Output;
 
 namespace QuizMania.WebAPI.Profiles
 {
@@ -10,6 +11,7 @@ namespace QuizMania.WebAPI.Profiles
         {
             CreateMap<Question, QuestionReadDTO>()
                 .ForMember(dest => dest.HasMultipleCorrectAnswers, opt => opt.MapFrom<QuestionReadDTO.MultipleCorrectAnswersResolver>());
+            CreateMap<SaveQuiz_QuestionDTO, Question>();
         }
     }
 }

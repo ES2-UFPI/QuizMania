@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using QuizMania.WebAPI.DTOs;
+using QuizMania.WebAPI.DTOs.Input;
+using QuizMania.WebAPI.DTOs.Output;
 using QuizMania.WebAPI.Services;
 
 
@@ -25,8 +25,8 @@ namespace QuizMania.WebAPI.Controllers
             return character != null ? Ok(character) : NotFound();
         }
 
-        [HttpPost("/expendGold")]
-        public async Task<ActionResult<GoldExpenseRequestResultDTO>> TryExpendGold(GoldExpenseRequestDTO expenseRequest)
+        [HttpPost("expendGold")]
+        public async Task<ActionResult<GoldExpenseResponseDTO>> TryExpendGold(GoldExpenseRequestDTO expenseRequest)
         {
             var result = await _characterService.TryExpendGold(expenseRequest);
             return result != null ? Ok(result) : NotFound();

@@ -31,20 +31,6 @@ namespace QuizMania.WebAPI
                                          .FirstOrDefaultAsync(qz => qz.Id == id);
         }
 
-        public async Task<bool> DeleteQuizAsync(long id)
-        {
-            var quiz = await _context.Quizzes.FindAsync(id);
-            if (quiz == null)
-            {
-                return false;
-            }
-
-            _context.Quizzes.Remove(quiz);
-            await _context.SaveChangesAsync();
-
-            return true;
-        }
-
         public async Task<Question> GetQuestionAsync(long id)
         {
             return await _context.Questions.Include(q => q.Answers)
@@ -56,9 +42,19 @@ namespace QuizMania.WebAPI
             return await _context.Answers.FindAsync(id);
         }
 
-        public async Task<int> SaveChangesAsync()
+        public void AddQuiz(Quiz quiz)
         {
-            return await _context.SaveChangesAsync();
+            _context.Quizzes.Add(quiz);
+        }
+
+        public void DeleteQuiz(Quiz quiz)
+        {
+            _context.Quizzes.Remove(quiz);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

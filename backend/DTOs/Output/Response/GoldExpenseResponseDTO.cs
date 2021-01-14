@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace QuizMania.WebAPI.DTOs
+namespace QuizMania.WebAPI.DTOs.Output
 {
-    public class GoldExpenseRequestResultDTO
+    public class GoldExpenseResponseDTO
     {
         public long CharacterId { get; set; }
 
