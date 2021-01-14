@@ -52,6 +52,11 @@ namespace QuizMania.WebAPI
             _context.Quizzes.Remove(quiz);
         }
 
+        public void DeleteQuestion(Question question)
+        {
+            _context.Questions.Remove(question);
+        }
+
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

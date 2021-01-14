@@ -1,22 +1,20 @@
 ﻿namespace QuizMania.WebAPI.DTOs.Output
 {
-    public class SaveQuizFeedbackResponseDTO
+    public class SaveQuestionResponseDTO
     {
         public enum RequestResult
         {
             BadRequest,
             Success,
-            CharacterNotFound,
-            InvalidQuizFeedback,
-            QuizNotFound,
-            QuestionNotFound,
-            AnswerNotFound
+            EmptyAtribute,
+            QuestionWithoutCorrectAnswer,
+            QuizNotFound
         }
 
         internal RequestResult _result { get; set; }
 
         public string Result => _result.ToString();
 
-        public QuizFeedbackReadDTO QuizFeedback { get; set; }
+        public QuestionReadDTO Question { get; set; }
     }
 }

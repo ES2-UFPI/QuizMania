@@ -121,43 +121,134 @@ namespace QuizMania.WebAPI.Services
             return result;
         }
 
+        public async Task<SaveQuestionResponseDTO> SaveQuestionAsync(SaveQuestion_QuestionDTO questionReceived)
+        {
+            var result = new SaveQuestionResponseDTO();
+            
+            var quiz = await _quizRepo.GetQuizAsync(questionReceived.QuizId);
+
+            if (quiz == null)
+            {
+                result._result = SaveQuestionResponseDTO.RequestResult.QuizNotFound;
+                return result;
+            }
+                
+            var question = _mapper.Map<Question>(questionReceived);
+
+            if (question.Answers.Count == 0)
+            {
+                result._result = SaveQuestionResponseDTO.RequestResult.EmptyAtribute;
+                return result;
+            }
+
+            if (!ValidateQuestion(question))
+            {
+                result._result = SaveQuestionResponseDTO.RequestResult.QuestionWithoutCorrectAnswer;
+                return result;
+            }
+            
+            quiz.Questions.Add(question);
+
+            try
+            {
+                await _quizRepo.SaveChangesAsync();
+                result._result = SaveQuestionResponseDTO.RequestResult.Success;
+                result.Question = _mapper.Map<QuestionReadDTO>(question);
+            }
+            catch (Exception)
+            {
+                result._result = SaveQuestionResponseDTO.RequestResult.BadRequest;
+            }
+
+            return result;
+        }
+
+        public async Task<DeleteQuestionResponseDTO> DeleteQuestionAsync(DeleteQuestionRequestDTO deleteRequest)
+        {
+            var result = new DeleteQuestionResponseDTO()
+            {
+                Request = deleteRequest
+            };
+
+            var quiz = await _quizRepo.GetQuizAsync(deleteRequest.QuizId);
+
+            if (quiz == null)
+            {
+                result._result = DeleteQuestionResponseDTO.RequestResult.QuizNotFound;
+                return result;
+            }
+
+            if (quiz.Owner.Id != deleteRequest.CharacterId)
+            {
+                result._result = DeleteQuestionResponseDTO.RequestResult.CharacterNotOwner;
+                return result;
+            }
+
+            var question = quiz.Questions.Where(q => q.Id == deleteRequest.QuestionId).FirstOrDefault();
+
+            if (question == null)
+            {
+                result._result = DeleteQuestionResponseDTO.RequestResult.QuestionNotFound;
+                return result;
+            }
+                
+            _quizRepo.DeleteQuestion(question);
+
+            try
+            {
+                await _quizRepo.SaveChangesAsync();
+                result._result = DeleteQuestionResponseDTO.RequestResult.Success;
+
+            }
+            catch (Exception)
+            {
+                result._result = DeleteQuestionResponseDTO.RequestResult.BadRequest;
+            }
+
+            return result;
+        }
+
         public async Task<SaveQuizFeedbackResponseDTO> SaveQuizFeedbackAsync(SaveQuizFb_QuizFeedbackDTO quizFbReceived)
         {
             float rightAnswerNumber = 0;
 
             var result = new SaveQuizFeedbackResponseDTO();
 
-            QuizFeedback quizFb = new QuizFeedback();
+            QuizFeedback quizFb = new QuizFeedback()
+            {
+                Character = new Character() { Id = quizFbReceived.CharacterId },
+                Quiz = await _quizRepo.GetQuizAsync(quizFbReceived.QuizId),
+            };
 
-            quizFb.Quiz = await _quizRepo.GetQuizAsync(quizFbReceived.QuizId);
-            
             if (quizFb.Quiz == null)
             {
                 result._result = SaveQuizFeedbackResponseDTO.RequestResult.QuizNotFound;
                 return result;
             }
 
-            if(quizFb.Quiz.Questions.Count != quizFbReceived.QuestionAnswers.Count)
+            if(quizFb.Quiz.Questions.Count != quizFbReceived.QuestionAnswers.Count ||
+               quizFbReceived.QuestionAnswers.GroupBy(qa => qa.QuestionId).Any(q => q.Count() > 1))
             {
                 result._result = SaveQuizFeedbackResponseDTO.RequestResult.InvalidQuizFeedback;
                 return result;
             }
-                
-            quizFb.Character = new Character() { Id = quizFbReceived.CharacterId };
-
+                       
             foreach (var qtAnswerReceived in quizFbReceived.QuestionAnswers)
             {
-                var qtAnswer = new QuestionAnswer();
+                var qtAnswer = new QuestionAnswer()
+                {
+                    Question = quizFb.Quiz.Questions.Where(q => q.Id == qtAnswerReceived.QuestionId).FirstOrDefault()
+                };
 
-                qtAnswer.Question = quizFb.Quiz.Questions.Where(q => q.Id == qtAnswerReceived.QuestionId).FirstOrDefault();
-                
                 if (qtAnswer.Question == null)
                 {
                     result._result = SaveQuizFeedbackResponseDTO.RequestResult.QuestionNotFound;
                     return result;
                 } 
                 
-                if(qtAnswerReceived.ChosenAnswerIds.Count == 0)
+                if(qtAnswerReceived.ChosenAnswerIds.Count == 0 || 
+                    (qtAnswerReceived.ChosenAnswerIds.Count > 1 && 
+                     qtAnswer.Question.Answers.Where(a => a.IsCorrect).Count() == 1))
                 {
                     result._result = SaveQuizFeedbackResponseDTO.RequestResult.InvalidQuizFeedback;
                     return result;
@@ -178,7 +269,7 @@ namespace QuizMania.WebAPI.Services
 
                 quizFb.QuestionAnswers.Add(qtAnswer);
 
-                var correctAnswerIds = qtAnswer.Question.Answers.Where(c => c.IsCorrect).Select(c => c.Id).ToHashSet();
+                var correctAnswerIds = qtAnswer.Question.Answers.Where(a => a.IsCorrect).Select(a => a.Id).ToHashSet();
                 var AnswerIds = qtAnswerReceived.ChosenAnswerIds.ToHashSet();
 
                 int hits = Enumerable.Intersect(AnswerIds, correctAnswerIds).Count();

@@ -12,6 +12,7 @@ namespace QuizMania.WebAPI.Profiles
             CreateMap<Answer, long>().ConvertUsing(c => c.Id);
             CreateMap<Answer, AnswerReadDTO>();
             CreateMap<SaveQuiz_AnswerDTO, Answer>();
+            CreateMap<SaveQuestion_AnswerDTO, Answer>();
         }
     }
 }
