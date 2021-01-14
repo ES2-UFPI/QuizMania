@@ -27,11 +27,6 @@ namespace QuizMania.WebAPI
                                             .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<Character> GetOnlyCharacterAsync(long id)
-        {
-            return await _context.Characters.FirstOrDefaultAsync(c => c.Id == id);
-        }
-
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

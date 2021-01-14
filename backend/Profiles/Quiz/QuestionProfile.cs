@@ -12,6 +12,7 @@ namespace QuizMania.WebAPI.Profiles
             CreateMap<Question, QuestionReadDTO>()
                 .ForMember(dest => dest.HasMultipleCorrectAnswers, opt => opt.MapFrom<QuestionReadDTO.MultipleCorrectAnswersResolver>());
             CreateMap<SaveQuiz_QuestionDTO, Question>();
+            CreateMap<SaveQuestion_QuestionDTO, Question>().ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }
 }
