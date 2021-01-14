@@ -114,8 +114,8 @@ namespace QuizMania.WebAPI.Data
 
             quiz1.Questions.Add(question1);
 
-            quiz2.Questions.Add(question3);
             quiz2.Questions.Add(question2);
+            quiz2.Questions.Add(question3);
 
             context.Quizzes.Add(quiz1);
             context.Quizzes.Add(quiz2);
