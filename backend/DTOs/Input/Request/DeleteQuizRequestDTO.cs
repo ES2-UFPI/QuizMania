@@ -1,4 +1,4 @@
-﻿namespace QuizMania.WebAPI.DTOs
+﻿namespace QuizMania.WebAPI.DTOs.Input
 {
     public class DeleteQuizRequestDTO
     {

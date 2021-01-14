@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using QuizMania.WebAPI.DTOs;
+using QuizMania.WebAPI.DTOs.Input;
+using QuizMania.WebAPI.DTOs.Output;
 using System.Threading.Tasks;
 using QuizMania.WebAPI.Services;
 
@@ -31,22 +32,41 @@ namespace QuizMania.WebAPI.Controllers
             return quiz != null ? Ok(quiz) : NotFound();
         }
 
-        //POST: api/Quiz/
         [HttpPost]
-        public async Task<ActionResult<QuizFeedbackReceivedDTO>> PostQuizFeedback(QuizFeedbackReceivedDTO quizReceived)
+        public async Task<ActionResult<SaveQuizResponseDTO>> PostQuiz(SaveQuiz_QuizDTO quizReceived)
         {
-            var quizFeedback = await _quizService.SaveQuizAnswer(quizReceived);
-            return quizFeedback != null ? Ok(quizFeedback) : NotFound();
+            var result = await _quizService.SaveQuizAsync(quizReceived);
+            switch (result._result)
+            {
+                case SaveQuizResponseDTO.RequestResult.Success: return Ok(result);
+                case SaveQuizResponseDTO.RequestResult.OwnerNotFound: return NotFound(result);
+                default: return BadRequest(result);
+            }
         }
 
         [HttpDelete]
-        public async Task<ActionResult<DeleteQuizRequestResultDTO>> DeleteQuiz(DeleteQuizRequestDTO deleteRequest)
+        public async Task<ActionResult<DeleteQuizResponseDTO>> DeleteQuiz(DeleteQuizRequestDTO deleteRequest)
         {
-            var result = await _quizService.DeleteQuiz(deleteRequest);
+            var result = await _quizService.DeleteQuizAsync(deleteRequest);
             switch (result._result)
             {
-                case DeleteQuizRequestResultDTO.RequestResult.Success: return Ok(result);
-                case DeleteQuizRequestResultDTO.RequestResult.QuizNotFound: return NotFound(result);
+                case DeleteQuizResponseDTO.RequestResult.Success: return Ok(result);
+                case DeleteQuizResponseDTO.RequestResult.QuizNotFound: return NotFound(result);
+                default: return BadRequest(result);
+            }
+        }
+
+        [HttpPost("feedback")]
+        public async Task<ActionResult<SaveQuizFeedbackResponseDTO>> PostQuizFeedback(SaveQuizFb_QuizFeedbackDTO quizFbReceived)
+        {
+            var result = await _quizService.SaveQuizFeedbackAsync(quizFbReceived);
+            switch (result._result)
+            {
+                case SaveQuizFeedbackResponseDTO.RequestResult.Success: return Ok(result);
+                case SaveQuizFeedbackResponseDTO.RequestResult.CharacterNotFound: return NotFound(result);
+                case SaveQuizFeedbackResponseDTO.RequestResult.QuizNotFound: return NotFound(result);
+                case SaveQuizFeedbackResponseDTO.RequestResult.QuestionNotFound: return NotFound(result);
+                case SaveQuizFeedbackResponseDTO.RequestResult.AnswerNotFound: return NotFound(result);
                 default: return BadRequest(result);
             }
         }

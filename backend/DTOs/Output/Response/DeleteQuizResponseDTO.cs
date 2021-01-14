@@ -1,8 +1,8 @@
-﻿using System;
+﻿using QuizMania.WebAPI.DTOs.Input;
 
-namespace QuizMania.WebAPI.DTOs
+namespace QuizMania.WebAPI.DTOs.Output
 {
-    public class DeleteQuizRequestResultDTO
+    public class DeleteQuizResponseDTO
     {
         public enum RequestResult
         {
@@ -13,8 +13,7 @@ namespace QuizMania.WebAPI.DTOs
         }
 
         internal RequestResult _result { get; set; }
-
-        public DeleteQuizRequestDTO Request { get; set; }
         public string Result => _result.ToString();
+        public DeleteQuizRequestDTO Request { get; set; }
     }
 }

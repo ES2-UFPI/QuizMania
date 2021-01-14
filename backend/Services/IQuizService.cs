@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using QuizMania.WebAPI.DTOs;
+using QuizMania.WebAPI.DTOs.Input;
+using QuizMania.WebAPI.DTOs.Output;
 
 namespace QuizMania.WebAPI.Services
 {
@@ -8,7 +9,8 @@ namespace QuizMania.WebAPI.Services
     {
         Task<IEnumerable<QuizReadDTO>> GetQuizzesAsync();
         Task<QuizReadDTO> GetQuizAsync(long id);
-        Task<QuizFeedbackReadDTO> SaveQuizAnswer(QuizFeedbackReceivedDTO quizFbReceived);
-        Task<DeleteQuizRequestResultDTO> DeleteQuiz(DeleteQuizRequestDTO deleteRequest);
+        Task<SaveQuizResponseDTO> SaveQuizAsync(SaveQuiz_QuizDTO quizReceived);
+        Task<DeleteQuizResponseDTO> DeleteQuizAsync(DeleteQuizRequestDTO deleteRequest);
+        Task<SaveQuizFeedbackResponseDTO> SaveQuizFeedbackAsync(SaveQuizFb_QuizFeedbackDTO quizFbReceived);
     }
 }

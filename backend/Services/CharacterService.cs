@@ -2,7 +2,8 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using QuizMania.WebAPI.Models;
-using QuizMania.WebAPI.DTOs;
+using QuizMania.WebAPI.DTOs.Input;
+using QuizMania.WebAPI.DTOs.Output;
 using System.Linq;
 
 namespace QuizMania.WebAPI.Services
@@ -25,12 +26,12 @@ namespace QuizMania.WebAPI.Services
             return _mapper.Map<CharacterInfoDTO>(await _characterRepo.GetCharacterAsync(id));
         } 
 
-        public async Task<bool> SaveQuizfeedback(QuizFeedback quizFeedback)
+        public async Task<SaveQuizFeedbackResponseDTO.RequestResult> SaveQuizfeedback(QuizFeedback quizFeedback)
         {
             var character = await _characterRepo.GetCharacterAsync(quizFeedback.Character.Id);
 
             if (character == null)
-                return false;
+                return SaveQuizFeedbackResponseDTO.RequestResult.CharacterNotFound;
 
             quizFeedback.Character = character;
             character.QuizFeedbacks.Add(quizFeedback);
@@ -48,12 +49,18 @@ namespace QuizMania.WebAPI.Services
                 quizFeedback.LevelGained = character.Level - prevLevel;
             }
 
-            await _characterRepo.SaveChangesAsync();
-
-            return true;
+            try
+            {
+                await _characterRepo.SaveChangesAsync();
+                return SaveQuizFeedbackResponseDTO.RequestResult.Success;
+            }
+            catch (Exception)
+            {
+                return SaveQuizFeedbackResponseDTO.RequestResult.BadRequest;
+            }
         }
 
-        public async Task<GoldExpenseRequestResultDTO> TryExpendGold(GoldExpenseRequestDTO expenseRequest)
+        public async Task<GoldExpenseResponseDTO> TryExpendGold(GoldExpenseRequestDTO expenseRequest)
         {
             var character = await _characterRepo.GetCharacterAsync(expenseRequest.CharacterId);
 
@@ -74,7 +81,7 @@ namespace QuizMania.WebAPI.Services
 
             await _characterRepo.SaveChangesAsync();
 
-            return _mapper.Map<GoldExpenseRequestResultDTO>(expense);
+            return _mapper.Map<GoldExpenseResponseDTO>(expense);
         }
     }
 }
