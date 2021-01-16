@@ -9,6 +9,8 @@ using AutoMapper;
 using QuizMania.WebAPI.Services;
 using Microsoft.Data.Sqlite;
 using QuizMania.WebAPI.Data;
+using System.Reflection;
+using System.IO;
 
 namespace QuizMania.WebAPI
 {
@@ -38,7 +40,13 @@ namespace QuizMania.WebAPI
            
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(opt =>
+                {
+                    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                    opt.IncludeXmlComments(xmlPath);
+                }
+            );
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
