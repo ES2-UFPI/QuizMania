@@ -132,7 +132,13 @@ namespace QuizMania.WebAPI.Services
                 result._result = SaveQuestionResponseDTO.RequestResult.QuizNotFound;
                 return result;
             }
-                
+
+            if (quiz.Owner == null || quiz.Owner.Id != questionReceived.CharacterId)
+            {
+                result._result = SaveQuestionResponseDTO.RequestResult.CharacterNotOwner;
+                return result;
+            }
+
             var question = _mapper.Map<Question>(questionReceived);
 
             if (question.Answers.Count == 0)
