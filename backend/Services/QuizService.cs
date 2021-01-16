@@ -106,7 +106,7 @@ namespace QuizMania.WebAPI.Services
                 return result;
             }
 
-            _quizRepo.DeleteQuiz(quiz);
+            await _quizRepo.DeleteQuizAsync(quiz);
 
             try
             {
@@ -192,7 +192,7 @@ namespace QuizMania.WebAPI.Services
                 return result;
             }
                 
-            _quizRepo.DeleteQuestion(question);
+            await _quizRepo.DeleteQuestionAsync(question);
 
             try
             {

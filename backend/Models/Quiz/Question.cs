@@ -14,6 +14,9 @@ namespace QuizMania.WebAPI.Models
         public long Id { get; set; }
 
         [Required]
+        public Quiz Quiz { get; set; }
+
+        [Required]
         [MaxLength(512)]
         public string Text { get; set; }
 

@@ -14,6 +14,10 @@ namespace QuizMania.WebAPI.Models
         public int Id { get; set; }
 
         [Required]
+        public QuizFeedback QuizFeedback { get; set; }
+
+        public long? QuestionId { get; set; }
+
         public Question Question { get; set; }
 
         [Required]
