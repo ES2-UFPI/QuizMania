@@ -226,7 +226,13 @@ namespace QuizMania.WebAPI.Services
                 return result;
             }
 
-            if(quizFb.Quiz.Questions.Count != quizFbReceived.QuestionAnswers.Count ||
+            if (quizFb.Quiz.Questions.Count == 0)
+            {
+                result._result = SaveQuizFeedbackResponseDTO.RequestResult.QuizWithoutQuestions;
+                return result;
+            }
+
+            if (quizFb.Quiz.Questions.Count != quizFbReceived.QuestionAnswers.Count ||
                quizFbReceived.QuestionAnswers.GroupBy(qa => qa.QuestionId).Any(q => q.Count() > 1))
             {
                 result._result = SaveQuizFeedbackResponseDTO.RequestResult.InvalidQuizFeedback;
@@ -247,8 +253,8 @@ namespace QuizMania.WebAPI.Services
                 } 
                 
                 if(qtAnswerReceived.ChosenAnswerIds.Count == 0 || 
-                    (qtAnswerReceived.ChosenAnswerIds.Count > 1 && 
-                     qtAnswer.Question.Answers.Where(a => a.IsCorrect).Count() == 1))
+                   (qtAnswerReceived.ChosenAnswerIds.Count > 1 && 
+                    qtAnswer.Question.Answers.Where(a => a.IsCorrect).Count() == 1))
                 {
                     result._result = SaveQuizFeedbackResponseDTO.RequestResult.InvalidQuizFeedback;
                     return result;

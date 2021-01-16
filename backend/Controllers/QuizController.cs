@@ -76,6 +76,7 @@ namespace QuizMania.WebAPI.Controllers
             {
                 case DeleteQuestionResponseDTO.RequestResult.Success: return Ok(result);
                 case DeleteQuestionResponseDTO.RequestResult.QuizNotFound: return NotFound(result);
+                case DeleteQuestionResponseDTO.RequestResult.QuestionNotFound: return NotFound(result);
                 default: return BadRequest(result);
             }
         }
