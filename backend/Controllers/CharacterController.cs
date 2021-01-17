@@ -36,7 +36,12 @@ namespace QuizMania.WebAPI.Controllers
         public async Task<ActionResult<GoldExpenseResponseDTO>> TryExpendGold(GoldExpenseRequestDTO expenseRequest)
         {
             var result = await _characterService.TryExpendGold(expenseRequest);
-            return result != null ? Ok(result) : NotFound();
+            switch (result.Result)
+            {
+                case GoldExpenseResult.Authorized: return Ok(result);
+                case GoldExpenseResult.CharacterNotFound: return NotFound(result);
+                default: return BadRequest(result);
+            }
         }
     }
 }

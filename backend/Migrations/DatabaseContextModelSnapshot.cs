@@ -110,9 +110,6 @@ namespace QuizMania.WebAPI.Migrations
                     b.Property<long>("CharacterId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("ExpenseAuthorized")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("ExpenseRequested")
                         .HasColumnType("INTEGER");
 
@@ -121,6 +118,9 @@ namespace QuizMania.WebAPI.Migrations
 
                     b.Property<DateTime>("ResquestTime")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Result")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

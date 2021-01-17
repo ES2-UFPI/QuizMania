@@ -9,7 +9,7 @@ using QuizMania.WebAPI.Data;
 namespace QuizMania.WebAPI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20210117172738_Initial")]
+    [Migration("20210117202922_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -112,9 +112,6 @@ namespace QuizMania.WebAPI.Migrations
                     b.Property<long>("CharacterId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("ExpenseAuthorized")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("ExpenseRequested")
                         .HasColumnType("INTEGER");
 
@@ -123,6 +120,9 @@ namespace QuizMania.WebAPI.Migrations
 
                     b.Property<DateTime>("ResquestTime")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Result")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

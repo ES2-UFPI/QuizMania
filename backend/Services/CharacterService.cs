@@ -67,22 +67,31 @@ namespace QuizMania.WebAPI.Services
 
         public async Task<GoldExpenseResponseDTO> TryExpendGold(GoldExpenseRequestDTO expenseRequest)
         {
-            var character = await _characterRepo.GetCharacterAllAsync(expenseRequest.CharacterId);
+            var expense = new GoldExpense(expenseRequest);
+            var character = await _characterRepo.GetCharacterSimpleAsync(expenseRequest.CharacterId);
 
             if (character == null)
-                return null;
-
-            var expense = _mapper.Map<GoldExpense>(expenseRequest);
-
-            expense.ResquestTime = DateTime.Now;
-            expense.ExpenseAuthorized = character.Gold >= expenseRequest.ExpenseRequested;
-
-            if (expense.ExpenseAuthorized)
             {
-                character.Gold -= expenseRequest.ExpenseRequested;
+                expense.Result = GoldExpenseResult.CharacterNotFound;
             }
+            else
+            {
+                if (expenseRequest.ExpenseRequested < 0)
+                {
+                    expense.Result = GoldExpenseResult.BadRequest;
+                }
+                else if (character.Gold < expenseRequest.ExpenseRequested)
+                {
+                    expense.Result = GoldExpenseResult.NotEnoughResources;
+                }
+                else
+                {
+                    expense.Result = GoldExpenseResult.Authorized;
+                    character.Gold -= expenseRequest.ExpenseRequested;
+                }
 
-            expense.RemainingGold = character.Gold;
+                expense.RemainingGold = character.Gold;
+            }
 
             await _characterRepo.SaveChangesAsync();
 

@@ -28,6 +28,11 @@ namespace QuizMania.WebAPI
                                             .FirstOrDefaultAsync(c => c.Id == id);
         }
 
+        public async Task<Character> GetCharacterSimpleAsync(long id)
+        {
+            return await _context.Characters.FirstOrDefaultAsync(c => c.Id == id);
+        }
+
         public async Task<Character> GetCharacterItemsAsync(long id)
         {
             return await _context.Characters.Include(c => c.Items).FirstOrDefaultAsync(c => c.Id == id);
