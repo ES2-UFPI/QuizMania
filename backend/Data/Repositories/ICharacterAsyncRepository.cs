@@ -7,7 +7,7 @@ namespace QuizMania.WebAPI
     public interface ICharacterAsyncRepository
     {
         Task<IEnumerable<Character>> GetAllCharactersAsync();
-        Task<Character> GetCharacterAsync(long id);
+        Task<Character> GetCharacterAllAsync(long id);
         Task SaveChangesAsync();
     }
 }

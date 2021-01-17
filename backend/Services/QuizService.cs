@@ -40,7 +40,7 @@ namespace QuizMania.WebAPI.Services
 
             var quiz = _mapper.Map<Quiz>(quizReceived);
 
-            quiz.Owner = await _characterRepo.GetCharacterAsync(quizReceived.OwnerId);
+            quiz.Owner = await _characterRepo.GetCharacterAllAsync(quizReceived.OwnerId);
 
             if(quiz.Owner == null)
             {
