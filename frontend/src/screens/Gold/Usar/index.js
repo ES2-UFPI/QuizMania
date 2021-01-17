@@ -8,7 +8,7 @@ export default function Usar({navigation}) {
     <Container navigation={navigation} >
       <Text style={{ fontSize: 30, fontWeight: "bold" }}>Loja</Text>
       <View style={{ justifyContent: "center" }}></View>
-      <ScrollView contentContainerStyle={{ paddingVertical: 20 }}>
+      <ScrollView contentContainerStyle={{ paddingVertical: 20, }}>
         <ResponsiveList>
           {Array(11)
             .fill(0)
