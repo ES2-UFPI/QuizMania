@@ -9,6 +9,7 @@ namespace QuizMania.WebAPI.Services
     public interface ICharacterService
     {
         Task<CharacterInfoDTO> GetCharacterInfoAsync(long id);
+        Task<CharacterItemsDTO> GetCharacterItemsAsync(long id);
         Task<SaveQuizFeedbackResponseDTO.RequestResult> SaveQuizfeedback(QuizFeedback quizFeedback);
         Task<GoldExpenseResponseDTO> TryExpendGold(GoldExpenseRequestDTO expenseRequest);
     }

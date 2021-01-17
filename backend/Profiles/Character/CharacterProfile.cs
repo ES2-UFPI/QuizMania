@@ -10,6 +10,8 @@ namespace QuizMania.WebAPI.Profiles
         public CharacterProfile()
         {
             CreateMap<Character, CharacterInfoDTO>();
+            CreateMap<Character, CharacterItemsDTO>().ForMember(dest => dest.CharacterId, opt => opt.MapFrom(src => src.Id));
+            CreateMap<Character, long>().ConvertUsing(c => c.Id);
         }
     }
 }
