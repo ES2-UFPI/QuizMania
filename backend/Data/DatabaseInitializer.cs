@@ -12,6 +12,36 @@ namespace QuizMania.WebAPI.Data
         {
             context.Database.EnsureCreated();
 
+            // mock items
+            var item1 = new Item()
+            {
+                Name = "Red Shirt",
+                Cost = 0,
+            };
+
+            var item2 = new Item()
+            {
+                Name = "Green Shirt",
+                Cost = 10,
+            };
+
+            var item3 = new Item()
+            {
+                Name = "Black Hair",
+                Cost = 0,
+            };
+
+            var item4 = new Item()
+            {
+                Name = "Blond Hair",
+                Cost = 15,
+            };
+
+            context.Items.Add(item1);
+            context.Items.Add(item2);
+            context.Items.Add(item3);
+            context.Items.Add(item4);
+
             // mock characters
             var char1 = new Character()
             {
@@ -28,6 +58,12 @@ namespace QuizMania.WebAPI.Data
                 Gold = 70,
                 HealthPoints = 80,
             };
+
+            char1.Items.Add(item1);
+            char1.Items.Add(item4);
+
+            char2.Items.Add(item2);
+            char2.Items.Add(item3);
 
             context.Characters.Add(char1);
             context.Characters.Add(char2);

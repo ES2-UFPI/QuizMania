@@ -18,11 +18,12 @@ namespace QuizMania.WebAPI.Models
         [Required]
         public Character Character { get; set; }
 
-        [Required]
+        public long? QuizId { get; set; }
+
         public Quiz Quiz { get; set; }
 
         [Required]
-        public ICollection<QuestionAnswer> QuestionAnswers { get; set; }
+        public virtual ICollection<QuestionAnswer> QuestionAnswers { get; set; }
 
         [Required]
         public float PercentageOfCorrectChosenAnswers { get; set; }

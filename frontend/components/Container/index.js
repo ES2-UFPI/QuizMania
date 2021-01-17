@@ -4,7 +4,7 @@ import { BACKGROUND_COLOR } from "../../constants";
 import { Header } from "../index";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 
-export default function container({ children, notscroll, navigation }) {
+export default function container({ children, notscroll, navigation, flex }) {
   const [render, setRender] = useState(true);
   useEffect(() => {
     setRender(!render)

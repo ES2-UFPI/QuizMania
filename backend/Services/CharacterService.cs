@@ -23,12 +23,17 @@ namespace QuizMania.WebAPI.Services
 
         public async Task<CharacterInfoDTO> GetCharacterInfoAsync(long id)
         {
-            return _mapper.Map<CharacterInfoDTO>(await _characterRepo.GetCharacterAsync(id));
+            return _mapper.Map<CharacterInfoDTO>(await _characterRepo.GetCharacterAllAsync(id));
         } 
+
+        public async Task<CharacterItemsDTO> GetCharacterItemsAsync(long id)
+        {
+            return _mapper.Map<CharacterItemsDTO>(await _characterRepo.GetCharacterItemsAsync(id));
+        }
 
         public async Task<SaveQuizFeedbackResponseDTO.RequestResult> SaveQuizfeedback(QuizFeedback quizFeedback)
         {
-            var character = await _characterRepo.GetCharacterAsync(quizFeedback.Character.Id);
+            var character = await _characterRepo.GetCharacterAllAsync(quizFeedback.Character.Id);
 
             if (character == null)
                 return SaveQuizFeedbackResponseDTO.RequestResult.CharacterNotFound;
@@ -62,7 +67,7 @@ namespace QuizMania.WebAPI.Services
 
         public async Task<GoldExpenseResponseDTO> TryExpendGold(GoldExpenseRequestDTO expenseRequest)
         {
-            var character = await _characterRepo.GetCharacterAsync(expenseRequest.CharacterId);
+            var character = await _characterRepo.GetCharacterAllAsync(expenseRequest.CharacterId);
 
             if (character == null)
                 return null;

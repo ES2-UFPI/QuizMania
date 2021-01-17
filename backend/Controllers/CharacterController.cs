@@ -25,6 +25,13 @@ namespace QuizMania.WebAPI.Controllers
             return character != null ? Ok(character) : NotFound();
         }
 
+        [HttpGet("items/{id}")]
+        public async Task<ActionResult<CharacterItemsDTO>> GetCharacterItems(long id)
+        {
+            var character = await _characterService.GetCharacterItemsAsync(id);
+            return character != null ? Ok(character) : NotFound();
+        }
+
         [HttpPost("expendGold")]
         public async Task<ActionResult<GoldExpenseResponseDTO>> TryExpendGold(GoldExpenseRequestDTO expenseRequest)
         {

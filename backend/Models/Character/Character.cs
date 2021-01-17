@@ -11,7 +11,9 @@ namespace QuizMania.WebAPI.Models
         public Character()
         {
             TotalXP = 0;
+            Quizzes = new HashSet<Quiz>();
             QuizFeedbacks = new HashSet<QuizFeedback>();
+            Items = new HashSet<Item>();
         }
 
         [Key]
@@ -35,9 +37,15 @@ namespace QuizMania.WebAPI.Models
         public int Gold { get; set; }
 
         [Required]
+        public virtual ICollection<Quiz> Quizzes { get; set; }
+
+        [Required]
         public virtual ICollection<QuizFeedback> QuizFeedbacks { get; set; }
 
         [Required]
         public virtual ICollection<GoldExpense> GoldExpenses { get; set; }
+
+        [Required]
+        public virtual ICollection<Item> Items { get; set; }
     }
 }
