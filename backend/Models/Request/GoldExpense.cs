@@ -9,8 +9,9 @@ namespace QuizMania.WebAPI
         BadRequest,
         Authorized,
         CharacterNotFound,
-        ItemNotFound,
         NotEnoughResources,
+        ItemNotFound,
+        ReachedItemMaxQuantity,
     }
 }
 

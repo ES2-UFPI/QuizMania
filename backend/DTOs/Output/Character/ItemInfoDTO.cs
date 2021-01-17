@@ -10,6 +10,8 @@ namespace QuizMania.WebAPI.DTOs.Output
 
         public int Cost { get; set; }
 
+        public int MaxQuantity { get; set; }
+
         public ICollection<EffectBaseInfoDTO> Effects { get; set; }
     }
 }

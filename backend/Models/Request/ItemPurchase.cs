@@ -7,9 +7,18 @@ namespace QuizMania.WebAPI.Models
     {
         public ItemPurchase() : base() { }
 
-        public ItemPurchase(ItemPurchaseRequestDTO purchaseRequest) : base(purchaseRequest) { }
+        public ItemPurchase(ItemPurchaseRequestDTO purchaseRequest) : base(purchaseRequest)
+        {
+            RequestedQuantity = purchaseRequest.Quantity;
+        }
 
         [Required]
-        public ItemInfo PurchasedItem { get; set; }
+        public ItemInfo Item { get; set; }
+
+        [Required]
+        public int RequestedQuantity { get; set; }
+
+        [Required]
+        public int PurchasedQuantity { get; set; }
     }
 }

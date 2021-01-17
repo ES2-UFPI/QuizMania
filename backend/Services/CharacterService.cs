@@ -26,7 +26,7 @@ namespace QuizMania.WebAPI.Services
         public async Task<CharacterInfoDTO> GetCharacterInfoAsync(long id)
         {
             return _mapper.Map<CharacterInfoDTO>(await _characterRepo.GetCharacterAllAsync(id));
-        } 
+        }
 
         public async Task<CharacterItemsDTO> GetCharacterItemsAsync(long id)
         {
@@ -42,8 +42,8 @@ namespace QuizMania.WebAPI.Services
 
             quizFeedback.Character = character;
             character.QuizFeedbacks.Add(quizFeedback);
-            
-            if(character.QuizFeedbacks.Where(c => c.Quiz.Id == quizFeedback.Quiz.Id).Count() == 1)
+
+            if (character.QuizFeedbacks.Where(c => c.Quiz.Id == quizFeedback.Quiz.Id).Count() == 1)
             {
                 quizFeedback.ExperienceGained = (int)quizFeedback.PercentageOfCorrectChosenAnswers;
                 quizFeedback.GoldGained = (int)quizFeedback.PercentageOfCorrectChosenAnswers;
@@ -79,27 +79,64 @@ namespace QuizMania.WebAPI.Services
         public async Task<ItemPurchaseResponseDTO> TryPurchaseItem(ItemPurchaseRequestDTO purchaseRequest)
         {
             var purchase = new ItemPurchase(purchaseRequest);
-            var item = await _itemsRepo.GetItemAsync(purchaseRequest.ItemId);
 
-            if (item == null)
+            do
             {
-                purchase.Result = GoldExpenseResult.ItemNotFound;
-            }
-            else
-            {
-                purchase.ExpenseRequested = item.Cost;
-                purchase = (ItemPurchase) await TryExpendGoldInternal(purchase);
+                if (purchaseRequest.Quantity <= 0)
+                {
+                    purchase.Result = GoldExpenseResult.BadRequest;
+                    break;
+                }
+
+                var item = await _itemsRepo.GetItemAsync(purchaseRequest.ItemId);
+                if (item == null || item.MaxQuantity == 0)
+                {
+                    purchase.Result = GoldExpenseResult.ItemNotFound;
+                    break;
+                }
+
+                purchase.Item = item;
+                purchase.ExpenseRequested = item.Cost * purchase.RequestedQuantity;
+
+                var character = await _characterRepo.GetCharacterItemsAsync(purchase.CharacterId);
+                if (character == null)
+                {
+                    purchase.Result = GoldExpenseResult.CharacterNotFound;
+                    break;
+                }
+
+                var characterItem = character.Items.FirstOrDefault(i => i.Item.Id == item.Id);
+
+                if (item.MaxQuantity > 0 && characterItem?.Quantity >= item.MaxQuantity)
+                {
+                    purchase.Result = GoldExpenseResult.ReachedItemMaxQuantity;
+                    break;
+                }
+
+                purchase = (ItemPurchase)await TryExpendGoldInternal(purchase, saveChanges: false);
 
                 if (purchase.Result == GoldExpenseResult.Authorized)
                 {
-                    purchase.PurchasedItem = item;
+                    purchase.Item = item;
+                    purchase.PurchasedQuantity = purchase.RequestedQuantity;
+
+                    if (characterItem == null)
+                    {
+                        character.Items.Add(new ItemQuantity(purchase.Item, purchase.PurchasedQuantity));
+                    }
+                    else
+                    {
+                        characterItem.Quantity += purchase.PurchasedQuantity;
+                    }
+
+                    await _characterRepo.SaveChangesAsync();
                 }
-            }
+            } while (false);
 
             return _mapper.Map<ItemPurchaseResponseDTO>(purchase);
         }
 
-        private async Task<GoldExpense> TryExpendGoldInternal(GoldExpense expense)
+        private async Task<GoldExpense> TryExpendGoldInternal(GoldExpense expense, bool saveChanges = true)
         {
             var character = await _characterRepo.GetCharacterSimpleAsync(expense.CharacterId);
 
@@ -122,7 +159,10 @@ namespace QuizMania.WebAPI.Services
                     expense.Result = GoldExpenseResult.Authorized;
                     character.Gold -= expense.ExpenseRequested;
 
-                    await _characterRepo.SaveChangesAsync();
+                    if (saveChanges)
+                    {
+                        await _characterRepo.SaveChangesAsync();
+                    }
                 }
 
                 expense.RemainingGold = character.Gold;

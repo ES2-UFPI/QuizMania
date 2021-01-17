@@ -19,6 +19,9 @@ namespace QuizMania.WebAPI.Models {
         public int Cost { get; set; }
 
         [Required]
+        public int MaxQuantity { get; set; }
+
+        [Required]
         public ICollection<EffectBase> Effects { get; set; }
     }
 }
