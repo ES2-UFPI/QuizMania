@@ -98,7 +98,7 @@ namespace QuizMania.WebAPI.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("EffectBase");
+                    b.ToTable("Effects");
                 });
 
             modelBuilder.Entity("QuizMania.WebAPI.Models.GoldExpense", b =>
@@ -150,7 +150,7 @@ namespace QuizMania.WebAPI.Migrations
 
                     b.HasIndex("CharacterId");
 
-                    b.ToTable("Item");
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("QuizMania.WebAPI.Models.Question", b =>

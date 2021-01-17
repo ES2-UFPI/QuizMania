@@ -9,7 +9,7 @@ using QuizMania.WebAPI.Data;
 namespace QuizMania.WebAPI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20210117163326_Initial")]
+    [Migration("20210117172738_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,7 +100,7 @@ namespace QuizMania.WebAPI.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("EffectBase");
+                    b.ToTable("Effects");
                 });
 
             modelBuilder.Entity("QuizMania.WebAPI.Models.GoldExpense", b =>
@@ -152,7 +152,7 @@ namespace QuizMania.WebAPI.Migrations
 
                     b.HasIndex("CharacterId");
 
-                    b.ToTable("Item");
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("QuizMania.WebAPI.Models.Question", b =>
