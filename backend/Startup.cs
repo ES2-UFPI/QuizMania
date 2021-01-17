@@ -29,6 +29,7 @@ namespace QuizMania.WebAPI
 
             services.AddScoped<IQuizAsyncRepository, QuizRepository>();
             services.AddScoped<ICharacterAsyncRepository, CharacterRepository>();
+            services.AddScoped<IItemAsyncRepository, ItemRepository>();
 
             services.AddScoped<IQuizService, QuizService>();
             services.AddScoped<ICharacterService, CharacterService>();
