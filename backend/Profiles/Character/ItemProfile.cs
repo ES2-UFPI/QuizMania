@@ -8,6 +8,7 @@ namespace QuizMania.WebAPI.Profiles
     {
         public ItemProfile()
         {
+            CreateMap<Item, long>().ConvertUsing(i => i.Id);
             CreateMap<Item, ItemInfoDTO>();
         }
     }
