@@ -14,7 +14,7 @@ import API from "../../../../services";
 import { Ionicons } from "@expo/vector-icons";
 
 function PerguntaItem({ data, index, deletePergunta }) {
-  if(!data) return <View></View>
+  if (!data) return <View></View>;
   return (
     <Card>
       <View
@@ -24,19 +24,19 @@ function PerguntaItem({ data, index, deletePergunta }) {
           marginBottom: 20,
         }}
       >
-        <Text>{data.titulo}</Text>
+        <Text>{data.text}</Text>
         <Ionicons
           name="md-trash"
           size={24}
           color="red"
           onPress={() => {
-            if(!data.id) {
-              deletePergunta(index)
+            if (!data.id) {
+              deletePergunta(index);
             }
           }}
         />
       </View>
-      {data.alternativas.map((item, index) => (
+      {data.answers.map((item, index) => (
         <AlternativaItem data={item} index={index} readOnly />
       ))}
     </Card>
@@ -91,23 +91,31 @@ export default function ListarQuizzes({ navigation }) {
     // }
   }
 
-  async function submit() {}
+  async function submit() {
+    console.log(perguntas)
+    const request = {}
+    request['questions'] = perguntas
+    try {
+      const response = await API.criarQuiz(request)
+      alert(response.result)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   function addAlternativa() {
-    alert("Alterando.." + perguntaAlternativa);
-    console.log(alternativas);
     alternativas.push({
       text: perguntaAlternativa,
-      correct: correta,
+      isCorrect: correta,
     });
     setAlternativas(alternativas);
     setTick(tick + 1);
   }
 
   function deletePergunta(index) {
-    delete perguntas[index]
-    setPerguntas(perguntas)
-    setTick(tick + 1)
+    delete perguntas[index];
+    setPerguntas(perguntas);
+    setTick(tick + 1);
   }
 
   function modifyData(data, index) {
@@ -131,16 +139,31 @@ export default function ListarQuizzes({ navigation }) {
 
         <FlatList
           data={perguntas}
-          keyExtractor={(item, index) => 'key'+index}
+          keyExtractor={(item, index) => "key" + index}
           renderItem={({ item, index }) => {
-            return <PerguntaItem data={item} index={index} deletePergunta={deletePergunta.bind(this)} />;
+            return (
+              <PerguntaItem
+                data={item}
+                index={index}
+                deletePergunta={deletePergunta.bind(this)}
+              />
+            );
           }}
         />
 
         <Button
           title="Criar pergunta"
+          containerStyle={{marginTop:20}}
           onPress={() => {
             setStep(1);
+          }}
+        />
+
+        <Button
+          title="Cadastrar Quiz"
+          containerStyle={{marginTop: 10}}
+          onPress={() => {
+            submit()
           }}
         />
       </Container>
@@ -206,20 +229,20 @@ export default function ListarQuizzes({ navigation }) {
 
       <Button
         title="Salvar"
-        containerStyle={{ marginTop: 5 }}
+        containerStyle={{ marginTop: 15 }}
         onPress={() => {
           const novaPergunta = {
-            titulo: perguntaTitulo,
-            alternativas,
+            text: perguntaTitulo,
+            answers: alternativas,
           };
           perguntas.push(novaPergunta);
           setPerguntas(perguntas);
           console.log(perguntas);
-          setAlternativas([])
-          
-          setPerguntaTitulo("")
-          setPerguntaAlternativa("")
-          setCorreta(false)
+          setAlternativas([]);
+
+          setPerguntaTitulo("");
+          setPerguntaAlternativa("");
+          setCorreta(false);
           setStep(0);
         }}
       />
