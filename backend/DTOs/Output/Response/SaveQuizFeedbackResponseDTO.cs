@@ -6,8 +6,9 @@
         {
             BadRequest,
             Success,
-            CharacterNotFound,
             InvalidQuizFeedback,
+            QuizWithoutQuestions,
+            CharacterNotFound,
             QuizNotFound,
             QuestionNotFound,
             AnswerNotFound

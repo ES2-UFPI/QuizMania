@@ -1,5 +1,4 @@
-﻿using QuizMania.WebAPI.DTOs;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace QuizMania.WebAPI.DTOs.Input
 {

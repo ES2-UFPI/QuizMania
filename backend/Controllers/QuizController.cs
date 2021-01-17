@@ -4,6 +4,7 @@ using QuizMania.WebAPI.DTOs.Input;
 using QuizMania.WebAPI.DTOs.Output;
 using System.Threading.Tasks;
 using QuizMania.WebAPI.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace QuizMania.WebAPI.Controllers
 {
@@ -32,6 +33,13 @@ namespace QuizMania.WebAPI.Controllers
             return quiz != null ? Ok(quiz) : NotFound();
         }
 
+
+        /// <remarks>
+        /// <h2> **Result values:** </h2> 
+        /// <h3> **200:** Sucess </h3>
+        /// <h3> **404:** OwnerNotFound </h3>
+        /// <h3> **400:** BadRequest, EmptyAtribute, QuestionWithoutCorrectAnswer </h3>
+        /// </remarks>
         [HttpPost]
         public async Task<ActionResult<SaveQuizResponseDTO>> PostQuiz(SaveQuiz_QuizDTO quizReceived)
         {
@@ -44,6 +52,13 @@ namespace QuizMania.WebAPI.Controllers
             }
         }
 
+
+        /// <remarks>
+        /// <h2> **Result values:** </h2> 
+        /// <h3> **200:** Sucess </h3>
+        /// <h3> **404:** QuizNotFound </h3>
+        /// <h3> **400:** BadRequest, CharacterNotOwner </h3>
+        /// </remarks>
         [HttpDelete]
         public async Task<ActionResult<DeleteQuizResponseDTO>> DeleteQuiz(DeleteQuizRequestDTO deleteRequest)
         {
@@ -56,6 +71,13 @@ namespace QuizMania.WebAPI.Controllers
             }
         }
 
+
+        /// <remarks>
+        /// <h2> **Result values:** </h2> 
+        /// <h3> **200:** Sucess </h3>
+        /// <h3> **404:** QuizNotFound </h3>
+        /// <h3> **400:** BadRequest, EmptyAtribute, QuestionWithoutCorrectAnswer, CharacterNotOwner </h3>
+        /// </remarks>
         [HttpPost("question")]
         public async Task<ActionResult<QuestionReadDTO>> PostQuestion(SaveQuestion_QuestionDTO questionReceived)
         {
@@ -68,6 +90,13 @@ namespace QuizMania.WebAPI.Controllers
             }
         }
 
+
+        /// <remarks>
+        /// <h2> **Result values:** </h2> 
+        /// <h3> **200:** Sucess </h3>
+        /// <h3> **404:** QuizNotFound, QuestionNotFound </h3>
+        /// <h3> **400:** BadRequest, CharacterNotOwner </h3>
+        /// </remarks>
         [HttpDelete("question")]
         public async Task<ActionResult<DeleteQuestionResponseDTO>> DeleteQuestion(DeleteQuestionRequestDTO deleteRequest)
         {
@@ -76,10 +105,18 @@ namespace QuizMania.WebAPI.Controllers
             {
                 case DeleteQuestionResponseDTO.RequestResult.Success: return Ok(result);
                 case DeleteQuestionResponseDTO.RequestResult.QuizNotFound: return NotFound(result);
+                case DeleteQuestionResponseDTO.RequestResult.QuestionNotFound: return NotFound(result);
                 default: return BadRequest(result);
             }
         }
 
+
+        /// <remarks>
+        /// <h2> **Result values:** </h2> 
+        /// <h3> **200:** Sucess </h3>
+        /// <h3> **404:** CharacterNotFound, QuizNotFound, QuestionNotFound, AnswerNotFound </h3>
+        /// <h3> **400:** BadRequest, InvalidQuizFeedback, QuizWithoutQuestions </h3>
+        /// </remarks>
         [HttpPost("feedback")]
         public async Task<ActionResult<SaveQuizFeedbackResponseDTO>> PostQuizFeedback(SaveQuizFb_QuizFeedbackDTO quizFbReceived)
         {
@@ -94,6 +131,21 @@ namespace QuizMania.WebAPI.Controllers
                 default: return BadRequest(result);
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //// PUT: api/Quiz/5
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

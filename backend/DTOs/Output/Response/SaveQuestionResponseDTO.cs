@@ -8,6 +8,7 @@
             Success,
             EmptyAtribute,
             QuestionWithoutCorrectAnswer,
+            CharacterNotOwner,
             QuizNotFound
         }
 

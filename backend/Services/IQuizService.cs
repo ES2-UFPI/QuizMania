@@ -13,7 +13,6 @@ namespace QuizMania.WebAPI.Services
         Task<DeleteQuizResponseDTO> DeleteQuizAsync(DeleteQuizRequestDTO deleteRequest);
         Task<SaveQuestionResponseDTO> SaveQuestionAsync(SaveQuestion_QuestionDTO questionReceived);
         Task<DeleteQuestionResponseDTO> DeleteQuestionAsync(DeleteQuestionRequestDTO deleteRequest);
-        
         Task<SaveQuizFeedbackResponseDTO> SaveQuizFeedbackAsync(SaveQuizFb_QuizFeedbackDTO quizFbReceived);
     }
 }
