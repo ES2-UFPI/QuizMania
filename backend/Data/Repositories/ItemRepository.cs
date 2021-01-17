@@ -15,12 +15,12 @@ namespace QuizMania.WebAPI
             _context = context;
         }
 
-        public async Task<IEnumerable<Item>> GetAllItemsAsync()
+        public async Task<IEnumerable<ItemInfo>> GetAllItemsAsync()
         {
             return await _context.Items.ToListAsync();
         }
 
-        public async Task<Item> GetItemAsync(long id)
+        public async Task<ItemInfo> GetItemAsync(long id)
         {
             return await _context.Items.FirstOrDefaultAsync(i => i.Id == id);
         }

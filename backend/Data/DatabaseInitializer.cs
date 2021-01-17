@@ -13,25 +13,25 @@ namespace QuizMania.WebAPI.Data
             context.Database.EnsureCreated();
 
             // mock items
-            var item1 = new Item()
+            var item1 = new ItemInfo()
             {
                 Name = "Red Shirt",
                 Cost = 0,
             };
 
-            var item2 = new Item()
+            var item2 = new ItemInfo()
             {
                 Name = "Green Shirt",
                 Cost = 10,
             };
 
-            var item3 = new Item()
+            var item3 = new ItemInfo()
             {
                 Name = "Black Hair",
                 Cost = 0,
             };
 
-            var item4 = new Item()
+            var item4 = new ItemInfo()
             {
                 Name = "Blond Hair",
                 Cost = 15,

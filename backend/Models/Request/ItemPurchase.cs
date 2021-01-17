@@ -10,6 +10,6 @@ namespace QuizMania.WebAPI.Models
         public ItemPurchase(ItemPurchaseRequestDTO purchaseRequest) : base(purchaseRequest) { }
 
         [Required]
-        public Item PurchasedItem { get; set; }
+        public ItemInfo PurchasedItem { get; set; }
     }
 }
