@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, FlatList, TouchableOpacity } from "react-native";
 import { Button, Card } from "react-native-elements";
-import { Container, Header, Pergunta, Gabarito } from "../../../../components";
+import { Container, Header, Pergunta, Gabarito, Personagem } from "../../../../components";
+import API from '../../../../services'
 import { Ionicons } from "@expo/vector-icons";
 
-import API from "../../../../services";
 export default function ListarQuizzes({ navigation }) {
   const [quizzes, setQuizzes] = useState([]);
 
@@ -23,7 +23,10 @@ export default function ListarQuizzes({ navigation }) {
 
   const numColumns = 10;
   return (
-    <Container navigation={navigation} flex>
+    <Container navigation={navigation} >
+      <View style={{justifyContent: "flex-start", right: 100}}>
+      <Personagem/>
+      </View>
       <Button
         onPress={() => navigation.navigate("Criar Quiz")}
         type="solid"

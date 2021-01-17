@@ -6,5 +6,6 @@ import Gabarito from "./Gabarito";
 import ProgressBar from "./ProgressBar";
 import ResponsiveList from "./ResponsiveList";
 import CardItem from "./CardItem";
+import Personagem from "./Personagem";
 
-export { Container, Header, Pergunta, Alternativa, Gabarito, ProgressBar, ResponsiveList, CardItem };
+export { Container, Header, Pergunta, Alternativa, Gabarito, ProgressBar, ResponsiveList, CardItem, Personagem };
