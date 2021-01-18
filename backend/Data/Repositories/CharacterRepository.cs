@@ -22,15 +22,19 @@ namespace QuizMania.WebAPI
 
         public async Task<Character> GetCharacterAllAsync(long id)
         {
-            return await _context.Characters.Include(c => c.Items)
-                                            .Include(c => c.QuizFeedbacks)
-                                            .ThenInclude(qb => qb.Quiz)
+            return await _context.Characters.Include(c => c.Items).ThenInclude(i => i.Item)
+                                            .Include(c => c.QuizFeedbacks).ThenInclude(qb => qb.Quiz)
                                             .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task<Character> GetCharacterSimpleAsync(long id)
+        {
+            return await _context.Characters.FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<Character> GetCharacterItemsAsync(long id)
         {
-            return await _context.Characters.Include(c => c.Items).FirstOrDefaultAsync(c => c.Id == id);
+            return await _context.Characters.Include(c => c.Items).ThenInclude(i => i.Item).FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task SaveChangesAsync()

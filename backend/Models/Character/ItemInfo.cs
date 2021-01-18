@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace QuizMania.WebAPI.Models {
-    public sealed class Item {
-        public Item() {
+    public sealed class ItemInfo {
+        public ItemInfo() {
             Effects = new HashSet<EffectBase>();
         }
 
@@ -17,6 +17,9 @@ namespace QuizMania.WebAPI.Models {
 
         [Required]
         public int Cost { get; set; }
+
+        [Required]
+        public int MaxQuantity { get; set; }
 
         [Required]
         public ICollection<EffectBase> Effects { get; set; }

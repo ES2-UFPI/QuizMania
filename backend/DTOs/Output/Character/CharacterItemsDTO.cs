@@ -6,11 +6,11 @@ namespace QuizMania.WebAPI.DTOs.Output
     {
         public CharacterItemsDTO()
         {
-            Items = new HashSet<ItemInfoDTO>();
+            Items = new HashSet<ItemQuantityDTO>();
         }
 
         public long CharacterId { get; set; }
 
-        public virtual ICollection<ItemInfoDTO> Items { get; set; }
+        public virtual ICollection<ItemQuantityDTO> Items { get; set; }
     }
 }

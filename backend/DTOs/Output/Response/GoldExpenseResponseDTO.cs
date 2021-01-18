@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace QuizMania.WebAPI.DTOs.Output
 {
@@ -10,7 +11,10 @@ namespace QuizMania.WebAPI.DTOs.Output
 
         public int ExpenseRequested { get; set; }
 
-        public bool ExpenseAuthorized { get; set; }
+        [JsonIgnore]
+        public GoldExpenseResult Result { get; set; }
+
+        public string ResultMessage => Result.ToString();
 
         public int RemainingGold { get; set; }
     }

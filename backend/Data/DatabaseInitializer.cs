@@ -13,41 +13,61 @@ namespace QuizMania.WebAPI.Data
             context.Database.EnsureCreated();
 
             // mock items
-            var item1 = new Item()
+            var item1 = new ItemInfo()
             {
                 Name = "Red Shirt",
-                Cost = 0,
+                Cost = 5,
+                MaxQuantity = 1,
             };
 
-            var item2 = new Item()
+            var item2 = new ItemInfo()
             {
                 Name = "Green Shirt",
                 Cost = 10,
+                MaxQuantity = 1,
             };
 
-            var item3 = new Item()
+            var item3 = new ItemInfo()
             {
                 Name = "Black Hair",
-                Cost = 0,
+                Cost = 10,
+                MaxQuantity = 1,
             };
 
-            var item4 = new Item()
+            var item4 = new ItemInfo()
             {
                 Name = "Blond Hair",
                 Cost = 15,
+                MaxQuantity = 1,
+            };
+
+            var item5 = new ItemInfo()
+            {
+                Name = "Infinite Item",
+                Cost = 10,
+                MaxQuantity = -1,
+            };
+
+            var item6 = new ItemInfo()
+            {
+                Name = "Forbiden Item",
+                Cost = 0,
+                MaxQuantity = 0,
             };
 
             context.Items.Add(item1);
             context.Items.Add(item2);
             context.Items.Add(item3);
             context.Items.Add(item4);
+            context.Items.Add(item5);
+            context.Items.Add(item6);
 
             // mock characters
             var char1 = new Character()
             {
                 Name = "Gandalf",
                 TotalXP = 5,
-                Gold = 10,
+                Gold = 300,
                 HealthPoints = 100,
             };
 
@@ -55,15 +75,17 @@ namespace QuizMania.WebAPI.Data
             {
                 Name = "Jurema",
                 TotalXP = 55,
-                Gold = 70,
+                Gold = 185,
                 HealthPoints = 80,
             };
 
-            char1.Items.Add(item1);
-            char1.Items.Add(item4);
+            char1.Items.Add(new ItemQuantity(item1, 1));
+            char1.Items.Add(new ItemQuantity(item4, 1));
+            char1.Items.Add(new ItemQuantity(item5, 5));
 
-            char2.Items.Add(item2);
-            char2.Items.Add(item3);
+            char2.Items.Add(new ItemQuantity(item2, 1));
+            char2.Items.Add(new ItemQuantity(item3, 1));
+            char2.Items.Add(new ItemQuantity(item5, 10));
 
             context.Characters.Add(char1);
             context.Characters.Add(char2);
