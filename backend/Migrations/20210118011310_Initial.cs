@@ -24,6 +24,21 @@ namespace QuizMania.WebAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Items",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 64, nullable: false),
+                    Cost = table.Column<int>(type: "INTEGER", nullable: false),
+                    MaxQuantity = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Items", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GoldExpense",
                 columns: table => new
                 {
@@ -44,27 +59,6 @@ namespace QuizMania.WebAPI.Migrations
                         principalTable: "Characters",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Items",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 64, nullable: false),
-                    Cost = table.Column<int>(type: "INTEGER", nullable: false),
-                    CharacterId = table.Column<long>(type: "INTEGER", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Items", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Items_Characters_CharacterId",
-                        column: x => x.CharacterId,
-                        principalTable: "Characters",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -93,13 +87,40 @@ namespace QuizMania.WebAPI.Migrations
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 32, nullable: false),
-                    ItemId = table.Column<long>(type: "INTEGER", nullable: true)
+                    ItemInfoId = table.Column<long>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Effects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Effects_Items_ItemId",
+                        name: "FK_Effects_Items_ItemInfoId",
+                        column: x => x.ItemInfoId,
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ItemQuantity",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ItemId = table.Column<long>(type: "INTEGER", nullable: true),
+                    Quantity = table.Column<int>(type: "INTEGER", nullable: false),
+                    CharacterId = table.Column<long>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemQuantity", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ItemQuantity_Characters_CharacterId",
+                        column: x => x.CharacterId,
+                        principalTable: "Characters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ItemQuantity_Items_ItemId",
                         column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "Id",
@@ -238,9 +259,9 @@ namespace QuizMania.WebAPI.Migrations
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Effects_ItemId",
+                name: "IX_Effects_ItemInfoId",
                 table: "Effects",
-                column: "ItemId");
+                column: "ItemInfoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GoldExpense_CharacterId",
@@ -248,9 +269,14 @@ namespace QuizMania.WebAPI.Migrations
                 column: "CharacterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Items_CharacterId",
-                table: "Items",
+                name: "IX_ItemQuantity_CharacterId",
+                table: "ItemQuantity",
                 column: "CharacterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemQuantity_ItemId",
+                table: "ItemQuantity",
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuestionAnswers_QuestionId",
@@ -293,6 +319,9 @@ namespace QuizMania.WebAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "GoldExpense");
+
+            migrationBuilder.DropTable(
+                name: "ItemQuantity");
 
             migrationBuilder.DropTable(
                 name: "Answers");
