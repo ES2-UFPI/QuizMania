@@ -224,7 +224,6 @@
     tipo: "pants",
   },
   "pantsLightBlue_long.png": {
-      require('../assets/personagem/Pants/LightBlue/pantsLightBlue_long.png'),
     tipo: "pants",
   },
   "pantsNavy_long.png": {
@@ -699,4 +698,4 @@
   "tint8_neck.png": {
     tipo: "neck",
   },
-};
+}
