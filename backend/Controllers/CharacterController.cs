@@ -32,6 +32,12 @@ namespace QuizMania.WebAPI.Controllers
             return character != null ? Ok(character) : NotFound();
         }
 
+        /// <remarks>
+        /// <h2> **Result values:** </h2> 
+        /// <h3> **200:** Authorized </h3>
+        /// <h3> **404:** CharacterNotFound </h3>
+        /// <h3> **400:** BadRequest, NotEnoughResources </h3>
+        /// </remarks>
         [HttpPost("expendGold")]
         public async Task<ActionResult<GoldExpenseResponseDTO>> TryExpendGold(GoldExpenseRequestDTO expenseRequest)
         {
@@ -44,6 +50,12 @@ namespace QuizMania.WebAPI.Controllers
             }
         }
 
+        /// <remarks>
+        /// <h2> **Result values:** </h2> 
+        /// <h3> **200:** Authorized </h3>
+        /// <h3> **404:** ItemNotFound, CharacterNotFound </h3>
+        /// <h3> **400:** BadRequest, NotEnoughResources, ItemNotFound, ReachedItemMaxQuantity </h3>
+        /// </remarks>
         [HttpPost("items/purchase")]
         public async Task<ActionResult<ItemPurchaseResponseDTO>> TryPurchaseItem(ItemPurchaseRequestDTO purchaseRequest)
         {
