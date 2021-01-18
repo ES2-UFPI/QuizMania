@@ -1,701 +1,701 @@
 {
   "face1.png": {
-    tipo: "face",
+    "tipo": "face"
   },
   "face2.png": {
-    tipo: "face",
+    "tipo": "face"
   },
   "face3.png": {
-    tipo: "face",
+    "tipo": "face"
   },
   "face4.png": {
-    tipo: "face",
+    "tipo": "face"
   },
   "blackMan1.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "blackMan2.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "blackMan3.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "blackMan4.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "blackMan5.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "blackMan6.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "blackMan7.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "blackMan8.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "blondeMan1.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "blondeMan2.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "blondeMan3.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "blondeMan4.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "blondeMan5.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "blondeMan6.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "blondeMan7.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "blondeMan8.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "brown1Man1.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "brown1Man2.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "brown1Man3.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "brown1Man4.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "brown1Man5.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "brown1Man6.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "brown1Man7.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "brown1Man8.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "brown2Man1.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "brown2Man2.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "brown2Man3.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "brown2Man4.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "brown2Man5.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "brown2Man6.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "brown2Man7.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "brown2Man8.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "greyMan1.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "greyMan2.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "greyMan3.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "greyMan4.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "greyMan5.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "greyMan6.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "greyMan7.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "greyMan8.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "redMan1.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "pantsBrown1.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "redMan2.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "redMan3.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "redMan4.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "redMan5.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "redMan6.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "redMan7.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "redMan8.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "tanMan1.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "tanMan2.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "tanMan3.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "tanMan4.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "tanMan5.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "tanMan6.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "tanMan7.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "tanMan8.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "whiteMan1.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "whiteMan2.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "whiteMan3.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "whiteMan4.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "whiteMan5.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "whiteMan6.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "whiteMan7.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   "whiteMan8.png": {
-    tipo: "hair",
+    "tipo": "hair"
   },
   
   "pantsBlue1_long.png": {
-    tipo: "pants",
+    "tipo": "pants"
   },
 
   "pantsBlue2_long.png": {
-    tipo: "pants",
+    "tipo": "pants"
   },
   "pantsBrown_long.png": {
-    tipo: "pants",
+    "tipo": "pants"
   },
   "pantsGreen_long.png": {
-    tipo: "pants",
+    "tipo": "pants"
   },
   "pantsGrey_long.png": {
-    tipo: "pants",
+    "tipo": "pants"
   },
   "pantsLightBlue_long.png": {
-    tipo: "pants",
+    "tipo": "pants"
   },
   "pantsNavy_long.png": {
-    tipo: "pants",
+    "tipo": "pants"
   },
 
   
   "pantsPine_long.png": {
-    tipo: "pants",
+    "tipo": "pants"
   },
 
   "pantsRed_long.png": {
-    tipo: "pants",
+    "tipo": "pants"
   },
 
   "pantsTan_long.png": {
-    tipo: "pants",
+    "tipo": "pants"
   },
 
   "pantsWhite_long.png": {
-    tipo: "pants",
+    "tipo": "pants"
   },
 
   "legYellow_long.png": {
-    tipo: "pants",
+    "tipo": "pants"
   },
   "blueArm_long.png": {
-    tipo: "arm",
+    "tipo": "arm"
   },
 
   "blueShirt1.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "blueShirt2.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "blueShirt3.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "blueShirt4.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "blueShirt5.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "blueShirt6.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "blueShirt7.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "blueShirt8.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "greenArm_long.png": {
-    tipo: "arm",
+    "tipo": "arm"
   },
 
   "greenShirt1.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "greenShirt2.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "greenShirt3.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "greenShirt4.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "greenShirt5.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "greenShirt6.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "greenShirt7.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "greenShirt8.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "greyArm_long.png": {
-    tipo: "arm",
+    "tipo": "arm"
   },
 
   "greyShirt1.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "greyShirt2.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "greyShirt3.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "greyShirt4.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "greyShirt5.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "greyShirt6.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "greyShirt7.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "greyShirt8.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "navyArm_long.png": {
-    tipo: "arm",
+    "tipo": "arm"
   },
 
   "navyShirt1.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "navyShirt2.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "navyShirt3.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "navyShirt4.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "navyShirt5.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "navyShirt6.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "navyShirt7.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "navyShirt8.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "pineArm_long.png": {
-    tipo: "arm",
+    "tipo": "arm"
   },
 
   "pineShirt1.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "pineShirt2.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "pineShirt3.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "pineShirt4.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "pineShirt5.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "pineShirt6.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "pineShirt7.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "pineShirt8.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "redArm_long.png": {
-    tipo: "arm",
+    "tipo": "arm"
   },
 
   "redShirt1.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "redShirt2.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "redShirt3.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "redShirt4.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "redShirt5.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "redShirt6.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "redShirt7.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "redShirt8.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "armWhite_long.png": {
-    tipo: "arm",
+    "tipo": "arm"
   },
 
   "whiteShirt1.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "whiteShirt2.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "whiteShirt3.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "whiteShirt4.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "whiteShirt5.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "whiteShirt6.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "whiteShirt7.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "whiteShirt8.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "armYellow_long.png": {
-    tipo: "arm",
+    "tipo": "arm"
   },
   "shirtYellow1.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "shirtYellow2.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "shirtYellow3.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "shirtYellow4.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "shirtYellow5.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "shirtYellow6.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "shirtYellow7.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "shirtYellow8.png": {
-    tipo: "shirt",
+    "tipo": "shirt"
   },
   "blackShoe1.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "blackShoe2.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "blackShoe3.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "blackShoe4.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "blackShoe5.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "blueShoe1.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "blueShoe2.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "blueShoe3.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "blueShoe4.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "blueShoe5.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "brownShoe1.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "brownShoe2.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "brownShoe3.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "brownShoe4.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "brownShoe5.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "brown2Shoe1.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "brown2Shoe2.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "brown2Shoe3.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "brown2Shoe4.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "brown2Shoe5.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "greyShoe1.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "greyShoe2.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "greyShoe3.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "greyShoe4.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "greyShoe5.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "redShoe1.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "redShoe2.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "redShoe3.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "redShoe4.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "redShoe5.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "tanShoe1.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "tanShoe2.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "tanShoe3.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "tanShoe4.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "tanShoe5.png": {
-    tipo: "shoe",
+    "tipo": "shoe"
   },
   "tint1_arm.png": {
-    tipo: "arm",
+    "tipo": "arm"
   },
   "tint1_hand.png": {
-    tipo: "hand",
+    "tipo": "hand"
   },
   "tint1_head.png": {
-    tipo: "head",
+    "tipo": "head"
   },
   "tint1_leg.png": {
-    tipo: "Outros",
+    "tipo": "Outros"
   },
   "tint1_neck.png": {
-    tipo: "neck",
+    "tipo": "neck"
   },
   "tint2_arm.png": {
-    tipo: "arm",
+    "tipo": "arm"
   },
   "tint2_hand.png": {
-    tipo: "hand",
+    "tipo": "hand"
   },
   "tint2_head.png": {
-    tipo: "head",
+    "tipo": "head"
   },
   "tint2_leg.png": {
-    tipo: "Outros",
+    "tipo": "Outros"
   },
   "tint2_neck.png": {
-    tipo: "neck",
+    "tipo": "neck"
   },
   "tint3_arm.png": {
-    tipo: "arm",
+    "tipo": "arm"
   },
   "tint3_hand.png": {
-    tipo: "hand",
+    "tipo": "hand"
   },
   "tint3_head.png": {
-    tipo: "head",
+    "tipo": "head"
   },
   "tint3_leg.png": {
-    tipo: "Outros",
+    "tipo": "Outros"
   },
   "tint3_neck.png": {
-    tipo: "neck",
+    "tipo": "neck"
   },
   "tint4_arm.png": {
-    tipo: "arm",
+    "tipo": "arm"
   },
   "tint4_hand.png": {
-    tipo: "hand",
+    "tipo": "hand"
   },
   "tint4_head.png": {
-    tipo: "head",
+    "tipo": "head"
   },
   "tint4_leg.png": {
-    tipo: "Outros",
+    "tipo": "Outros"
   },
   "tint4_neck.png": {
-    tipo: "neck",
+    "tipo": "neck"
   },
   "tint5_arm.png": {
-    tipo: "arm",
+    "tipo": "arm"
   },
   "tint5_hand.png": {
-    tipo: "hand",
+    "tipo": "hand"
   },
   "tint5_head.png": {
-    tipo: "head",
+    "tipo": "head"
   },
   "tint5_leg.png": {
-    tipo: "Outros",
+    "tipo": "Outros"
   },
   "tint5_neck.png": {
-    tipo: "neck",
+    "tipo": "neck"
   },
   "tint6_arm.png": {
-    tipo: "arm",
+    "tipo": "arm"
   },
   "tint6_hand.png": {
-    tipo: "hand",
+    "tipo": "hand"
   },
   "tint6_head.png": {
-    tipo: "head",
+    "tipo": "head"
   },
   "tint6_leg.png": {
-    tipo: "Outros",
+    "tipo": "Outros"
   },
   "tint6_neck.png": {
-    tipo: "neck",
+    "tipo": "neck"
   },
   "tint7_arm.png": {
-    tipo: "arm",
+    "tipo": "arm"
   },
   "tint7_hand.png": {
-    tipo: "hand",
+    "tipo": "hand"
   },
   "tint7_head.png": {
-    tipo: "head",
+    "tipo": "head"
   },
   "tint7_leg.png": {
-    tipo: "Outros",
+    "tipo": "Outros"
   },
   "tint7_neck.png": {
-    tipo: "neck",
+    "tipo": "neck"
   },
   "tint8_arm.png": {
-    tipo: "arm",
+    "tipo": "arm"
   },
   "tint8_hand.png": {
-    tipo: "hand",
+    "tipo": "hand"
   },
   "tint8_head.png": {
-    tipo: "head",
+    "tipo": "head"
   },
   "tint8_leg.png": {
-    tipo: "Outros",
+    "tipo": "Outros"
   },
   "tint8_neck.png": {
-    tipo: "neck",
-  },
+    "tipo": "neck"
+  }
 }
