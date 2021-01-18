@@ -107,7 +107,7 @@ namespace QuizMania.WebAPI.Services
 
                 var characterItem = character.Items.FirstOrDefault(i => i.Item.Id == item.Id);
 
-                if (item.MaxQuantity > 0 && purchase.RequestedQuantity + characterItem?.Quantity <= item.MaxQuantity)
+                if (item.MaxQuantity > 0 && purchase.RequestedQuantity + characterItem?.Quantity > item.MaxQuantity)
                 {
                     purchase.Result = GoldExpenseResult.ReachedItemMaxQuantity;
                     break;
