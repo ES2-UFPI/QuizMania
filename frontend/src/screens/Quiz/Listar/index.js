@@ -65,7 +65,7 @@ export default function ListarQuizzes({ navigation }) {
             <TouchableOpacity
               onPress={() =>
                 navigation.navigate("Responder Quiz", {
-                  quiz: item,
+                  quiz: item.id,
                 })
               }
             >

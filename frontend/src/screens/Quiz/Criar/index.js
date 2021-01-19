@@ -102,6 +102,7 @@ export default function ListarQuizzes({ navigation, route }) {
       const data = await API.detalharQuiz(quiz);
       setCharacter(data.owner.id)
       setPerguntas(data.questions);
+      console.log(perguntas)
     } catch (error) {
       alert(error.response.data.result)
     }
@@ -164,13 +165,13 @@ export default function ListarQuizzes({ navigation, route }) {
   if (step == 0) {
     return (
       <Container navigation={navigation}>
-        <TextInput
+        {/* <TextInput
           value={titulo}
           label="Título"
           style={{ backgroundColor: "transparent" }}
           placeholder="Digite o título do Quiz"
           onChangeText={(texto) => setTitulo(texto)}
-        />
+        /> */}
 
         <FlatList
           data={perguntas}
@@ -267,16 +268,31 @@ export default function ListarQuizzes({ navigation, route }) {
       <Button
         title="Salvar"
         containerStyle={{ marginTop: 15 }}
-        onPress={() => {
+        onPress={async () => {
           const novaPergunta = {
             text: perguntaTitulo,
             answers: alternativas,
           };
-          perguntas.push(novaPergunta);
-          setPerguntas(perguntas);
-          console.log(perguntas);
-          setAlternativas([]);
+          if(quiz) {
+            novaPergunta['quizId'] = quiz
+            try {
+              const response = await API.criarPergunta(novaPergunta)
+              console.log(novaPergunta)
+              alert("Sua pergunta foi cadastrada com sucesso ao quiz!")
+              await getData() 
+            } catch (error) {
+              alert("Erro ao cadastrar sua pergunta...")
+              console.log(error)
+            }
+            
+          } else {
 
+            perguntas.push(novaPergunta);
+            setPerguntas(perguntas);
+            console.log(perguntas);
+            setAlternativas([]);
+            
+          }
           setPerguntaTitulo("");
           setPerguntaAlternativa("");
           setCorreta(false);

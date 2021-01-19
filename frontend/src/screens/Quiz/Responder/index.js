@@ -8,7 +8,7 @@ import API from '../../../../services'
 
 export default function responderQuiz({ navigation, route }) {
   const [quiz, setQuiz] = useState(route.params.quiz);
-  const [perguntas, setPerguntas] = useState(route.params.quiz.questions || []);
+  const [perguntas, setPerguntas] = useState([]);
   const [perguntaAtual, setPerguntaAtual] = useState(undefined);
   const [respostas, setRespostas] = useState({});
   const [gabaritoVisivel, setGabaritoVisivel] = useState(false);
@@ -16,18 +16,29 @@ export default function responderQuiz({ navigation, route }) {
   const [perguntasGabarito, setPerguntasGabarito] = useState(undefined);
   const [percentage, setPercentage] = useState(0)
   const [paramsToRoute, setParamsToRoute] = useState({})
-  useEffect(() => {
-    const focusListener = navigation.addListener("focus", () => {
-      // Call ur function here.. or add logic.
-      setQuiz(route.params.quiz);
-      setPerguntas(route.params.quiz.questions);
-      setRespostas({});
-      setGabaritoVisivel(false);
-      setPerguntaGabarito(undefined);
-      setPerguntaAtual(0);
-    });
 
-    // focusListener()
+  async function detalharQuiz() {
+    try {
+      const response = await API.detalharQuiz(quiz) 
+      setPerguntas(response.questions);
+    } catch (error) {
+      console.log(error)
+      alert("Não foi possível carregar as perguntar do quiz...")
+    }
+  }
+
+  async function getInfo() {
+    // Call ur function here.. or add logic.
+    detalharQuiz()
+    setRespostas({});
+    setGabaritoVisivel(false);
+    setPerguntaGabarito(undefined);
+    setPerguntaAtual(0);
+  }
+
+  useEffect(() => {
+    getInfo()
+    const focusListener = navigation.addListener("focus", () => {getInfo()});
     return focusListener;
   }, [navigation]);
 
@@ -41,7 +52,7 @@ export default function responderQuiz({ navigation, route }) {
       respostasToSubmit.questionAnswers.push(respostaTemp)
       //console.log(key + ": " + respostas[key]);
     }); 
-    respostasToSubmit['quizId'] = quiz.id
+    respostasToSubmit['quizId'] = quiz
     console.log(JSON.stringify(respostasToSubmit))
 
     const {quizFeedback} = await API.responderQuiz(respostasToSubmit)
