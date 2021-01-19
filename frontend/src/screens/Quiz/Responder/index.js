@@ -40,11 +40,12 @@ export default function responderQuiz({ navigation, route }) {
       respostaTemp['chosenAnswerIds'] = respostas[key]
       respostasToSubmit.questionAnswers.push(respostaTemp)
       //console.log(key + ": " + respostas[key]);
-    });
+    }); 
     respostasToSubmit['quizId'] = quiz.id
     console.log(JSON.stringify(respostasToSubmit))
 
-    const data = await API.responderQuiz(respostasToSubmit)
+    const {quizFeedback} = await API.responderQuiz(respostasToSubmit)
+    const data = quizFeedback
     console.log(JSON.stringify(data))
     setPercentage(data.percentageOfCorrectChosenAnswers)
     setParamsToRoute({

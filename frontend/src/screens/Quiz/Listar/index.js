@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, FlatList, TouchableOpacity } from "react-native";
+import { Text, View, FlatList, TouchableOpacity, Alert } from "react-native";
 import { Button, Card } from "react-native-elements";
 import { Container, Header, Pergunta, Gabarito, Personagem } from "../../../../components";
 import API from '../../../../services'
@@ -21,6 +21,19 @@ export default function ListarQuizzes({ navigation }) {
     }
   }
 
+  async function deletarQuiz (id) {
+    try {
+      const response = await API.deletarQuiz(id)
+      alert("Quiz deletado com sucesso!")
+      await getData()
+
+    } catch (error) {
+      alert("Erro ao deletar o quiz.")
+      console.log(error)
+    }
+
+  }
+
   const numColumns = 10;
   return (
     <Container navigation={navigation} >
@@ -40,6 +53,7 @@ export default function ListarQuizzes({ navigation }) {
           bottom: 0,
           left: 300,
           right: 0,
+          marginTop: -50,
           zIndex: 9999,
         }}
         titleStyle={{ fontSize: 30, fontWeight: "bold" }}
@@ -57,12 +71,33 @@ export default function ListarQuizzes({ navigation }) {
             >
               <Card.Title>Quiz id {item.id}</Card.Title>
             </TouchableOpacity>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Ionicons
               name="md-trash"
               size={24}
               color="red"
-              onPress={() => alert("Deletando quiz...")}
+              onPress={() => {
+                Alert.alert(
+                  "Atenção",
+                  "Deseja realmente deletar o quiz?",
+                  [
+                    {
+                      text: "Cancelar",
+                      onPress: () => console.log("Cancel Pressed"),
+                      style: "cancel"
+                    },
+                    { text: "OK", onPress: () => deletarQuiz(item.id) }
+                  ],
+                );
+              }}
             />
+            <Ionicons
+              name="md-create"
+              size={24}
+              color="green"
+              onPress={() => navigation.navigate("Criar Quiz", {quizId: item.id})}
+            />
+            </View>
           </Card>
         )}
       />
