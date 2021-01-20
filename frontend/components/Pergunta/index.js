@@ -54,7 +54,7 @@ export default function Pergunta({
       }
     }
     setAlternativasSelecionadas(respostasTemp);
-    // //console.log(respostasTemp);
+    // ////console.log(respostasTemp);
   }
 
   function mapChoices(choices) {
@@ -121,6 +121,7 @@ export default function Pergunta({
                 alert("Ok!")
 //                navigation.navigate("Gabarito")
               } catch(error) {
+                //console.log(error)
                 alert(error.toString())
               }
               setLoadingResposta(false)

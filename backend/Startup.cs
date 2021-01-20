@@ -9,6 +9,8 @@ using AutoMapper;
 using QuizMania.WebAPI.Services;
 using Microsoft.Data.Sqlite;
 using QuizMania.WebAPI.Data;
+using System.Reflection;
+using System.IO;
 
 namespace QuizMania.WebAPI
 {
@@ -27,6 +29,7 @@ namespace QuizMania.WebAPI
 
             services.AddScoped<IQuizAsyncRepository, QuizRepository>();
             services.AddScoped<ICharacterAsyncRepository, CharacterRepository>();
+            services.AddScoped<IItemAsyncRepository, ItemRepository>();
 
             services.AddScoped<IQuizService, QuizService>();
             services.AddScoped<ICharacterService, CharacterService>();
@@ -38,7 +41,13 @@ namespace QuizMania.WebAPI
            
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(opt =>
+                {
+                    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                    opt.IncludeXmlComments(xmlPath);
+                }
+            );
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -52,7 +61,7 @@ namespace QuizMania.WebAPI
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("v1/swagger.json", "QuizMania Web API v0.1.3");
+                c.SwaggerEndpoint("v1/swagger.json", "QuizMania Web API v0.2.1");
             });
 
             app.UseHttpsRedirection();

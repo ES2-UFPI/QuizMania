@@ -8,7 +8,7 @@ import API from '../../../../services'
 
 export default function responderQuiz({ navigation, route }) {
   const [quiz, setQuiz] = useState(route.params.quiz);
-  const [perguntas, setPerguntas] = useState(route.params.quiz.questions || []);
+  const [perguntas, setPerguntas] = useState([]);
   const [perguntaAtual, setPerguntaAtual] = useState(undefined);
   const [respostas, setRespostas] = useState({});
   const [gabaritoVisivel, setGabaritoVisivel] = useState(false);
@@ -16,18 +16,29 @@ export default function responderQuiz({ navigation, route }) {
   const [perguntasGabarito, setPerguntasGabarito] = useState(undefined);
   const [percentage, setPercentage] = useState(0)
   const [paramsToRoute, setParamsToRoute] = useState({})
-  useEffect(() => {
-    const focusListener = navigation.addListener("focus", () => {
-      // Call ur function here.. or add logic.
-      setQuiz(route.params.quiz);
-      setPerguntas(route.params.quiz.questions);
-      setRespostas({});
-      setGabaritoVisivel(false);
-      setPerguntaGabarito(undefined);
-      setPerguntaAtual(0);
-    });
 
-    // focusListener()
+  async function detalharQuiz() {
+    try {
+      const response = await API.detalharQuiz(quiz) 
+      setPerguntas(response.questions);
+    } catch (error) {
+      //console.log(error)
+      alert("Não foi possível carregar as perguntar do quiz...")
+    }
+  }
+
+  async function getInfo() {
+    // Call ur function here.. or add logic.
+    detalharQuiz()
+    setRespostas({});
+    setGabaritoVisivel(false);
+    setPerguntaGabarito(undefined);
+    setPerguntaAtual(0);
+  }
+
+  useEffect(() => {
+    getInfo()
+    const focusListener = navigation.addListener("focus", () => {getInfo()});
     return focusListener;
   }, [navigation]);
 
@@ -39,13 +50,14 @@ export default function responderQuiz({ navigation, route }) {
       respostaTemp['questionId'] = key
       respostaTemp['chosenAnswerIds'] = respostas[key]
       respostasToSubmit.questionAnswers.push(respostaTemp)
-      //console.log(key + ": " + respostas[key]);
-    });
-    respostasToSubmit['quizId'] = quiz.id
-    console.log(JSON.stringify(respostasToSubmit))
+      ////console.log(key + ": " + respostas[key]);
+    }); 
+    respostasToSubmit['quizId'] = quiz
+    //console.log(JSON.stringify(respostasToSubmit))
 
-    const data = await API.responderQuiz(respostasToSubmit)
-    console.log(JSON.stringify(data))
+    const {quizFeedback} = await API.responderQuiz(respostasToSubmit)
+    const data = quizFeedback
+    //console.log(JSON.stringify(data))
     setPercentage(data.percentageOfCorrectChosenAnswers)
     setParamsToRoute({
       xpGanho: data.experienceGained,
@@ -60,24 +72,24 @@ export default function responderQuiz({ navigation, route }) {
     const novasRespostas = respostas;
     novasRespostas[pergunta] = resposta;
     setRespostas(novasRespostas);
-    // //console.log(respostas);
+    // ////console.log(respostas);
     if (perguntaAtual < perguntas.length - 1)
       setPerguntaAtual(perguntaAtual + 1);
   }
   function alterPerguntaGabarito(id) {
-    //console.log(perguntasGabarito)
+    ////console.log(perguntasGabarito)
     setPerguntaGabarito(perguntasGabarito.find((item) => item.question.id == id));
   }
 
 
 
   function isCorrect(alternativa, pergunta) {
-    //console.log(alternativa)
-    //console.log(pergunta)
+    ////console.log(alternativa)
+    ////console.log(pergunta)
     const contexto = pergunta
     const idPergunta = pergunta.question ? pergunta.question.id : pergunta.id
     const correct = contexto.chosenAnswerIds ? contexto.chosenAnswerIds.includes(alternativa.id) : false
-    //console.log(correct)
+    ////console.log(correct)
     return correct
     
   }

@@ -10,7 +10,7 @@ export default function Header({navigation}) {
   useEffect(() => {
     getData();
 
-  }, [navigation])
+  }, [])
 
 
   async function getData() {
@@ -18,11 +18,12 @@ export default function Header({navigation}) {
       const data = await API.obterPersonagem({})
       const dataLocal =  JSON.parse(await AsyncStorage.getItem("data"))
       let extra = 0;
-      if(dataLocal) {
+      //console.log(dataLocal)
+      if(dataLocal && dataLocal.vidaLocal) {
         extra = dataLocal.vidaLocal
       }
-      data.healthPoints += extra
       //console.log(data)
+      data.healthPoints += extra
       setPersonagem(data)
     } catch (error) {
       alert(error)

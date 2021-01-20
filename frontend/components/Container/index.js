@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, ImageBackground, StyleSheet, View } from "react-native";
+import { ScrollView, ImageBackground, StyleSheet, View, RefreshControl } from "react-native";
 import { BACKGROUND_COLOR } from "../../constants";
 import { Header } from "../index";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 
-export default function container({ children, notscroll, navigation }) {
+export default function container({ children, notscroll, navigation,refresh, flex }) {
   const [render, setRender] = useState(true);
+  const [step, setStep] = useState(0)
+  const [refreshing, setRefreshing] = useState(false)
   useEffect(() => {
-    setRender(!render)
+    setRender(!render);
     // alert("oi")
   }, [navigation]);
+
+  function onRefresh() {
+    setStep(step +1)
+  }
   if (notscroll)
     return (
       <ImageBackground
@@ -29,7 +35,12 @@ export default function container({ children, notscroll, navigation }) {
       style={styles.image}
       imageStyle={{ opacity: 0.15 }}
     >
-      <ScrollView style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        refreshControl={
+          refresh ? <RefreshControl refreshing={refreshing} onRefresh={onRefresh} /> : undefined
+        }
+      >
         <Header navigation={render} />
         <React.Fragment>{children}</React.Fragment>
       </ScrollView>

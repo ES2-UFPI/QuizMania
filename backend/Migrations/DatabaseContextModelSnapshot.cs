@@ -31,21 +31,6 @@ namespace QuizMania.WebAPI.Migrations
                     b.ToTable("AnswerQuestionAnswer");
                 });
 
-            modelBuilder.Entity("QuestionQuiz", b =>
-                {
-                    b.Property<long>("QuestionsId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("QuizzesId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("QuestionsId", "QuizzesId");
-
-                    b.HasIndex("QuizzesId");
-
-                    b.ToTable("QuestionQuiz");
-                });
-
             modelBuilder.Entity("QuizMania.WebAPI.Models.Answer", b =>
                 {
                     b.Property<long>("Id")
@@ -55,7 +40,7 @@ namespace QuizMania.WebAPI.Migrations
                     b.Property<bool>("IsCorrect")
                         .HasColumnType("INTEGER");
 
-                    b.Property<long?>("QuestionId")
+                    b.Property<long>("QuestionId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Text")
@@ -95,6 +80,27 @@ namespace QuizMania.WebAPI.Migrations
                     b.ToTable("Characters");
                 });
 
+            modelBuilder.Entity("QuizMania.WebAPI.Models.EffectBase", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ItemInfoName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemInfoName");
+
+                    b.ToTable("Effects");
+                });
+
             modelBuilder.Entity("QuizMania.WebAPI.Models.GoldExpense", b =>
                 {
                     b.Property<long>("Id")
@@ -102,9 +108,6 @@ namespace QuizMania.WebAPI.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<long>("CharacterId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("ExpenseAuthorized")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ExpenseRequested")
@@ -116,11 +119,61 @@ namespace QuizMania.WebAPI.Migrations
                     b.Property<DateTime>("ResquestTime")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Result")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CharacterId");
 
                     b.ToTable("GoldExpense");
+                });
+
+            modelBuilder.Entity("QuizMania.WebAPI.Models.InventoryItem", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("CharacterId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsEquipped")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ItemName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CharacterId");
+
+                    b.HasIndex("ItemName");
+
+                    b.ToTable("InventoryItems");
+                });
+
+            modelBuilder.Entity("QuizMania.WebAPI.Models.ItemInfo", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasMaxLength(64)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Cost")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MaxQuantity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("QuizMania.WebAPI.Models.Question", b =>
@@ -129,12 +182,17 @@ namespace QuizMania.WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<long>("QuizId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("QuizId");
 
                     b.ToTable("Questions");
                 });
@@ -148,7 +206,7 @@ namespace QuizMania.WebAPI.Migrations
                     b.Property<long?>("QuestionId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<long?>("QuizFeedbackId")
+                    b.Property<long>("QuizFeedbackId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -166,7 +224,17 @@ namespace QuizMania.WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<long>("OwnerId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Quizzes");
                 });
@@ -219,26 +287,22 @@ namespace QuizMania.WebAPI.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("QuestionQuiz", b =>
-                {
-                    b.HasOne("QuizMania.WebAPI.Models.Question", null)
-                        .WithMany()
-                        .HasForeignKey("QuestionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("QuizMania.WebAPI.Models.Quiz", null)
-                        .WithMany()
-                        .HasForeignKey("QuizzesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("QuizMania.WebAPI.Models.Answer", b =>
                 {
-                    b.HasOne("QuizMania.WebAPI.Models.Question", null)
+                    b.HasOne("QuizMania.WebAPI.Models.Question", "Question")
                         .WithMany("Answers")
-                        .HasForeignKey("QuestionId");
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("QuizMania.WebAPI.Models.EffectBase", b =>
+                {
+                    b.HasOne("QuizMania.WebAPI.Models.ItemInfo", null)
+                        .WithMany("Effects")
+                        .HasForeignKey("ItemInfoName");
                 });
 
             modelBuilder.Entity("QuizMania.WebAPI.Models.GoldExpense", b =>
@@ -250,17 +314,60 @@ namespace QuizMania.WebAPI.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("QuizMania.WebAPI.Models.InventoryItem", b =>
+                {
+                    b.HasOne("QuizMania.WebAPI.Models.Character", "Character")
+                        .WithMany("Items")
+                        .HasForeignKey("CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QuizMania.WebAPI.Models.ItemInfo", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemName");
+
+                    b.Navigation("Character");
+
+                    b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("QuizMania.WebAPI.Models.Question", b =>
+                {
+                    b.HasOne("QuizMania.WebAPI.Models.Quiz", "Quiz")
+                        .WithMany("Questions")
+                        .HasForeignKey("QuizId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Quiz");
+                });
+
             modelBuilder.Entity("QuizMania.WebAPI.Models.QuestionAnswer", b =>
                 {
                     b.HasOne("QuizMania.WebAPI.Models.Question", "Question")
                         .WithMany()
                         .HasForeignKey("QuestionId");
 
-                    b.HasOne("QuizMania.WebAPI.Models.QuizFeedback", null)
+                    b.HasOne("QuizMania.WebAPI.Models.QuizFeedback", "QuizFeedback")
                         .WithMany("QuestionAnswers")
-                        .HasForeignKey("QuizFeedbackId");
+                        .HasForeignKey("QuizFeedbackId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Question");
+
+                    b.Navigation("QuizFeedback");
+                });
+
+            modelBuilder.Entity("QuizMania.WebAPI.Models.Quiz", b =>
+                {
+                    b.HasOne("QuizMania.WebAPI.Models.Character", "Owner")
+                        .WithMany("Quizzes")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("QuizMania.WebAPI.Models.QuizFeedback", b =>
@@ -284,12 +391,26 @@ namespace QuizMania.WebAPI.Migrations
                 {
                     b.Navigation("GoldExpenses");
 
+                    b.Navigation("Items");
+
                     b.Navigation("QuizFeedbacks");
+
+                    b.Navigation("Quizzes");
+                });
+
+            modelBuilder.Entity("QuizMania.WebAPI.Models.ItemInfo", b =>
+                {
+                    b.Navigation("Effects");
                 });
 
             modelBuilder.Entity("QuizMania.WebAPI.Models.Question", b =>
                 {
                     b.Navigation("Answers");
+                });
+
+            modelBuilder.Entity("QuizMania.WebAPI.Models.Quiz", b =>
+                {
+                    b.Navigation("Questions");
                 });
 
             modelBuilder.Entity("QuizMania.WebAPI.Models.QuizFeedback", b =>

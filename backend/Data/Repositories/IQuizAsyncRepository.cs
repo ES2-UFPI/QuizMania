@@ -10,6 +10,10 @@ namespace QuizMania.WebAPI
         Task<Quiz> GetQuizAsync(long id);
         Task<Question> GetQuestionAsync(long id);
         Task<Answer> GetAnswerAsync(long id);
-        Task<int> SaveChangesAsync();
+        Task<IEnumerable<QuizFeedback>> GetQuizFbByCharAsync(long id);
+        void AddQuiz(Quiz quiz);
+        Task DeleteQuizAsync(Quiz quiz);
+        Task DeleteQuestionAsync(Question question);
+        Task SaveChangesAsync();
     }
 }

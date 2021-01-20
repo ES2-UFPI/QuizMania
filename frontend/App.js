@@ -8,6 +8,7 @@ import {
   ProgressaoNivel,
   XpGanho,
   GoldGanho,
+  CriarQuiz,
   Perfil,
 } from "./src/screens";
 
@@ -22,6 +23,7 @@ const Stack = createStackNavigator();
 const QuizStack = () => (
   <Stack.Navigator>
     <Stack.Screen name="Listar Quizzes" component={ListarQuiz} />
+    <Stack.Screen name="Criar Quiz" component={CriarQuiz} />
     <Stack.Screen name="Responder Quiz" component={ResponderQuiz} />
     <Stack.Screen name="Progressão" component={ProgressaoNivel} />
     <Stack.Screen name="Gold Ganho" component={GoldGanho} />

@@ -20,16 +20,31 @@ namespace QuizMania.WebAPI
             return await _context.Characters.ToListAsync();
         }
 
-        public async Task<Character> GetCharacterAsync(long id)
+        public async Task<Character> GetCharacterAllAsync(long id)
         {
-            return await _context.Characters.Include(c => c.QuizFeedbacks)
-                                            .ThenInclude(qb => qb.Quiz)
+            return await _context.Characters.Include(c => c.Items).ThenInclude(i => i.Item)
+                                            .Include(c => c.QuizFeedbacks).ThenInclude(qb => qb.Quiz)
                                             .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<int> SaveChangesAsync()
+        public async Task<Character> GetCharacterSimpleAsync(long id)
         {
-            return await _context.SaveChangesAsync(); ;
+            return await _context.Characters.FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task<Character> GetCharacterItemsAsync(long id)
+        {
+            return await _context.Characters.Include(c => c.Items).ThenInclude(i => i.Item).FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task<IEnumerable<ItemInfo>> GetAllItemsAsync()
+        {
+            return await _context.Items.Include(i => i.Effects).ToListAsync();
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

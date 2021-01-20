@@ -4,19 +4,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using QuizMania.WebAPI.Models;
-using QuizMania.WebAPI.DTOs;
+using QuizMania.WebAPI.DTOs.Input;
+using QuizMania.WebAPI.DTOs.Output;
 
 namespace QuizMania.WebAPI.Services
 {
     public class QuizService : IQuizService
     {
         private readonly IQuizAsyncRepository _quizRepo;
+        private readonly ICharacterAsyncRepository _characterRepo;
         private readonly ICharacterService _characterService;
         private readonly IMapper _mapper;
 
-        public QuizService(IQuizAsyncRepository quizRepo, ICharacterService characterService, IMapper mapper)
+        public QuizService(IQuizAsyncRepository quizRepo, ICharacterAsyncRepository characterRepo, ICharacterService characterService, IMapper mapper)
         {
             _quizRepo = quizRepo;
+            _characterRepo = characterRepo;
             _characterService = characterService;
             _mapper = mapper;
         }
@@ -31,41 +34,254 @@ namespace QuizMania.WebAPI.Services
             return _mapper.Map<QuizReadDTO>(await _quizRepo.GetQuizAsync(id));
         }
 
-        public async Task<QuizFeedbackReadDTO> SaveQuizAnswer(QuizFeedbackReceivedDTO quizFbReceived)
+        public async Task<SaveQuizResponseDTO> SaveQuizAsync(SaveQuiz_QuizDTO quizReceived)
+        {
+            var result = new SaveQuizResponseDTO();
+
+            var quiz = _mapper.Map<Quiz>(quizReceived);
+
+            quiz.Owner = await _characterRepo.GetCharacterAllAsync(quizReceived.OwnerId);
+
+            if(quiz.Owner == null)
+            {
+                result._result = SaveQuizResponseDTO.RequestResult.OwnerNotFound;
+                return result;
+            }
+
+            if(quiz.Questions.Count == 0)
+            {
+                result._result = SaveQuizResponseDTO.RequestResult.EmptyAtribute;
+                return result;
+            }
+
+            foreach (var question in quiz.Questions)
+            {
+                if (question.Answers.Count == 0)
+                {
+                    result._result = SaveQuizResponseDTO.RequestResult.EmptyAtribute;
+                    return result;
+                }
+
+                if (!ValidateQuestion(question))
+                {
+                    result._result = SaveQuizResponseDTO.RequestResult.QuestionWithoutCorrectAnswer;
+                    return result;
+                }
+            }
+
+            _quizRepo.AddQuiz(quiz);
+
+            try
+            {
+                await _quizRepo.SaveChangesAsync();
+                result._result = SaveQuizResponseDTO.RequestResult.Success;
+                result.Quiz = _mapper.Map<QuizReadDTO>(quiz);
+            }
+            catch (Exception)
+            {
+                result._result = SaveQuizResponseDTO.RequestResult.BadRequest;
+            }
+
+            return result;
+        }
+
+        public async Task<DeleteQuizResponseDTO> DeleteQuizAsync(DeleteQuizRequestDTO deleteRequest)
+        {
+            var result = new DeleteQuizResponseDTO
+            {
+                Request = deleteRequest
+            };
+
+            var quiz = await _quizRepo.GetQuizAsync(deleteRequest.QuizId);
+            
+            if (quiz == null)
+            {
+                result._result = DeleteQuizResponseDTO.RequestResult.QuizNotFound;
+                return result;
+            }
+
+            if (quiz.Owner.Id != deleteRequest.CharacterId)
+            {
+                result._result = DeleteQuizResponseDTO.RequestResult.CharacterNotOwner;
+                return result;
+            }
+
+            await _quizRepo.DeleteQuizAsync(quiz);
+
+            try
+            {
+                await _quizRepo.SaveChangesAsync();
+                result._result = DeleteQuizResponseDTO.RequestResult.Success;
+
+            }catch(Exception)
+            {
+                result._result = DeleteQuizResponseDTO.RequestResult.BadRequest;
+            }
+
+            return result;
+        }
+
+        public async Task<SaveQuestionResponseDTO> SaveQuestionAsync(SaveQuestion_QuestionDTO questionReceived)
+        {
+            var result = new SaveQuestionResponseDTO();
+            
+            var quiz = await _quizRepo.GetQuizAsync(questionReceived.QuizId);
+
+            if (quiz == null)
+            {
+                result._result = SaveQuestionResponseDTO.RequestResult.QuizNotFound;
+                return result;
+            }
+
+            if (quiz.Owner == null || quiz.Owner.Id != questionReceived.CharacterId)
+            {
+                result._result = SaveQuestionResponseDTO.RequestResult.CharacterNotOwner;
+                return result;
+            }
+
+            var question = _mapper.Map<Question>(questionReceived);
+
+            if (question.Answers.Count == 0)
+            {
+                result._result = SaveQuestionResponseDTO.RequestResult.EmptyAtribute;
+                return result;
+            }
+
+            if (!ValidateQuestion(question))
+            {
+                result._result = SaveQuestionResponseDTO.RequestResult.QuestionWithoutCorrectAnswer;
+                return result;
+            }
+            
+            quiz.Questions.Add(question);
+
+            try
+            {
+                await _quizRepo.SaveChangesAsync();
+                result._result = SaveQuestionResponseDTO.RequestResult.Success;
+                result.Question = _mapper.Map<QuestionReadDTO>(question);
+            }
+            catch (Exception)
+            {
+                result._result = SaveQuestionResponseDTO.RequestResult.BadRequest;
+            }
+
+            return result;
+        }
+
+        public async Task<DeleteQuestionResponseDTO> DeleteQuestionAsync(DeleteQuestionRequestDTO deleteRequest)
+        {
+            var result = new DeleteQuestionResponseDTO()
+            {
+                Request = deleteRequest
+            };
+
+            var quiz = await _quizRepo.GetQuizAsync(deleteRequest.QuizId);
+
+            if (quiz == null)
+            {
+                result._result = DeleteQuestionResponseDTO.RequestResult.QuizNotFound;
+                return result;
+            }
+
+            if (quiz.Owner.Id != deleteRequest.CharacterId)
+            {
+                result._result = DeleteQuestionResponseDTO.RequestResult.CharacterNotOwner;
+                return result;
+            }
+
+            var question = quiz.Questions.Where(q => q.Id == deleteRequest.QuestionId).FirstOrDefault();
+
+            if (question == null)
+            {
+                result._result = DeleteQuestionResponseDTO.RequestResult.QuestionNotFound;
+                return result;
+            }
+                
+            await _quizRepo.DeleteQuestionAsync(question);
+
+            try
+            {
+                await _quizRepo.SaveChangesAsync();
+                result._result = DeleteQuestionResponseDTO.RequestResult.Success;
+
+            }
+            catch (Exception)
+            {
+                result._result = DeleteQuestionResponseDTO.RequestResult.BadRequest;
+            }
+
+            return result;
+        }
+
+        public async Task<SaveQuizFeedbackResponseDTO> SaveQuizFeedbackAsync(SaveQuizFb_QuizFeedbackDTO quizFbReceived)
         {
             float rightAnswerNumber = 0;
 
-            QuizFeedback quizFb = new QuizFeedback();
+            var result = new SaveQuizFeedbackResponseDTO();
 
-            quizFb.Quiz = await _quizRepo.GetQuizAsync(quizFbReceived.QuizId);
-            
+            QuizFeedback quizFb = new QuizFeedback()
+            {
+                Character = new Character() { Id = quizFbReceived.CharacterId },
+                Quiz = await _quizRepo.GetQuizAsync(quizFbReceived.QuizId),
+            };
+
             if (quizFb.Quiz == null)
-                return null;
+            {
+                result._result = SaveQuizFeedbackResponseDTO.RequestResult.QuizNotFound;
+                return result;
+            }
 
-            quizFb.Character = new Character() { Id = quizFbReceived.CharacterId };
+            if (quizFb.Quiz.Questions.Count == 0)
+            {
+                result._result = SaveQuizFeedbackResponseDTO.RequestResult.QuizWithoutQuestions;
+                return result;
+            }
 
+            if (quizFb.Quiz.Questions.Count != quizFbReceived.QuestionAnswers.Count ||
+               quizFbReceived.QuestionAnswers.GroupBy(qa => qa.QuestionId).Any(q => q.Count() > 1))
+            {
+                result._result = SaveQuizFeedbackResponseDTO.RequestResult.InvalidQuizFeedback;
+                return result;
+            }
+                       
             foreach (var qtAnswerReceived in quizFbReceived.QuestionAnswers)
             {
-                var qtAnswer = new QuestionAnswer();
+                var qtAnswer = new QuestionAnswer()
+                {
+                    Question = quizFb.Quiz.Questions.Where(q => q.Id == qtAnswerReceived.QuestionId).FirstOrDefault()
+                };
 
-                qtAnswer.Question = await _quizRepo.GetQuestionAsync(qtAnswerReceived.QuestionId);
-                
                 if (qtAnswer.Question == null)
-                    return null;
+                {
+                    result._result = SaveQuizFeedbackResponseDTO.RequestResult.QuestionNotFound;
+                    return result;
+                } 
+                
+                if(qtAnswerReceived.ChosenAnswerIds.Count == 0 || 
+                   (qtAnswerReceived.ChosenAnswerIds.Count > 1 && 
+                    qtAnswer.Question.Answers.Where(a => a.IsCorrect).Count() == 1))
+                {
+                    result._result = SaveQuizFeedbackResponseDTO.RequestResult.InvalidQuizFeedback;
+                    return result;
+                }
 
                 foreach (var answerID in qtAnswerReceived.ChosenAnswerIds)
                 {
-                    var chonsenAnswer = await _quizRepo.GetAnswerAsync(answerID);
+                    var chonsenAnswer = qtAnswer.Question.Answers.Where(a => a.Id == answerID).FirstOrDefault();
                    
                     if (chonsenAnswer == null)
-                        return null;
-                    
+                    {
+                        result._result = SaveQuizFeedbackResponseDTO.RequestResult.AnswerNotFound;
+                        return result;
+                    }
+                        
                     qtAnswer.ChosenAnswers.Add(chonsenAnswer);
                 }
 
                 quizFb.QuestionAnswers.Add(qtAnswer);
 
-                var correctAnswerIds = qtAnswer.Question.Answers.Where(c => c.IsCorrect).Select(c => c.Id).ToHashSet();
+                var correctAnswerIds = qtAnswer.Question.Answers.Where(a => a.IsCorrect).Select(a => a.Id).ToHashSet();
                 var AnswerIds = qtAnswerReceived.ChosenAnswerIds.ToHashSet();
 
                 int hits = Enumerable.Intersect(AnswerIds, correctAnswerIds).Count();
@@ -73,15 +289,17 @@ namespace QuizMania.WebAPI.Services
 
                 if (misses <= hits)
                 {
-                    rightAnswerNumber += (float) (hits - misses) / correctAnswerIds.Count();
+                    rightAnswerNumber += (float) (hits - misses) / correctAnswerIds.Count;
                 }
             }
 
             quizFb.PercentageOfCorrectChosenAnswers = (float) Math.Round(rightAnswerNumber * 100 / quizFb.Quiz.Questions.Count, 2);
 
             //Save awnsers
-            if ( !(await _characterService.SaveQuizfeedback(quizFb)) )
-                return null;
+            result._result = await _characterService.SaveQuizfeedback(quizFb);
+            
+            if(result._result != SaveQuizFeedbackResponseDTO.RequestResult.Success)
+                return result;
             
             //fill with correct answers
             foreach (var qtAnswer in quizFb.QuestionAnswers)
@@ -90,7 +308,19 @@ namespace QuizMania.WebAPI.Services
             }
 
             //Return correct answers
-            return _mapper.Map<QuizFeedbackReadDTO>(quizFb);
+            result.QuizFeedback = _mapper.Map<QuizFeedbackReadDTO>(quizFb);
+            return result;
+        }
+
+        private static bool ValidateQuestion(Question question)
+        {
+            foreach (var answer in question.Answers)
+            {
+                if (answer.IsCorrect)
+                    return true;
+            }
+
+            return false;
         }
     }
 }
