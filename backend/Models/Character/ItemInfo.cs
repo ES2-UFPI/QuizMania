@@ -12,7 +12,7 @@ namespace QuizMania.WebAPI.Models
         Hand,
         Leg,
         Hair,
-        Pant,
+        Pants,
         Shirt,
         Shoe,
         Other
