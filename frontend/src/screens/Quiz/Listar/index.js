@@ -1,16 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, FlatList, TouchableOpacity } from "react-native";
 import { Button, Card } from "react-native-elements";
-import { Container, Header, Pergunta, Gabarito, Personagem } from "../../../../components";
-import API from '../../../../services'
+import {
+  Container,
+  Header,
+  Pergunta,
+  Gabarito,
+  Personagem,
+} from "../../../../components";
+import API from "../../../../services";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function ListarQuizzes({ navigation }) {
   const [quizzes, setQuizzes] = useState([]);
+  const [step, setStep] = useState(0);
+  // useEffect(() => {
+  //   console.log(navigation)
+
+  // }, [navigation.isFocused()]);
 
   useEffect(() => {
-    getData();
-  }, []);
+    const unsubscribe = navigation.addListener("focus", () => {
+      getData();
+      setStep(step + 1);
+      console.log("chamou")
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
 
   async function getData() {
     try {
@@ -23,9 +41,9 @@ export default function ListarQuizzes({ navigation }) {
 
   const numColumns = 10;
   return (
-    <Container navigation={navigation} >
-      <View style={{justifyContent: "flex-start", right: 100}}>
-      <Personagem/>
+    <Container navigation={navigation}>
+      <View style={{ justifyContent: "flex-start", right: 100 }}>
+        <Personagem stepped={step} navigation={navigation}/>
       </View>
       <Button
         onPress={() => navigation.navigate("Criar Quiz")}

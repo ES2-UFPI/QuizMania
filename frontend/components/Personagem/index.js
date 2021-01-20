@@ -1,29 +1,110 @@
 import React, { useRef, useEffect, useState } from "react";
-import { View, StyleSheet, Text, Image, ImageBackground } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  ImageBackground,
+  AsyncStorage,
+} from "react-native";
 import { Alternativa } from "../index";
 import { Button } from "react-native-elements";
 import { cosmeticos } from "../../constants";
-export default function Pergunta({
-  cabeca = "tint1_head",
-  pescoco = "tint1_neck",
-  sapato = "blackShoe1",
-  calca = "pantsBrown_long",
-  hair = "blondeMan1",
-  face = "face1",
-  torax = "redShirt1",
-  maos = "tint1_hand",
-  bracos = "redArm_long",
-  shirts,
-}) {
-  const urlHair = cosmeticos[hair + ".png"];
-  console.log(urlHair);
+export default function Pergunta({ stepped, navigation }) {
+  const [cabeca, setcabeca] = useState("tint1_head");
+  const [pescoco, setpescoco] = useState("tint1_neck");
+  const [sapato, setsapato] = useState("blackShoe1");
+  const [calca, setcalca] = useState("pantsBrown_long");
+  const [cabelo, setcabelo] = useState("blondeMan1");
+  const [rosto, setrosto] = useState("face1");
+  const [torax, settorax] = useState("redShirt1");
+  const [maos, setmaos] = useState("tint1_hand");
+  const [bracos, setbracos] = useState("redArm_long");
+  const urlHair = cosmeticos[cabelo + ".png"].image;
+  const [step, setStep] = useState(0);
+
+  // useEffect(() => {
+  //   async function getData() {
+  //     const data = await AsyncStorage.getItem("data");
+  //     if (data) {
+  //       const response = JSON.parse(data);
+  //       console.log(response);
+  //       const {
+  //         head,
+  //         neck,
+  //         shoe,
+  //         hair,
+  //         pants,
+  //         arm,
+  //         hand,
+  //         shirt,
+  //         face,
+  //       } = response;
+  //       setcabeca(head ? head : "tint1_head");
+  //       setpescoco(neck ? neck : "tint1_neck");
+  //       setsapato(shoe ? shoe : "blackShoe1");
+  //       setcalca(pants ? pants : "pantsBrown_long");
+  //       setcabelo(hair ? hair : "blondeMan1");
+  //       setrosto(face ? face : "face1");
+  //       settorax(shirt ? shirt : "redShirt1");
+  //       setmaos(hand ? hand : "tint1_hand");
+  //       setbracos(arm ? arm : "redArm_long");
+  //       console.log("aqui é a face", face);
+  //       console.log("aqui n é a face", rosto);
+  //       setStep(step + 1);
+  //     }
+  //   }
+  //   getData();
+  // }, [stepped]);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      async function getData() {
+        const data = await AsyncStorage.getItem("data");
+        if (data) {
+          const response = JSON.parse(data);
+          console.log(response);
+          const {
+            head,
+            neck,
+            shoe,
+            hair,
+            pants,
+            arm,
+            hand,
+            shirt,
+            face,
+          } = response;
+          setcabeca(head ? head : "tint1_head");
+          setpescoco(neck ? neck : "tint1_neck");
+          setsapato(shoe ? shoe : "blackShoe1");
+          setcalca(pants ? pants : "pantsBrown_long");
+          setcabelo(hair ? hair : "blondeMan1");
+          setrosto(face ? face : "face1");
+          settorax(shirt ? shirt : "redShirt1");
+          setmaos(hand ? hand : "tint1_hand");
+          setbracos(arm ? arm : "redArm_long");
+          console.log("aqui é a face", face);
+          console.log("aqui n é a face", rosto);
+          setStep(step + 1);
+        }
+      }
+      getData();
+      setStep(step + 1);
+      console.log("chamou no person");
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
+      {console.log(rosto)}
       <View style={{ alignSelf: "center" }}>
         <ImageBackground
-          source={cosmeticos[cabeca + ".png"]}
-          style={{ height: 70, width: 60 }}
+          source={cosmeticos[cabeca + ".png"].image}
+          resizeMode="contain"
+          style={{ height: 70, width: 60, marginBottom: -5 }}
         >
           <Image
             style={{
@@ -32,13 +113,20 @@ export default function Pergunta({
               top: -10,
               backgroundColor: "transparent",
             }}
-            resizeMode="contain"
+            resizeMode="center"
             source={urlHair}
           />
           <Image
-            style={{ width: 60, height: 50, top: -15, marginTop: -20 }}
-            resizeMode="contain"
-            source={cosmeticos[face + ".png"]}
+            style={{
+              width: 40,
+              height: 50,
+              alignSelf: "center",
+              top: -15,
+              marginTop: -20,
+              paddingBottom: 3,
+            }}
+            resizeMode="center"
+            source={cosmeticos[rosto + ".png"].image}
           />
         </ImageBackground>
       </View>
@@ -46,7 +134,7 @@ export default function Pergunta({
         <Image
           style={{ height: 30, marginTop: -10, width: 30 }}
           resizeMode="contain"
-          source={cosmeticos[pescoco + ".png"]}
+          source={cosmeticos[pescoco + ".png"].image}
         />
       </View>
       <View
@@ -61,17 +149,17 @@ export default function Pergunta({
             transform: [{ rotateY: "180deg" }],
           }}
           resizeMode="contain"
-          source={cosmeticos[bracos + ".png"]}
+          source={cosmeticos[bracos + ".png"].image}
         />
         <Image
           style={{ height: 50, marginTop: -16, width: 50 }}
           resizeMode="contain"
-          source={cosmeticos[torax + ".png"]}
+          source={cosmeticos[torax + ".png"].image}
         />
         <Image
           style={{ height: 50, marginTop: -20, width: 50, marginLeft: -10 }}
           resizeMode="contain"
-          source={cosmeticos[bracos + ".png"]}
+          source={cosmeticos[bracos + ".png"].image}
         />
       </View>
       <View style={{ alignSelf: "center", flexDirection: "row" }}>
@@ -84,7 +172,7 @@ export default function Pergunta({
             width: 20,
           }}
           resizeMode="contain"
-          source={cosmeticos[maos + ".png"]}
+          source={cosmeticos[maos + ".png"].image}
         />
         <Image
           style={{
@@ -95,14 +183,14 @@ export default function Pergunta({
             width: 20,
           }}
           resizeMode="contain"
-          source={cosmeticos[maos + ".png"]}
+          source={cosmeticos[maos + ".png"].image}
         />
       </View>
       <View style={{ alignSelf: "center" }}>
         <Image
           style={{ height: 45, marginTop: -20, width: 45 }}
           resizeMode="contain"
-          source={cosmeticos["pantsBrown1.png"]}
+          source={cosmeticos["pantsBrown1.png"].image}
         />
       </View>
 
@@ -118,16 +206,21 @@ export default function Pergunta({
             transform: [{ rotateY: "180deg" }],
           }}
           resizeMode="contain"
-          source={cosmeticos[calca + ".png"]}
+          source={cosmeticos[calca + ".png"].image}
         />
         <Image
           style={{ height: 45, marginTop: -20, width: 60, marginRight: -30 }}
           resizeMode="contain"
-          source={cosmeticos[calca + ".png"]}
+          source={cosmeticos[calca + ".png"].image}
         />
       </View>
       <View
-        style={{ alignSelf: "center", flexDirection: "row", marginRight: 0 }}
+        style={{
+          alignSelf: "center",
+          flexDirection: "row",
+          marginRight: 0,
+          justifyContent: "space-between",
+        }}
       >
         <Image
           style={{
@@ -138,12 +231,12 @@ export default function Pergunta({
             transform: [{ rotateY: "180deg" }],
           }}
           resizeMode="contain"
-          source={cosmeticos[sapato + ".png"]}
+          source={cosmeticos[sapato + ".png"].image}
         />
         <Image
-          style={{ height: 45, marginTop: -20, width: 30, marginLeft: 40 }}
+          style={{ height: 45, marginTop: -20, width: 30, marginLeft: 50 }}
           resizeMode="contain"
-          source={cosmeticos[sapato + ".png"]}
+          source={cosmeticos[sapato + ".png"].image}
         />
       </View>
     </View>
