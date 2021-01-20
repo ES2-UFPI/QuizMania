@@ -17,6 +17,7 @@ namespace QuizMania.WebAPI.Data
             {
                 Name = "Red Shirt",
                 Cost = 5,
+                Type = SlotType.Shirt,
                 MaxQuantity = 1,
             };
 
@@ -24,6 +25,7 @@ namespace QuizMania.WebAPI.Data
             {
                 Name = "Green Shirt",
                 Cost = 10,
+                Type = SlotType.Shirt,
                 MaxQuantity = 1,
             };
 
@@ -31,6 +33,7 @@ namespace QuizMania.WebAPI.Data
             {
                 Name = "Black Hair",
                 Cost = 10,
+                Type = SlotType.Hair,
                 MaxQuantity = 1,
             };
 
@@ -38,6 +41,7 @@ namespace QuizMania.WebAPI.Data
             {
                 Name = "Blond Hair",
                 Cost = 15,
+                Type = SlotType.Hair,
                 MaxQuantity = 1,
             };
 
@@ -45,6 +49,7 @@ namespace QuizMania.WebAPI.Data
             {
                 Name = "Infinite Item",
                 Cost = 10,
+                Type = SlotType.Other,
                 MaxQuantity = -1,
             };
 
@@ -52,6 +57,7 @@ namespace QuizMania.WebAPI.Data
             {
                 Name = "Forbiden Item",
                 Cost = 0,
+                Type = SlotType.Other,
                 MaxQuantity = 0,
             };
 
@@ -79,13 +85,13 @@ namespace QuizMania.WebAPI.Data
                 HealthPoints = 80,
             };
 
-            char1.Items.Add(new ItemQuantity(item1, 1));
-            char1.Items.Add(new ItemQuantity(item4, 1));
-            char1.Items.Add(new ItemQuantity(item5, 5));
+            char1.Items.Add(new InventoryItem(item1, 1, false));
+            char1.Items.Add(new InventoryItem(item4, 1, false));
+            char1.Items.Add(new InventoryItem(item5, 5, false));
 
-            char2.Items.Add(new ItemQuantity(item2, 1));
-            char2.Items.Add(new ItemQuantity(item3, 1));
-            char2.Items.Add(new ItemQuantity(item5, 10));
+            char2.Items.Add(new InventoryItem(item2, 1, false));
+            char2.Items.Add(new InventoryItem(item3, 1, false));
+            char2.Items.Add(new InventoryItem(item5, 10, false));
 
             context.Characters.Add(char1);
             context.Characters.Add(char2);

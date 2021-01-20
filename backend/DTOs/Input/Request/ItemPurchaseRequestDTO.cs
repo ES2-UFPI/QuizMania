@@ -7,7 +7,7 @@ namespace QuizMania.WebAPI.DTOs.Input
         [JsonIgnore]
         public new int ExpenseRequested { get; set; }
 
-        public long ItemId { get; set; }
+        public string ItemName { get; set; }
 
         public int Quantity { get; set; }
     }

@@ -7,6 +7,6 @@ namespace QuizMania.WebAPI
     public interface IItemAsyncRepository
     {
         Task<IEnumerable<ItemInfo>> GetAllItemsAsync();
-        Task<ItemInfo> GetItemAsync(long id);
+        Task<ItemInfo> GetItemAsync(string name);
     }
 }

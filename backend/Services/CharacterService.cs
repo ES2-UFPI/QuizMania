@@ -67,6 +67,57 @@ namespace QuizMania.WebAPI.Services
             }
         }
 
+        public async Task<Un_EquipItemResponseDTO> Un_EquipItemAsync(Un_EquipItemRequestDTO un_equipRequest)
+        {
+            var result = new Un_EquipItemResponseDTO
+            {
+                Request = un_equipRequest
+            };
+
+            var character = await _characterRepo.GetCharacterItemsAsync(un_equipRequest.CharacterId);
+
+            if(character == null)
+            {
+                result._result = Un_EquipItemResponseDTO.RequestResult.CharacterNotFound;
+                return result;
+            }
+
+            var item = character.Items.Where(i => i.Item.Name == un_equipRequest.ItemName).FirstOrDefault();
+
+            if(item == null)
+            {
+                result._result = Un_EquipItemResponseDTO.RequestResult.InventoryWithoutItem;
+                return result;
+            }
+
+            
+            if (!item.IsEquipped)
+            {
+                var itemEquipped = character.Items.Where(i => i.Item.Type == item.Item.Type && i.IsEquipped)
+                                              .FirstOrDefault();
+
+                if (itemEquipped != null)
+                {
+                    itemEquipped.IsEquipped = false;
+                }
+            }
+
+            item.IsEquipped = !item.IsEquipped;
+
+            try
+            {
+                await _characterRepo.SaveChangesAsync();
+                result._result = Un_EquipItemResponseDTO.RequestResult.Success;
+              
+            }
+            catch (Exception)
+            {
+                result._result = Un_EquipItemResponseDTO.RequestResult.BadRequest;
+            }
+
+            return result;
+        }
+
         public async Task<GoldExpenseResponseDTO> TryExpendGold(GoldExpenseRequestDTO expenseRequest)
         {
             var expense = new GoldExpense(expenseRequest);
@@ -88,7 +139,7 @@ namespace QuizMania.WebAPI.Services
                     break;
                 }
 
-                var item = await _itemsRepo.GetItemAsync(purchaseRequest.ItemId);
+                var item = await _itemsRepo.GetItemAsync(purchaseRequest.ItemName);
                 if (item == null || item.MaxQuantity == 0)
                 {
                     purchase.Result = GoldExpenseResult.ItemNotFound;
@@ -105,7 +156,7 @@ namespace QuizMania.WebAPI.Services
                     break;
                 }
 
-                var characterItem = character.Items.FirstOrDefault(i => i.Item.Id == item.Id);
+                var characterItem = character.Items.FirstOrDefault(i => i.Item.Name == item.Name);
 
                 if (item.MaxQuantity > 0 && purchase.RequestedQuantity + characterItem?.Quantity > item.MaxQuantity)
                 {
@@ -122,7 +173,7 @@ namespace QuizMania.WebAPI.Services
 
                     if (characterItem == null)
                     {
-                        character.Items.Add(new ItemQuantity(purchase.Item, purchase.PurchasedQuantity));
+                        character.Items.Add(new InventoryItem(purchase.Item, purchase.PurchasedQuantity, false));
                     }
                     else
                     {

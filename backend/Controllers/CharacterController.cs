@@ -34,6 +34,24 @@ namespace QuizMania.WebAPI.Controllers
 
         /// <remarks>
         /// <h2> **Result values:** </h2> 
+        /// <h3> **200:** Sucess </h3>
+        /// <h3> **404:** CharacterNotFound </h3>
+        /// <h3> **400:** BadRequest, InventoryWithoutItem </h3>
+        /// </remarks>
+        [HttpPatch("items")]
+        public async Task<ActionResult<Un_EquipItemResponseDTO>> Un_EquipItem(Un_EquipItemRequestDTO un_equipItemRequest)
+        {
+            var result = await _characterService.Un_EquipItemAsync(un_equipItemRequest);
+            switch (result._result)
+            {
+                case Un_EquipItemResponseDTO.RequestResult.Success: return Ok(result);
+                case Un_EquipItemResponseDTO.RequestResult.CharacterNotFound: return NotFound(result);
+                default: return BadRequest(result);
+            }
+        }
+
+        /// <remarks>
+        /// <h2> **Result values:** </h2> 
         /// <h3> **200:** Authorized </h3>
         /// <h3> **404:** CharacterNotFound </h3>
         /// <h3> **400:** BadRequest, NotEnoughResources </h3>

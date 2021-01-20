@@ -8,7 +8,7 @@ namespace QuizMania.WebAPI.Profiles
     {
         public ItemQuantityProfile()
         {
-            CreateMap<ItemQuantity, ItemQuantityDTO>();
+            CreateMap<InventoryItem, InventoryItemDTO>();
         }
     }
 }
