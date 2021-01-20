@@ -1,5 +1,13 @@
-import React, {useState} from "react";
-import { ScrollView, View, Text, FlatList, Image, Picker, AsyncStorage } from "react-native";
+import React, { useState } from "react";
+import {
+  ScrollView,
+  View,
+  Text,
+  FlatList,
+  Image,
+  Picker,
+  AsyncStorage,
+} from "react-native";
 import {
   Container,
   Header,
@@ -8,34 +16,47 @@ import {
 } from "../../../../components";
 import { Card, Button } from "react-native-elements";
 import { cosmeticos } from "../../../../constants";
-import API from '../../../../services'
+import API from "../../../../services";
 
-export default function Usar({ navigation }) {
-  const [itens, setItens] = useState(Object.entries(cosmeticos))
-  const [itensFiltrados, setItensFiltrados] = useState(itens.filter((item, index) => item[1].tipo == 'arm'))
-  const [categoria, setCategoria] = useState("arm")
-  const [setp, setStep] = useState(0)
+function Usar({ navigation }) {
+  const [itens, setItens] = useState(Object.entries(cosmeticos));
+  const [itensFiltrados, setItensFiltrados] = useState(
+    itens.filter((item, index) => item[1].tipo == "arm")
+  );
+  const [categoria, setCategoria] = useState("arm");
+  const [setp, setStep] = useState(0);
 
-  const categorias = ["arm","hand", "head","hair" , 'neck', 'shoe', 'pants', 'face', 'shirt']
+  const categorias = [
+    "arm",
+    "hand",
+    "head",
+    "hair",
+    "neck",
+    "shoe",
+    "pants",
+    "face",
+    "shirt",
+  ];
   function filtrar(value) {
-    setCategoria(value)
-    if(value === "") {
-      setItensFiltrados(itens)
+    setCategoria(value);
+    if (value === "") {
+      setItensFiltrados(itens);
     }
-    setItensFiltrados(itens.filter((item, index) => item[1].tipo == value))
-
+    setItensFiltrados(itens.filter((item, index) => item[1].tipo == value));
   }
 
   return (
-    <Container navigation={navigation}>
-      <Text style={{ fontSize: 30, fontWeight: "bold" }}>Loja</Text>
+    <React.Fragment>
       <View style={{ justifyContent: "center" }}>
         <Picker
           onValueChange={(value) => filtrar(value)}
           selectedValue={categoria}
         >
           {categorias.map((item, index) => (
-            <Picker.Item label={item[0].toUpperCase() + item.substr(1)} value={item}/>
+            <Picker.Item
+              label={item[0].toUpperCase() + item.substr(1)}
+              value={item}
+            />
           ))}
         </Picker>
       </View>
@@ -47,7 +68,7 @@ export default function Usar({ navigation }) {
             {/* {console.log(item)} */}
             <Image
               source={item[1].image}
-              resizeMode='contain'
+              resizeMode="contain"
               style={{ height: 40, width: 40, alignSelf: "center" }}
             />
             <Card.Title>{item[0].replace(".png", "")}</Card.Title>
@@ -84,7 +105,7 @@ export default function Usar({ navigation }) {
               onPress={async () => {
                 // alert("Obtendo item..." + index)
                 try {
-                  const response = {expenseAuthorized: true}
+                  const response = { expenseAuthorized: true };
                   if (response.expenseAuthorized) {
                     let data = JSON.parse(await AsyncStorage.getItem("data"));
                     if (data) {
@@ -93,7 +114,7 @@ export default function Usar({ navigation }) {
                       await AsyncStorage.setItem("data", JSON.stringify(data));
                     } else {
                       data = {};
-                      data[item[1].tipo] = item[0].replace(".png", "")
+                      data[item[1].tipo] = item[0].replace(".png", "");
                       await AsyncStorage.setItem("data", JSON.stringify(data));
                     }
                     alert("Compra efetuada com sucesso!");
@@ -119,6 +140,37 @@ export default function Usar({ navigation }) {
             ))}
         </ResponsiveList>
       </ScrollView> */}
+    </React.Fragment>
+  );
+}
+
+function Vidas({ navigation }) {
+  return (
+    <ScrollView contentContainerStyle={{ paddingVertical: 20 }}>
+      <ResponsiveList>
+        {Array(11)
+          .fill(0)
+          .map((item, index) =>
+            index != 0 ? <CardItem index={index} /> : undefined
+          )}
+      </ResponsiveList>
+    </ScrollView>
+  );
+}
+
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+
+const Tab = createMaterialTopTabNavigator();
+
+export default function MyTabs({ navigation }) {
+  return (
+    <Container navigation={navigation} notscroll>
+      <Text style={{ fontSize: 30, fontWeight: "bold" }}>Loja</Text>
+      <View style={{ justifyContent: "center" }}></View>
+      <Tab.Navigator style={{backgroundColor: 'transparent'}}>
+        <Tab.Screen name="Itens" component={Usar} initialParams={navigation}/>
+        <Tab.Screen name="Vidas" component={Vidas} />
+      </Tab.Navigator>
     </Container>
   );
 }
