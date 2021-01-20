@@ -38,7 +38,7 @@ function PerguntaItem({ data, index, deletePergunta }) {
               [
                 {
                   text: "Cancelar",
-                  onPress: () => console.log("Cancel Pressed"),
+                  onPress: () => {},
                   style: "cancel"
                 },
                 { text: "OK", onPress: () => deletePergunta(index) }
@@ -102,23 +102,26 @@ export default function ListarQuizzes({ navigation, route }) {
       const data = await API.detalharQuiz(quiz);
       setCharacter(data.owner.id)
       setPerguntas(data.questions);
-      console.log(perguntas)
+      setTitulo(data.title)
+      //console.log(perguntas)
     } catch (error) {
       alert(error.response.data.result)
     }
   }
 
   async function submit() {
-    console.log(perguntas)
+    //console.log(perguntas)
     const request = {}
-    request['questions'] = perguntas
+    request['questions'] = perguntas.filter((item, index) => item != null)
+    request['title'] = titulo
     try {
+      //console.log(JSON.stringify(request))
       const response = await API.criarQuiz(request)
       alert(response.result)
-      console.log(perguntas)
+      navigation.goBack()
     } catch (error) {
       alert(error.response.result)
-      console.log(error)
+      //console.log(error)
     }
   }
 
@@ -144,7 +147,7 @@ export default function ListarQuizzes({ navigation, route }) {
         await getData()
       } catch (error) {
         alert("Erro ao deletar pergunta")
-        console.log(error)
+        //console.log(error)
       }
 
     } else {
@@ -165,13 +168,14 @@ export default function ListarQuizzes({ navigation, route }) {
   if (step == 0) {
     return (
       <Container navigation={navigation}>
-        {/* <TextInput
+        <TextInput
           value={titulo}
           label="Título"
+          editable={!quiz}
           style={{ backgroundColor: "transparent" }}
           placeholder="Digite o título do Quiz"
           onChangeText={(texto) => setTitulo(texto)}
-        /> */}
+        />
 
         <FlatList
           data={perguntas}
@@ -195,7 +199,7 @@ export default function ListarQuizzes({ navigation, route }) {
           }}
         />
 
-        {(!quiz && perguntas.length > 0) && (
+        {(!quiz && perguntas.length > 0 && titulo.length > 0) && (
           <Button
           title="Cadastrar Quiz"
           containerStyle={{marginTop: 10}}
@@ -265,7 +269,7 @@ export default function ListarQuizzes({ navigation, route }) {
         }}
       />
 
-      <Button
+     {alternativas.length > 1 && alternativas.find((item, index) => item.isCorrect) && <Button
         title="Salvar"
         containerStyle={{ marginTop: 15 }}
         onPress={async () => {
@@ -276,20 +280,20 @@ export default function ListarQuizzes({ navigation, route }) {
           if(quiz) {
             novaPergunta['quizId'] = quiz
             try {
+              //console.log(JSON.stringify(novaPergunta))
               const response = await API.criarPergunta(novaPergunta)
-              console.log(novaPergunta)
               alert("Sua pergunta foi cadastrada com sucesso ao quiz!")
               await getData() 
             } catch (error) {
               alert("Erro ao cadastrar sua pergunta...")
-              console.log(error)
+              //console.log(error)
             }
             
           } else {
 
             perguntas.push(novaPergunta);
             setPerguntas(perguntas);
-            console.log(perguntas);
+            //console.log(perguntas);
             setAlternativas([]);
             
           }
@@ -298,7 +302,7 @@ export default function ListarQuizzes({ navigation, route }) {
           setCorreta(false);
           setStep(0);
         }}
-      />
+      />}
     </Container>
   );
 }
