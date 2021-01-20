@@ -66,6 +66,7 @@ namespace QuizMania.WebAPI.Migrations
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 256, nullable: false),
                     OwnerId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>

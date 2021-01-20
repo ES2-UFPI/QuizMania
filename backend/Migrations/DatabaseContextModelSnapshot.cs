@@ -227,6 +227,11 @@ namespace QuizMania.WebAPI.Migrations
                     b.Property<long>("OwnerId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("OwnerId");
