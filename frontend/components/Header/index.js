@@ -18,11 +18,11 @@ export default function Header({navigation}) {
       const data = await API.obterPersonagem({})
       const dataLocal =  JSON.parse(await AsyncStorage.getItem("data"))
       let extra = 0;
-      console.log(dataLocal)
+      //console.log(dataLocal)
       if(dataLocal && dataLocal.vidaLocal) {
         extra = dataLocal.vidaLocal
       }
-      console.log(data)
+      //console.log(data)
       data.healthPoints += extra
       setPersonagem(data)
     } catch (error) {

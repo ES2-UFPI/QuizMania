@@ -62,13 +62,13 @@ export default function CardItem({index}) {
                 data['vidaLocal'] = index
                 await AsyncStorage.setItem("data", JSON.stringify(data))
               }
-              console.log("Oh", data)
+              //console.log("Oh", data)
               alert("Compra efetuada com sucesso!")
               } else {
                 alert("Saldo inscuficiente!")
               }
           } catch(error) {
-            console.log(error)
+            //console.log(error)
             alert("Ocorreu um erro na compra...")
           }
         }}

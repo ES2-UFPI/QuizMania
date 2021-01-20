@@ -22,7 +22,7 @@ export default function responderQuiz({ navigation, route }) {
       const response = await API.detalharQuiz(quiz) 
       setPerguntas(response.questions);
     } catch (error) {
-      console.log(error)
+      //console.log(error)
       alert("Não foi possível carregar as perguntar do quiz...")
     }
   }
@@ -50,14 +50,14 @@ export default function responderQuiz({ navigation, route }) {
       respostaTemp['questionId'] = key
       respostaTemp['chosenAnswerIds'] = respostas[key]
       respostasToSubmit.questionAnswers.push(respostaTemp)
-      //console.log(key + ": " + respostas[key]);
+      ////console.log(key + ": " + respostas[key]);
     }); 
     respostasToSubmit['quizId'] = quiz
-    console.log(JSON.stringify(respostasToSubmit))
+    //console.log(JSON.stringify(respostasToSubmit))
 
     const {quizFeedback} = await API.responderQuiz(respostasToSubmit)
     const data = quizFeedback
-    console.log(JSON.stringify(data))
+    //console.log(JSON.stringify(data))
     setPercentage(data.percentageOfCorrectChosenAnswers)
     setParamsToRoute({
       xpGanho: data.experienceGained,
@@ -72,24 +72,24 @@ export default function responderQuiz({ navigation, route }) {
     const novasRespostas = respostas;
     novasRespostas[pergunta] = resposta;
     setRespostas(novasRespostas);
-    // //console.log(respostas);
+    // ////console.log(respostas);
     if (perguntaAtual < perguntas.length - 1)
       setPerguntaAtual(perguntaAtual + 1);
   }
   function alterPerguntaGabarito(id) {
-    //console.log(perguntasGabarito)
+    ////console.log(perguntasGabarito)
     setPerguntaGabarito(perguntasGabarito.find((item) => item.question.id == id));
   }
 
 
 
   function isCorrect(alternativa, pergunta) {
-    //console.log(alternativa)
-    //console.log(pergunta)
+    ////console.log(alternativa)
+    ////console.log(pergunta)
     const contexto = pergunta
     const idPergunta = pergunta.question ? pergunta.question.id : pergunta.id
     const correct = contexto.chosenAnswerIds ? contexto.chosenAnswerIds.includes(alternativa.id) : false
-    //console.log(correct)
+    ////console.log(correct)
     return correct
     
   }

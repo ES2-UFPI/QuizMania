@@ -29,7 +29,7 @@ export default function Pergunta({ stepped, navigation }) {
   //     const data = await AsyncStorage.getItem("data");
   //     if (data) {
   //       const response = JSON.parse(data);
-  //       console.log(response);
+  //       //console.log(response);
   //       const {
   //         head,
   //         neck,
@@ -50,8 +50,8 @@ export default function Pergunta({ stepped, navigation }) {
   //       settorax(shirt ? shirt : "redShirt1");
   //       setmaos(hand ? hand : "tint1_hand");
   //       setbracos(arm ? arm : "redArm_long");
-  //       console.log("aqui é a face", face);
-  //       console.log("aqui n é a face", rosto);
+  //       //console.log("aqui é a face", face);
+  //       //console.log("aqui n é a face", rosto);
   //       setStep(step + 1);
   //     }
   //   }
@@ -72,16 +72,16 @@ export default function Pergunta({ stepped, navigation }) {
             Arm: setbracos,
         }
         const response = await API.recuperarItensComprados()
-        console.log(response)
+        //console.log(response)
         let equipados = response.items.filter((item, index) => item.isEquipped)
         equipados.map((item, index) => {
-          console.log(item)
+          //console.log(item)
           item.item.slotType != "Other" ? vincularTipo[item.item.slotType](item.item.name.replace(".png", "")) : undefined
         })
   
       } catch (error) {
         alert("Não foi possível atualizar os itens do seu personagem...")
-        console.log(error)
+        //console.log(error)
       }
     }
     atualizarPersonagem()
@@ -90,7 +90,7 @@ export default function Pergunta({ stepped, navigation }) {
         const data = await AsyncStorage.getItem("data");
         if (data) {
           const response = JSON.parse(data);
-          console.log(response);
+          //console.log(response);
           const {
             head,
             neck,
@@ -111,8 +111,8 @@ export default function Pergunta({ stepped, navigation }) {
           settorax(shirt ? shirt : "redShirt1");
           setmaos(hand ? hand : "tint1_hand");
           setbracos(arm ? arm : "redArm_long");
-          console.log("aqui é a face", face);
-          console.log("aqui n é a face", rosto);
+          //console.log("aqui é a face", face);
+          //console.log("aqui n é a face", rosto);
           setStep(step + 1);
         }
         atualizarPersonagem()
@@ -120,7 +120,7 @@ export default function Pergunta({ stepped, navigation }) {
 
       atualizarPersonagem();
       setStep(step + 1);
-      console.log("chamou no person");
+      //console.log("chamou no person");
     });
 
     // Return the function to unsubscribe from the event so it gets removed on unmount
@@ -129,7 +129,6 @@ export default function Pergunta({ stepped, navigation }) {
 
   return (
     <View style={styles.container}>
-      {console.log(rosto)}
       <View style={{ alignSelf: "center" }}>
         <ImageBackground
           source={cosmeticos[cabeca + ".png"].image}

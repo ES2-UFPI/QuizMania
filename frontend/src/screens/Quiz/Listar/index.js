@@ -17,8 +17,9 @@ export default function ListarQuizzes({ navigation }) {
   const [xp, setxp] = useState("");
   const [level, setlevel] = useState("");
   const [lxp, setlxp] = useState("");
+  const [nome, setNome] = useState("")
   // useEffect(() => {
-  //   console.log(navigation)
+  //   //console.log(navigation)
 
   // }, [navigation.isFocused()]);
 
@@ -27,7 +28,7 @@ export default function ListarQuizzes({ navigation }) {
     const unsubscribe = navigation.addListener("focus", () => {
       getData();
       setStep(step + 1);
-      console.log("chamou")
+      //console.log("chamou")
     });
 
     // Return the function to unsubscribe from the event so it gets removed on unmount
@@ -47,6 +48,7 @@ export default function ListarQuizzes({ navigation }) {
       setlevel(response.level)
       setlxp(response.currentLevelXP)
       setxp(response.totalXP)
+      setNome(response.name)
     } catch (error) {
       alert("Não foi possível recuperar os dados do personagem...")
     }
@@ -60,7 +62,7 @@ export default function ListarQuizzes({ navigation }) {
 
     } catch (error) {
       alert("Erro ao deletar o quiz.")
-      console.log(error)
+      //console.log(error)
     }
 
   }
@@ -68,12 +70,13 @@ export default function ListarQuizzes({ navigation }) {
   const numColumns = 10;
   return (
     <Container navigation={navigation} refresh>
-      <View style={{ justifyContent: "flex-start", flexDirection: 'row' , right: 50 }}>
+      <View style={{ justifyContent: "flex-start", flexDirection: 'row' , right: 20 }}>
         <Personagem stepped={step} navigation={navigation}/>
-        <View style={{alignSelf: 'center', marginLeft: -20}}>
+        <View style={{alignSelf: 'center', marginLeft: -10}}>
           <Text>Level XP: {lxp}</Text>
           <Text>Level: {level}</Text>
           <Text>Total XP: {xp}</Text>
+          <Text>Nome: {nome}</Text>
         </View>
       </View>
       <Button
@@ -119,7 +122,7 @@ export default function ListarQuizzes({ navigation }) {
                   [
                     {
                       text: "Cancelar",
-                      onPress: () => console.log("Cancel Pressed"),
+                      onPress: () => {},
                       style: "cancel"
                     },
                     { text: "OK", onPress: () => deletarQuiz(item.id) }

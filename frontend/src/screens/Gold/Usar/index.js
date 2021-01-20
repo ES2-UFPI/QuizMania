@@ -57,7 +57,7 @@ function Usar({ navigation,route }) {
       setItensFiltrados(itens.filter((item, index) => item.slotType == categoria))
     } catch (error) {
       alert("Ocorreu um erro ao obter os itens da loja...")
-      console.log(error)
+      //console.log(error)
     }
   }
 
@@ -69,7 +69,7 @@ function Usar({ navigation,route }) {
 
 
   function filtrar(value) {
-    console.log(itens.filter((item, index) => item.slotType == value))
+    //console.log(itens.filter((item, index) => item.slotType == value))
     setCategoria(value);
     if (value === "") {
       setItensFiltrados(itens);
@@ -101,7 +101,7 @@ function Usar({ navigation,route }) {
         numColumns={2}
         renderItem={({ item, index }) => (
           <Card containerStyle={{ width: 150 }}>
-            {/* {console.log(item)} */}
+            {/* {//console.log(item)} */}
            {cosmeticos[item.name] && <Image
               source={cosmeticos[item.name].image || {}}
               resizeMode="contain"
@@ -158,7 +158,7 @@ function Usar({ navigation,route }) {
                   force(setp + 1)
                 } catch (error) {
                   alert("Não foi possível equipar seu personagem com esse item.")
-                  console.log(error)
+                  //console.log(error)
                 }
               }}
             /> 
