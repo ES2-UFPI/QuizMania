@@ -93,7 +93,7 @@ namespace QuizMania.WebAPI.Services
             
             if (!item.IsEquipped)
             {
-                var itemEquipped = character.Items.Where(i => i.Item.SlotType == item.Item.SlotType && i.IsEquipped)
+                var itemEquipped = character.Items.Where(i => i.Item.Type == item.Item.Type && i.IsEquipped)
                                               .FirstOrDefault();
 
                 if (itemEquipped != null)
@@ -173,7 +173,7 @@ namespace QuizMania.WebAPI.Services
 
                     if (characterItem == null)
                     {
-                        character.Items.Add(new InventoryItem(purchase.Item, purchase.PurchasedQuantity));
+                        character.Items.Add(new InventoryItem(purchase.Item, purchase.PurchasedQuantity, false));
                     }
                     else
                     {

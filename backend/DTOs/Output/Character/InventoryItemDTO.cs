@@ -6,6 +6,8 @@ namespace QuizMania.WebAPI.DTOs.Output
     {
         public ItemInfoDTO Item { get; set; }
 
+        public bool IsEquipped { get; set; }
+
         public int Quantity { get; set; }
     }
 }

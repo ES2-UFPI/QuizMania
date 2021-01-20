@@ -14,7 +14,8 @@ namespace QuizMania.WebAPI.Models
         Hair,
         Pant,
         Shirt,
-        Shoe
+        Shoe,
+        Other
     }
 }
 
@@ -35,7 +36,7 @@ namespace QuizMania.WebAPI.Models
         public int Cost { get; set; }
 
         [Required]
-        public SlotType SlotType { get; set; }
+        public SlotType Type { get; set; }
 
         [Required]
         public int MaxQuantity { get; set; }

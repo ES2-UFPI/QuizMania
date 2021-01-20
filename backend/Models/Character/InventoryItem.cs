@@ -6,10 +6,11 @@ namespace QuizMania.WebAPI.Models
     {
         public InventoryItem() { }
 
-        public InventoryItem(ItemInfo item, int quantity)
+        public InventoryItem(ItemInfo item, int quantity, bool isEquipped)
         {
             Item = item;
             Quantity = quantity;
+            IsEquipped = isEquipped;
         }
 
         [Key]

@@ -11,9 +11,9 @@ namespace QuizMania.WebAPI.DTOs.Output
         public int Cost { get; set; }
 
         [JsonIgnore]
-        public SlotType ST { get; set; }
+        public SlotType Type { get; set; }
 
-        public string SlotType => ST.ToString();
+        public string SlotType => Type.ToString();
 
         public int MaxQuantity { get; set; }
 
