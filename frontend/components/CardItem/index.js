@@ -46,12 +46,15 @@ export default function CardItem({index}) {
           // alert("Obtendo item..." + index)
           try {
             const response = await API.gastarGold({"expenseRequested": index*2})
-            if(response.expenseAuthorized) {
+            if(response.resultMessage == "Authorized") {
               let data = JSON.parse(await AsyncStorage.getItem("data"))
               if (data) {
                 const {goldLocal, vidaLocal} = data
-                data.goldLocal -= index * 2
-                data.vidaLocal += index
+                // data.goldLocal -= index * 2
+                if(data['vidaLocal'] === undefined || data['vidaLocal'] === null)
+                data['vidaLocal'] = index 
+                else
+                data['vidaLocal'] += index
                 await AsyncStorage.setItem("data", JSON.stringify(data))
               } else {
                 data = {}
@@ -59,6 +62,7 @@ export default function CardItem({index}) {
                 data['vidaLocal'] = index
                 await AsyncStorage.setItem("data", JSON.stringify(data))
               }
+              console.log("Oh", data)
               alert("Compra efetuada com sucesso!")
               } else {
                 alert("Saldo inscuficiente!")

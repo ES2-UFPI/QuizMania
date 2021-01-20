@@ -10,12 +10,13 @@ import {
 import { Alternativa } from "../index";
 import { Button } from "react-native-elements";
 import { cosmeticos } from "../../constants";
+import API from '../../services'
 export default function Pergunta({ stepped, navigation }) {
   const [cabeca, setcabeca] = useState("tint1_head");
   const [pescoco, setpescoco] = useState("tint1_neck");
   const [sapato, setsapato] = useState("blackShoe1");
   const [calca, setcalca] = useState("pantsBrown_long");
-  const [cabelo, setcabelo] = useState("blondeMan1");
+  const [cabelo, setcabelo] = useState("blondMan1");
   const [rosto, setrosto] = useState("face1");
   const [torax, settorax] = useState("redShirt1");
   const [maos, setmaos] = useState("tint1_hand");
@@ -57,6 +58,33 @@ export default function Pergunta({ stepped, navigation }) {
   //   getData();
   // }, [stepped]);
   useEffect(() => {
+    async function atualizarPersonagem() {
+      try {
+        const vincularTipo = {
+            Head: setcabeca,
+            Neck: setpescoco,
+            Shoe: setsapato,
+            Pants: setcalca,
+            Hair: setcabelo,
+            Face: setrosto,
+            Shirt: settorax,
+            Hand: setmaos,
+            Arm: setbracos,
+        }
+        const response = await API.recuperarItensComprados()
+        console.log(response)
+        let equipados = response.items.filter((item, index) => item.isEquipped)
+        equipados.map((item, index) => {
+          console.log(item)
+          item.item.slotType != "Other" ? vincularTipo[item.item.slotType](item.item.name.replace(".png", "")) : undefined
+        })
+  
+      } catch (error) {
+        alert("Não foi possível atualizar os itens do seu personagem...")
+        console.log(error)
+      }
+    }
+    atualizarPersonagem()
     const unsubscribe = navigation.addListener("focus", () => {
       async function getData() {
         const data = await AsyncStorage.getItem("data");
@@ -78,7 +106,7 @@ export default function Pergunta({ stepped, navigation }) {
           setpescoco(neck ? neck : "tint1_neck");
           setsapato(shoe ? shoe : "blackShoe1");
           setcalca(pants ? pants : "pantsBrown_long");
-          setcabelo(hair ? hair : "blondeMan1");
+          setcabelo(hair ? hair : "blondMan1");
           setrosto(face ? face : "face1");
           settorax(shirt ? shirt : "redShirt1");
           setmaos(hand ? hand : "tint1_hand");
@@ -87,8 +115,10 @@ export default function Pergunta({ stepped, navigation }) {
           console.log("aqui n é a face", rosto);
           setStep(step + 1);
         }
+        atualizarPersonagem()
       }
-      getData();
+
+      atualizarPersonagem();
       setStep(step + 1);
       console.log("chamou no person");
     });

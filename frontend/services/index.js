@@ -51,7 +51,7 @@ class ApiConnection {
   async gastarGold (data) {
     data["characterId"] = 1
     try {
-      const response = await this.api.post(`expendGold/`, data);
+      const response = await this.api.post(`/character/expendGold`, data);
       
       return response.data;
     } catch (error) {
@@ -101,6 +101,51 @@ class ApiConnection {
       const response = await this.api.post(`quiz/`, data);
       
       return response.data;
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async equiparPersonagem(item) {
+    data = {}
+    data['itemName'] = item
+    data["characterId"] = 1
+    try {
+      const response = await this.api.patch(`character/items`, data);
+      return response.data;
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async recuperarItensComprados() {
+    id = 1
+    try {
+      const response = await this.api.get(`character/items/${id}`);
+      return response.data;
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async comprarItem(item) {
+    data = {}
+    data['itemName'] = item
+    data["characterId"] = 1
+    data['quantity'] = 1
+    try {
+      const response = await this.api.post(`/character/items/purchase`, data);
+      
+      return response.data;
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async recuperarItens() {
+    try {
+      const response = await this.api.get(`/character/items`)
+      return response.data
     } catch (error) {
       throw error
     }

@@ -49,35 +49,35 @@ export const cosmeticos = {
     image: require('../assets/personagem/Hair/Black/blackMan8.png'),
     tipo: "hair",
   },
-  "blondeMan1.png": {
+  "blondMan1.png": {
     image: require('../assets/personagem/Hair/Blonde/blondeMan1.png'),
     tipo: "hair",
   },
-  "blondeMan2.png": {
+  "blondMan2.png": {
     image: require('../assets/personagem/Hair/Blonde/blondeMan2.png'),
     tipo: "hair",
   },
-  "blondeMan3.png": {
+  "blondMan3.png": {
     image: require('../assets/personagem/Hair/Blonde/blondeMan3.png'),
     tipo: "hair",
   },
-  "blondeMan4.png": {
+  "blondMan4.png": {
     image: require('../assets/personagem/Hair/Blonde/blondeMan4.png'),
     tipo: "hair",
   },
-  "blondeMan5.png": {
+  "blondMan5.png": {
     image: require('../assets/personagem/Hair/Blonde/blondeMan5.png'),
     tipo: "hair",
   },
-  "blondeMan6.png": {
+  "blondMan6.png": {
     image: require('../assets/personagem/Hair/Blonde/blondeMan6.png'),
     tipo: "hair",
   },
-  "blondeMan7.png": {
+  "blondMan7.png": {
     image: require('../assets/personagem/Hair/Blonde/blondeMan7.png'),
     tipo: "hair",
   },
-  "blondeMan8.png": {
+  "blondMan8.png": {
     image: require('../assets/personagem/Hair/Blonde/blondeMan8.png'),
     tipo: "hair",
   },
