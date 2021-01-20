@@ -37,6 +37,11 @@ namespace QuizMania.WebAPI
             return await _context.Characters.Include(c => c.Items).ThenInclude(i => i.Item).FirstOrDefaultAsync(c => c.Id == id);
         }
 
+        public async Task<IEnumerable<ItemInfo>> GetAllItemsAsync()
+        {
+            return await _context.Items.Include(i => i.Effects).ToListAsync();
+        }
+
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

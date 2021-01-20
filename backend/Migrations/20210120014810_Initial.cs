@@ -27,15 +27,14 @@ namespace QuizMania.WebAPI.Migrations
                 name: "Items",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 64, nullable: false),
                     Cost = table.Column<int>(type: "INTEGER", nullable: false),
+                    Type = table.Column<int>(type: "INTEGER", nullable: false),
                     MaxQuantity = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Items", x => x.Id);
+                    table.PrimaryKey("PK_Items", x => x.Name);
                 });
 
             migrationBuilder.CreateTable(
@@ -87,43 +86,44 @@ namespace QuizMania.WebAPI.Migrations
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 32, nullable: false),
-                    ItemInfoId = table.Column<long>(type: "INTEGER", nullable: true)
+                    ItemInfoName = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Effects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Effects_Items_ItemInfoId",
-                        column: x => x.ItemInfoId,
+                        name: "FK_Effects_Items_ItemInfoName",
+                        column: x => x.ItemInfoName,
                         principalTable: "Items",
-                        principalColumn: "Id",
+                        principalColumn: "Name",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ItemQuantity",
+                name: "InventoryItems",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ItemId = table.Column<long>(type: "INTEGER", nullable: true),
-                    Quantity = table.Column<int>(type: "INTEGER", nullable: false),
-                    CharacterId = table.Column<long>(type: "INTEGER", nullable: true)
+                    CharacterId = table.Column<long>(type: "INTEGER", nullable: false),
+                    ItemName = table.Column<string>(type: "TEXT", nullable: true),
+                    IsEquipped = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Quantity = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ItemQuantity", x => x.Id);
+                    table.PrimaryKey("PK_InventoryItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ItemQuantity_Characters_CharacterId",
+                        name: "FK_InventoryItems_Characters_CharacterId",
                         column: x => x.CharacterId,
                         principalTable: "Characters",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ItemQuantity_Items_ItemId",
-                        column: x => x.ItemId,
+                        name: "FK_InventoryItems_Items_ItemName",
+                        column: x => x.ItemName,
                         principalTable: "Items",
-                        principalColumn: "Id",
+                        principalColumn: "Name",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -259,9 +259,9 @@ namespace QuizMania.WebAPI.Migrations
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Effects_ItemInfoId",
+                name: "IX_Effects_ItemInfoName",
                 table: "Effects",
-                column: "ItemInfoId");
+                column: "ItemInfoName");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GoldExpense_CharacterId",
@@ -269,14 +269,14 @@ namespace QuizMania.WebAPI.Migrations
                 column: "CharacterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItemQuantity_CharacterId",
-                table: "ItemQuantity",
+                name: "IX_InventoryItems_CharacterId",
+                table: "InventoryItems",
                 column: "CharacterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItemQuantity_ItemId",
-                table: "ItemQuantity",
-                column: "ItemId");
+                name: "IX_InventoryItems_ItemName",
+                table: "InventoryItems",
+                column: "ItemName");
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuestionAnswers_QuestionId",
@@ -321,7 +321,7 @@ namespace QuizMania.WebAPI.Migrations
                 name: "GoldExpense");
 
             migrationBuilder.DropTable(
-                name: "ItemQuantity");
+                name: "InventoryItems");
 
             migrationBuilder.DropTable(
                 name: "Answers");
