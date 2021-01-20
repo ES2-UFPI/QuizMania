@@ -10,6 +10,7 @@ namespace QuizMania.WebAPI
         Task<Character> GetCharacterAllAsync(long id);
         Task<Character> GetCharacterSimpleAsync(long id);
         Task<Character> GetCharacterItemsAsync(long id);
+        Task<IEnumerable<ItemInfo>> GetAllItemsAsync();
         Task SaveChangesAsync();
     }
 }

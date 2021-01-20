@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using QuizMania.WebAPI.DTOs.Input;
 using QuizMania.WebAPI.DTOs.Output;
@@ -23,6 +24,13 @@ namespace QuizMania.WebAPI.Controllers
         {
             var character = await _characterService.GetCharacterInfoAsync(id);
             return character != null ? Ok(character) : NotFound();
+        }
+
+        [HttpGet("items")]
+        public async Task<ActionResult<IEnumerable<ItemInfoDTO>>> GetItems()
+        {
+            var items = await _characterService.GetItemsAsync();
+            return items != null ? Ok(items) : NotFound();
         }
 
         [HttpGet("items/{id}")]

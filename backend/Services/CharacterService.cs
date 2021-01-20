@@ -5,6 +5,7 @@ using QuizMania.WebAPI.Models;
 using QuizMania.WebAPI.DTOs.Input;
 using QuizMania.WebAPI.DTOs.Output;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace QuizMania.WebAPI.Services
 {
@@ -31,6 +32,11 @@ namespace QuizMania.WebAPI.Services
         public async Task<CharacterItemsDTO> GetCharacterItemsAsync(long id)
         {
             return _mapper.Map<CharacterItemsDTO>(await _characterRepo.GetCharacterItemsAsync(id));
+        }
+
+        public async Task<IEnumerable<ItemInfoDTO>> GetItemsAsync()
+        {
+            return _mapper.Map<IEnumerable<ItemInfoDTO>>(await _characterRepo.GetAllItemsAsync());
         }
 
         public async Task<SaveQuizFeedbackResponseDTO.RequestResult> SaveQuizfeedback(QuizFeedback quizFeedback)
