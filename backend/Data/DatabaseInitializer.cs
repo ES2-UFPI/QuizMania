@@ -1891,11 +1891,13 @@ namespace QuizMania.WebAPI.Data
             // mock quizzes
             var quiz1 = new Quiz()
             {
+                Title = "Quiz 1 Title",
                 Owner = char1,
             };
 
             var quiz2 = new Quiz()
             {
+                Title = "Quiz 2 Title",
                 Owner = char2,
             };
 

@@ -14,6 +14,10 @@ namespace QuizMania.WebAPI.Models
         public long Id { get; set; }
 
         [Required]
+        [MaxLength(256)]
+        public string Title { get; set; }
+
+        [Required]
         public Character Owner { get; set; }
 
         [Required]
