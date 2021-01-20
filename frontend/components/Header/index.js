@@ -21,8 +21,8 @@ export default function Header({navigation}) {
       if(dataLocal) {
         extra = dataLocal.vidaLocal
       }
-      data.healthPoints += extra
       //console.log(data)
+      //data.healthPoints += extra
       setPersonagem(data)
     } catch (error) {
       alert(error)

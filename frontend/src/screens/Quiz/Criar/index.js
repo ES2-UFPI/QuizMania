@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Picker,
   Switch,
+  Alert
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import { Button, Card } from "react-native-elements";
@@ -28,11 +29,21 @@ function PerguntaItem({ data, index, deletePergunta }) {
         <Ionicons
           name="md-trash"
           size={24}
+          style={{right: 30}}
           color="red"
           onPress={() => {
-            if (!data.id) {
-              deletePergunta(index);
-            }
+            Alert.alert(
+              "Atenção",
+              "Deseja realmente deletar a pergunta?",
+              [
+                {
+                  text: "Cancelar",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel"
+                },
+                { text: "OK", onPress: () => deletePergunta(index) }
+              ],
+            );
           }}
         />
       </View>
@@ -56,11 +67,11 @@ function AlternativaItem({ data, modifyData, index, readOnly }) {
       <View style={{ flexDirection: "row" }}>
         <Text>Correta? </Text>
         <Switch
-          value={data.correct}
+          value={data.isCorrect}
           onValueChange={(value) =>
             readOnly
               ? undefined
-              : modifyData({ ...data, correct: value }, index)
+              : modifyData({ ...data, isCorrect: value }, index)
           }
         />
       </View>
@@ -68,7 +79,8 @@ function AlternativaItem({ data, modifyData, index, readOnly }) {
   );
 }
 
-export default function ListarQuizzes({ navigation }) {
+export default function ListarQuizzes({ navigation, route }) {
+  const [quiz, setQuiz] = useState(route.params?.quizId || undefined)
   const [perguntas, setPerguntas] = useState([]);
   const [alternativas, setAlternativas] = useState([]);
   const [perguntaTitulo, setPerguntaTitulo] = useState("");
@@ -77,18 +89,23 @@ export default function ListarQuizzes({ navigation }) {
   const [correta, setCorreta] = useState("");
   const [step, setStep] = useState(0);
   const [tick, setTick] = useState(0);
+  const [character, setCharacter] = useState(0)
 
   useEffect(() => {
-    getData();
+    if(quiz) {
+      getData();
+    }
   }, []);
 
   async function getData() {
-    // try {
-    //   const data = await API.obterQuizzes();
-    //   setQuizzes(data);
-    // } catch (error) {
-    //   alert(error)
-    // }
+    try {
+      const data = await API.detalharQuiz(quiz);
+      setCharacter(data.owner.id)
+      setPerguntas(data.questions);
+      console.log(perguntas)
+    } catch (error) {
+      alert(error.response.data.result)
+    }
   }
 
   async function submit() {
@@ -98,7 +115,9 @@ export default function ListarQuizzes({ navigation }) {
     try {
       const response = await API.criarQuiz(request)
       alert(response.result)
+      console.log(perguntas)
     } catch (error) {
+      alert(error.response.result)
       console.log(error)
     }
   }
@@ -112,9 +131,26 @@ export default function ListarQuizzes({ navigation }) {
     setTick(tick + 1);
   }
 
-  function deletePergunta(index) {
-    delete perguntas[index];
-    setPerguntas(perguntas);
+  async function deletePergunta(index) {
+    if(perguntas[index].id) {
+      try {
+        const body = {
+          quizId: quiz,
+          questionId: perguntas[index].id,
+          characterId: character
+        }
+        const response = await API.deletarPergunta(body)
+        alert("Pergunta deletada com sucesso!")
+        await getData()
+      } catch (error) {
+        alert("Erro ao deletar pergunta")
+        console.log(error)
+      }
+
+    } else {
+      delete perguntas[index];
+      setPerguntas(perguntas);
+    }
     setTick(tick + 1);
   }
 
@@ -129,13 +165,13 @@ export default function ListarQuizzes({ navigation }) {
   if (step == 0) {
     return (
       <Container navigation={navigation}>
-        <TextInput
+        {/* <TextInput
           value={titulo}
           label="Título"
           style={{ backgroundColor: "transparent" }}
           placeholder="Digite o título do Quiz"
           onChangeText={(texto) => setTitulo(texto)}
-        />
+        /> */}
 
         <FlatList
           data={perguntas}
@@ -159,13 +195,15 @@ export default function ListarQuizzes({ navigation }) {
           }}
         />
 
-        <Button
+        {(!quiz && perguntas.length > 0) && (
+          <Button
           title="Cadastrar Quiz"
           containerStyle={{marginTop: 10}}
           onPress={() => {
             submit()
           }}
         />
+        )}
       </Container>
     );
   }
@@ -230,16 +268,31 @@ export default function ListarQuizzes({ navigation }) {
       <Button
         title="Salvar"
         containerStyle={{ marginTop: 15 }}
-        onPress={() => {
+        onPress={async () => {
           const novaPergunta = {
             text: perguntaTitulo,
             answers: alternativas,
           };
-          perguntas.push(novaPergunta);
-          setPerguntas(perguntas);
-          console.log(perguntas);
-          setAlternativas([]);
+          if(quiz) {
+            novaPergunta['quizId'] = quiz
+            try {
+              const response = await API.criarPergunta(novaPergunta)
+              console.log(novaPergunta)
+              alert("Sua pergunta foi cadastrada com sucesso ao quiz!")
+              await getData() 
+            } catch (error) {
+              alert("Erro ao cadastrar sua pergunta...")
+              console.log(error)
+            }
+            
+          } else {
 
+            perguntas.push(novaPergunta);
+            setPerguntas(perguntas);
+            console.log(perguntas);
+            setAlternativas([]);
+            
+          }
           setPerguntaTitulo("");
           setPerguntaAlternativa("");
           setCorreta(false);

@@ -40,7 +40,7 @@ class ApiConnection {
     data["characterId"] = 1
     try {
       console.log(data)
-      const response = await this.api.post(`quiz/feedback/`, data);
+      const response = await this.api.post(`quiz/feedback`, data);
       return response.data;
     } catch (error) {
       //alert(error)
@@ -59,10 +59,34 @@ class ApiConnection {
     }
   }
 
-  async deletarQuiz(data) {
+  async deletarQuiz(quizId) {
+    const data = {quizId}
     data["characterId"] = 1
     try {
-      const response = await this.api.delete(`quiz/`, data);
+      const response = await this.api.delete(`quiz`, {data});
+      
+      return response.data;
+    } catch (error) {
+      throw error
+    }
+
+  }
+
+  async deletarPergunta(data) {
+    console.log(data)
+    try {
+      const response = await this.api.delete(`quiz/question`, {data});
+      
+      return response.data;
+    } catch (error) {
+      throw error
+    }
+
+  }
+  async criarPergunta(data) {
+    data["characterId"] = 1
+    try {
+      const response = await this.api.post(`quiz/question`, data);
       
       return response.data;
     } catch (error) {
