@@ -4,13 +4,13 @@ namespace QuizMania.WebAPI.DTOs.Output
 {
     public class CharacterItemsDTO
     {
-        public CharacterItemsDTO()
-        {
-            Items = new HashSet<ItemQuantityDTO>();
-        }
-
         public long CharacterId { get; set; }
 
-        public virtual ICollection<ItemQuantityDTO> Items { get; set; }
+        public virtual ICollection<InventoryItemDTO> Items { get; set; }
+
+        public CharacterItemsDTO()
+        {
+            Items = new HashSet<InventoryItemDTO>();
+        }
     }
 }

@@ -20,9 +20,9 @@ namespace QuizMania.WebAPI
             return await _context.Items.ToListAsync();
         }
 
-        public async Task<ItemInfo> GetItemAsync(long id)
+        public async Task<ItemInfo> GetItemAsync(string name)
         {
-            return await _context.Items.FirstOrDefaultAsync(i => i.Id == id);
+            return await _context.Items.FirstOrDefaultAsync(i => i.Name == name);
         }
     }
 }

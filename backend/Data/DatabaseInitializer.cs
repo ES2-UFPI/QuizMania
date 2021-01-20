@@ -79,13 +79,13 @@ namespace QuizMania.WebAPI.Data
                 HealthPoints = 80,
             };
 
-            char1.Items.Add(new ItemQuantity(item1, 1));
-            char1.Items.Add(new ItemQuantity(item4, 1));
-            char1.Items.Add(new ItemQuantity(item5, 5));
+            char1.Items.Add(new InventoryItem(item1, 1));
+            char1.Items.Add(new InventoryItem(item4, 1));
+            char1.Items.Add(new InventoryItem(item5, 5));
 
-            char2.Items.Add(new ItemQuantity(item2, 1));
-            char2.Items.Add(new ItemQuantity(item3, 1));
-            char2.Items.Add(new ItemQuantity(item5, 10));
+            char2.Items.Add(new InventoryItem(item2, 1));
+            char2.Items.Add(new InventoryItem(item3, 1));
+            char2.Items.Add(new InventoryItem(item5, 10));
 
             context.Characters.Add(char1);
             context.Characters.Add(char2);

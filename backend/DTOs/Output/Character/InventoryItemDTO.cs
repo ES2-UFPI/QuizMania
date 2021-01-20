@@ -2,7 +2,7 @@
 
 namespace QuizMania.WebAPI.DTOs.Output
 {
-    public class ItemQuantityDTO
+    public class InventoryItemDTO
     {
         public ItemInfoDTO Item { get; set; }
 
