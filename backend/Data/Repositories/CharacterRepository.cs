@@ -6,14 +6,9 @@ using QuizMania.WebAPI.Models;
 
 namespace QuizMania.WebAPI
 {
-    public class CharacterRepository : ICharacterAsyncRepository
+    public class CharacterRepository : BaseRepository, ICharacterAsyncRepository
     {
-        private readonly DatabaseContext _context;
-
-        public CharacterRepository (DatabaseContext context)
-        {
-            _context = context;
-        }
+        public CharacterRepository (DatabaseContext context) :base(context) { }
 
         public async Task<IEnumerable<Character>> GetAllCharactersAsync()
         {

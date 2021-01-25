@@ -4,7 +4,6 @@ using QuizMania.WebAPI.DTOs.Input;
 using QuizMania.WebAPI.DTOs.Output;
 using System.Threading.Tasks;
 using QuizMania.WebAPI.Services;
-using Microsoft.AspNetCore.Http;
 
 namespace QuizMania.WebAPI.Controllers
 {
