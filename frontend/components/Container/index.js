@@ -9,9 +9,15 @@ export default function container({ children, notscroll, navigation,refresh, fle
   const [step, setStep] = useState(0)
   const [refreshing, setRefreshing] = useState(false)
   useEffect(() => {
-    setRender(!render);
+    // const unsubscribe = navigation.addListener("focus", () => {
+    //   setStep(step + 1);
+    //   //console.log("chamou")
+    // });
+
+    // // Return the function to unsubscribe from the event so it gets removed on unmount
+    // return unsubscribe;
     // alert("oi")
-  }, [navigation]);
+  }, []);
 
   function onRefresh() {
     setStep(step +1)
@@ -24,7 +30,7 @@ export default function container({ children, notscroll, navigation,refresh, fle
         imageStyle={{ opacity: 0.15 }}
       >
         <View style={styles.container}>
-          <Header navigation={render} />
+          <Header navigation={navigation} />
           <React.Fragment>{children}</React.Fragment>
         </View>
       </ImageBackground>
@@ -41,7 +47,7 @@ export default function container({ children, notscroll, navigation,refresh, fle
           refresh ? <RefreshControl refreshing={refreshing} onRefresh={onRefresh} /> : undefined
         }
       >
-        <Header navigation={render} />
+        <Header navigation={navigation} />
         <React.Fragment>{children}</React.Fragment>
       </ScrollView>
     </ImageBackground>
