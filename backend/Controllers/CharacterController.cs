@@ -19,6 +19,11 @@ namespace QuizMania.WebAPI.Controllers
             _characterService = characterService;
         }
 
+
+        /// <remarks>
+        /// <h2> **Description:** </h2>
+        /// <h3> Retorna um character com suas informacoes básicas. </h3>
+        /// </remarks>
         [HttpGet("{id}")]
         public async Task<ActionResult<CharacterInfoDTO>> GetCharacter(long id)
         {
@@ -26,6 +31,11 @@ namespace QuizMania.WebAPI.Controllers
             return character != null ? Ok(character) : NotFound();
         }
 
+
+        /// <remarks>
+        /// <h2> **Description:** </h2>
+        /// <h3> Retorna todos os itens da loja. </h3>
+        /// </remarks>
         [HttpGet("items")]
         public async Task<ActionResult<IEnumerable<ItemInfoDTO>>> GetItems()
         {
@@ -33,6 +43,10 @@ namespace QuizMania.WebAPI.Controllers
             return items != null ? Ok(items) : NotFound();
         }
 
+        /// <remarks>
+        /// <h2> **Description:** </h2>
+        /// <h3> Retorna um character com seus itens. </h3>
+        /// </remarks>
         [HttpGet("items/{id}")]
         public async Task<ActionResult<CharacterItemsDTO>> GetCharacterItems(long id)
         {
@@ -40,11 +54,15 @@ namespace QuizMania.WebAPI.Controllers
             return character != null ? Ok(character) : NotFound();
         }
 
+
         /// <remarks>
         /// <h2> **Result values:** </h2> 
         /// <h3> **200:** Sucess </h3>
         /// <h3> **404:** CharacterNotFound </h3>
         /// <h3> **400:** BadRequest, InventoryWithoutItem </h3>
+        /// <h2> **Description:** </h2>
+        /// <h3> Equipa/desequipa o item especificado do character informado, equipa o 
+        ///      item caso ele não esteja equipado e desequipa caso contrário. </h3>
         /// </remarks>
         [HttpPatch("items")]
         public async Task<ActionResult<Un_EquipItemResponseDTO>> Un_EquipItem(Un_EquipItemRequestDTO un_equipItemRequest)
@@ -58,11 +76,14 @@ namespace QuizMania.WebAPI.Controllers
             }
         }
 
+
         /// <remarks>
         /// <h2> **Result values:** </h2> 
         /// <h3> **200:** Authorized </h3>
         /// <h3> **404:** CharacterNotFound </h3>
         /// <h3> **400:** BadRequest, NotEnoughResources </h3>
+        /// <h2> **Description:** </h2>
+        /// <h3> Gasta a quantidade de ouro especificada do character informado. </h3>
         /// </remarks>
         [HttpPost("expendGold")]
         public async Task<ActionResult<GoldExpenseResponseDTO>> TryExpendGold(GoldExpenseRequestDTO expenseRequest)
@@ -76,11 +97,14 @@ namespace QuizMania.WebAPI.Controllers
             }
         }
 
+
         /// <remarks>
         /// <h2> **Result values:** </h2> 
         /// <h3> **200:** Authorized </h3>
         /// <h3> **404:** ItemNotFound, CharacterNotFound </h3>
         /// <h3> **400:** BadRequest, NotEnoughResources, ItemNotFound, ReachedItemMaxQuantity </h3>
+        /// <h2> **Description:** </h2>
+        /// <h3> O item especificado é comprado pelo character informado. </h3>
         /// </remarks>
         [HttpPost("items/purchase")]
         public async Task<ActionResult<ItemPurchaseResponseDTO>> TryPurchaseItem(ItemPurchaseRequestDTO purchaseRequest)

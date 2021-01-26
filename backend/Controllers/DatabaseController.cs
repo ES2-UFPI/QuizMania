@@ -16,6 +16,10 @@ namespace QuizMania.WebAPI.Controllers
             _dbInitializer = databaseInitializer;
         }
 
+        /// <remarks>
+        /// <h2> **Description:** </h2>
+        /// <h3> O banco de dados é resetado e semeado novamente. </h3>
+        /// </remarks>
         [HttpGet("reset")]
         public async Task<ActionResult> ResetDB()
         {
