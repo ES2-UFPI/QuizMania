@@ -26,7 +26,7 @@ namespace QuizMania.WebAPI.Services
 
         public async Task<CharacterInfoDTO> GetCharacterInfoAsync(long id)
         {
-            return _mapper.Map<CharacterInfoDTO>(await _characterRepo.GetCharacterAllAsync(id));
+            return _mapper.Map<CharacterInfoDTO>(await _characterRepo.GetCharacterSimpleAsync(id));
         }
 
         public async Task<CharacterItemsDTO> GetCharacterItemsAsync(long id)

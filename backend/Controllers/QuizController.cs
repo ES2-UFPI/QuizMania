@@ -4,7 +4,6 @@ using QuizMania.WebAPI.DTOs.Input;
 using QuizMania.WebAPI.DTOs.Output;
 using System.Threading.Tasks;
 using QuizMania.WebAPI.Services;
-using Microsoft.AspNetCore.Http;
 
 namespace QuizMania.WebAPI.Controllers
 {
@@ -19,6 +18,11 @@ namespace QuizMania.WebAPI.Controllers
             _quizService = quizService;
         }
 
+
+        /// <remarks>
+        /// <h2> **Description:** </h2>
+        /// <h3> Retorna todos os quizzes. </h3>
+        /// </remarks>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<QuizReadDTO>>> GetQuizzes()
         {
@@ -26,6 +30,11 @@ namespace QuizMania.WebAPI.Controllers
             return quizzes != null ? Ok(quizzes) : NotFound();
         }
 
+
+        /// <remarks>
+        /// <h2> **Description:** </h2>
+        /// <h3> Retorna um determinado quiz. </h3>
+        /// </remarks>
         [HttpGet("{id}")]
         public async Task<ActionResult<QuizReadDTO>> GetQuiz(long id)
         {
@@ -39,6 +48,8 @@ namespace QuizMania.WebAPI.Controllers
         /// <h3> **200:** Sucess </h3>
         /// <h3> **404:** OwnerNotFound </h3>
         /// <h3> **400:** BadRequest, EmptyAtribute, QuestionWithoutCorrectAnswer </h3>
+        /// <h2> **Description:** </h2>
+        /// <h3> O character especificado salva o quiz informado. </h3>
         /// </remarks>
         [HttpPost]
         public async Task<ActionResult<SaveQuizResponseDTO>> PostQuiz(SaveQuiz_QuizDTO quizReceived)
@@ -58,6 +69,8 @@ namespace QuizMania.WebAPI.Controllers
         /// <h3> **200:** Sucess </h3>
         /// <h3> **404:** QuizNotFound </h3>
         /// <h3> **400:** BadRequest, CharacterNotOwner </h3>
+        /// <h2> **Description:** </h2>
+        /// <h3> Deleta o quiz especificado. </h3>
         /// </remarks>
         [HttpDelete]
         public async Task<ActionResult<DeleteQuizResponseDTO>> DeleteQuiz(DeleteQuizRequestDTO deleteRequest)
@@ -77,6 +90,8 @@ namespace QuizMania.WebAPI.Controllers
         /// <h3> **200:** Sucess </h3>
         /// <h3> **404:** QuizNotFound </h3>
         /// <h3> **400:** BadRequest, EmptyAtribute, QuestionWithoutCorrectAnswer, CharacterNotOwner </h3>
+        /// <h2> **Description:** </h2>
+        /// <h3> O character especificado adiciona uma nova questão ao quiz informado. </h3>
         /// </remarks>
         [HttpPost("question")]
         public async Task<ActionResult<QuestionReadDTO>> PostQuestion(SaveQuestion_QuestionDTO questionReceived)
@@ -96,6 +111,8 @@ namespace QuizMania.WebAPI.Controllers
         /// <h3> **200:** Sucess </h3>
         /// <h3> **404:** QuizNotFound, QuestionNotFound </h3>
         /// <h3> **400:** BadRequest, CharacterNotOwner </h3>
+        /// <h2> **Description:** </h2>
+        /// <h3> O character especificado deleta questão do quiz informado. </h3>
         /// </remarks>
         [HttpDelete("question")]
         public async Task<ActionResult<DeleteQuestionResponseDTO>> DeleteQuestion(DeleteQuestionRequestDTO deleteRequest)
@@ -116,6 +133,8 @@ namespace QuizMania.WebAPI.Controllers
         /// <h3> **200:** Sucess </h3>
         /// <h3> **404:** CharacterNotFound, QuizNotFound, QuestionNotFound, AnswerNotFound </h3>
         /// <h3> **400:** BadRequest, InvalidQuizFeedback, QuizWithoutQuestions </h3>
+        /// <h2> **Description:** </h2>
+        /// <h3> O character especificado responde o quiz informado. </h3>
         /// </remarks>
         [HttpPost("feedback")]
         public async Task<ActionResult<SaveQuizFeedbackResponseDTO>> PostQuizFeedback(SaveQuizFb_QuizFeedbackDTO quizFbReceived)

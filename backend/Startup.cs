@@ -22,7 +22,8 @@ namespace QuizMania.WebAPI
         }
 
         public IConfiguration Configuration { get; }
-        
+        public static SqliteConnection inMemorySqliteConnection { get; private set; }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -33,11 +34,13 @@ namespace QuizMania.WebAPI
 
             services.AddScoped<IQuizService, QuizService>();
             services.AddScoped<ICharacterService, CharacterService>();
-
-            var inMemorySqliteQuizConnection = new SqliteConnection(Configuration.GetConnectionString("SqliteInMemoryConnection"));
-            inMemorySqliteQuizConnection.Open();
             
-            services.AddDbContext<DatabaseContext>(opt => { opt.UseSqlite(inMemorySqliteQuizConnection); });
+            services.AddScoped<DatabaseInitializer>();
+
+            inMemorySqliteConnection = new SqliteConnection(Configuration.GetConnectionString("SqliteInMemoryConnection"));
+            inMemorySqliteConnection.Open();
+
+            services.AddDbContext<DatabaseContext>(opt => { opt.UseSqlite(inMemorySqliteConnection); });
            
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -50,8 +53,10 @@ namespace QuizMania.WebAPI
             );
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DatabaseInitializer dbInitializer)
         {
+            dbInitializer.SeederAsync().Wait();
+
             app.UseSwagger();
 
             if (env.IsDevelopment())

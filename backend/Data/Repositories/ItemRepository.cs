@@ -6,15 +6,10 @@ using QuizMania.WebAPI.Models;
 
 namespace QuizMania.WebAPI
 {
-    public class ItemRepository : IItemAsyncRepository
+    public class ItemRepository : BaseRepository, IItemAsyncRepository
     {
-        private readonly DatabaseContext _context;
-
-        public ItemRepository(DatabaseContext context)
-        {
-            _context = context;
-        }
-
+        public ItemRepository(DatabaseContext context) : base(context) { }
+        
         public async Task<IEnumerable<ItemInfo>> GetAllItemsAsync()
         {
             return await _context.Items.ToListAsync();
