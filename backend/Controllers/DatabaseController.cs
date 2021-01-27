@@ -23,7 +23,7 @@ namespace QuizMania.WebAPI.Controllers
         [HttpGet("reset")]
         public async Task<ActionResult> ResetDB()
         {
-            return await _dbInitializer.ContextSeederAsync() ? Ok() : StatusCode(StatusCodes.Status500InternalServerError);
+            return await _dbInitializer.SeederAsync() ? Ok() : StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 }

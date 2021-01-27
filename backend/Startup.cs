@@ -55,7 +55,7 @@ namespace QuizMania.WebAPI
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DatabaseInitializer dbInitializer)
         {
-            dbInitializer.ContextSeederAsync().Wait();
+            dbInitializer.SeederAsync().Wait();
 
             app.UseSwagger();
 

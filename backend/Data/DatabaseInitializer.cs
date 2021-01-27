@@ -17,12 +17,33 @@ namespace QuizMania.WebAPI.Data
             _context = context;
         }
 
-        public async Task<bool> ContextSeederAsync()
+        public static async Task ContextSeederAsync(DatabaseContext context)
+        {
+            ContextAddElements(context);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<bool> SeederAsync()
         {
             Startup.inMemorySqliteConnection.Close();
             Startup.inMemorySqliteConnection.Open();
 
-            _context.Database.EnsureCreated();
+            ContextAddElements(_context);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true; ;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        private static void ContextAddElements(DatabaseContext context)
+        {
+            context.Database.EnsureCreated();
 
             #region Add Mock Items
 
@@ -33,7 +54,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Other,
                 MaxQuantity = 1,
-            }; _context.Items.Add(unitary);
+            }; context.Items.Add(unitary);
 
             var infinite = new ItemInfo()
             {
@@ -41,7 +62,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 3,
                 Type = SlotType.Other,
                 MaxQuantity = -1,
-            }; _context.Items.Add(infinite);
+            }; context.Items.Add(infinite);
 
             var forbidden = new ItemInfo()
             {
@@ -49,7 +70,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 0,
                 Type = SlotType.Other,
                 MaxQuantity = 0,
-            }; _context.Items.Add(forbidden);
+            }; context.Items.Add(forbidden);
 
             var face1 = new ItemInfo()
             {
@@ -57,7 +78,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Face,
                 MaxQuantity = 1,
-            }; _context.Items.Add(face1);
+            }; context.Items.Add(face1);
 
             var face2 = new ItemInfo()
             {
@@ -65,7 +86,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Face,
                 MaxQuantity = 1,
-            }; _context.Items.Add(face2);
+            }; context.Items.Add(face2);
 
             var face3 = new ItemInfo()
             {
@@ -73,7 +94,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Face,
                 MaxQuantity = 1,
-            }; _context.Items.Add(face3);
+            }; context.Items.Add(face3);
 
             var face4 = new ItemInfo()
             {
@@ -81,7 +102,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Face,
                 MaxQuantity = 1,
-            }; _context.Items.Add(face4);
+            }; context.Items.Add(face4);
 
             var blackMan1 = new ItemInfo()
             {
@@ -89,7 +110,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blackMan1);
+            }; context.Items.Add(blackMan1);
 
             var blackMan2 = new ItemInfo()
             {
@@ -97,7 +118,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blackMan2);
+            }; context.Items.Add(blackMan2);
 
             var blackMan3 = new ItemInfo()
             {
@@ -105,7 +126,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blackMan3);
+            }; context.Items.Add(blackMan3);
 
             var blackMan4 = new ItemInfo()
             {
@@ -113,7 +134,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blackMan4);
+            }; context.Items.Add(blackMan4);
 
             var blackMan5 = new ItemInfo()
             {
@@ -121,7 +142,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blackMan5);
+            }; context.Items.Add(blackMan5);
 
             var blackMan6 = new ItemInfo()
             {
@@ -129,7 +150,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blackMan6);
+            }; context.Items.Add(blackMan6);
 
             var blackMan7 = new ItemInfo()
             {
@@ -137,7 +158,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blackMan7);
+            }; context.Items.Add(blackMan7);
 
             var blackMan8 = new ItemInfo()
             {
@@ -145,7 +166,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blackMan8);
+            }; context.Items.Add(blackMan8);
 
             var blondMan1 = new ItemInfo()
             {
@@ -153,7 +174,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blondMan1);
+            }; context.Items.Add(blondMan1);
 
             var blondMan2 = new ItemInfo()
             {
@@ -161,7 +182,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blondMan2);
+            }; context.Items.Add(blondMan2);
 
             var blondMan3 = new ItemInfo()
             {
@@ -169,7 +190,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blondMan3);
+            }; context.Items.Add(blondMan3);
 
             var blondMan4 = new ItemInfo()
             {
@@ -177,7 +198,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blondMan4);
+            }; context.Items.Add(blondMan4);
 
             var blondMan5 = new ItemInfo()
             {
@@ -185,7 +206,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blondMan5);
+            }; context.Items.Add(blondMan5);
 
             var blondMan6 = new ItemInfo()
             {
@@ -193,7 +214,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blondMan6);
+            }; context.Items.Add(blondMan6);
 
             var blondMan7 = new ItemInfo()
             {
@@ -201,7 +222,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blondMan7);
+            }; context.Items.Add(blondMan7);
 
             var blondMan8 = new ItemInfo()
             {
@@ -209,7 +230,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blondMan8);
+            }; context.Items.Add(blondMan8);
 
             var brown1Man1 = new ItemInfo()
             {
@@ -217,7 +238,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown1Man1);
+            }; context.Items.Add(brown1Man1);
 
             var brown1Man2 = new ItemInfo()
             {
@@ -225,7 +246,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown1Man2);
+            }; context.Items.Add(brown1Man2);
 
             var brown1Man3 = new ItemInfo()
             {
@@ -233,7 +254,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown1Man3);
+            }; context.Items.Add(brown1Man3);
 
             var brown1Man4 = new ItemInfo()
             {
@@ -241,7 +262,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown1Man4);
+            }; context.Items.Add(brown1Man4);
 
             var brown1Man5 = new ItemInfo()
             {
@@ -249,7 +270,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown1Man5);
+            }; context.Items.Add(brown1Man5);
 
             var brown1Man6 = new ItemInfo()
             {
@@ -257,7 +278,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown1Man6);
+            }; context.Items.Add(brown1Man6);
 
             var brown1Man7 = new ItemInfo()
             {
@@ -265,7 +286,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown1Man7);
+            }; context.Items.Add(brown1Man7);
 
             var brown1Man8 = new ItemInfo()
             {
@@ -273,7 +294,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown1Man8);
+            }; context.Items.Add(brown1Man8);
 
             var brown2Man1 = new ItemInfo()
             {
@@ -281,7 +302,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown2Man1);
+            }; context.Items.Add(brown2Man1);
 
             var brown2Man2 = new ItemInfo()
             {
@@ -289,7 +310,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown2Man2);
+            }; context.Items.Add(brown2Man2);
 
             var brown2Man3 = new ItemInfo()
             {
@@ -297,7 +318,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown2Man3);
+            }; context.Items.Add(brown2Man3);
 
             var brown2Man4 = new ItemInfo()
             {
@@ -305,7 +326,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown2Man4);
+            }; context.Items.Add(brown2Man4);
 
             var brown2Man5 = new ItemInfo()
             {
@@ -313,7 +334,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown2Man5);
+            }; context.Items.Add(brown2Man5);
 
             var brown2Man6 = new ItemInfo()
             {
@@ -321,7 +342,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown2Man6);
+            }; context.Items.Add(brown2Man6);
 
             var brown2Man7 = new ItemInfo()
             {
@@ -329,7 +350,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown2Man7);
+            }; context.Items.Add(brown2Man7);
 
             var brown2Man8 = new ItemInfo()
             {
@@ -337,7 +358,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown2Man8);
+            }; context.Items.Add(brown2Man8);
 
             var greyMan1 = new ItemInfo()
             {
@@ -345,7 +366,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyMan1);
+            }; context.Items.Add(greyMan1);
 
             var greyMan2 = new ItemInfo()
             {
@@ -353,7 +374,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyMan2);
+            }; context.Items.Add(greyMan2);
 
             var greyMan3 = new ItemInfo()
             {
@@ -361,7 +382,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyMan3);
+            }; context.Items.Add(greyMan3);
 
             var greyMan4 = new ItemInfo()
             {
@@ -369,7 +390,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyMan4);
+            }; context.Items.Add(greyMan4);
 
             var greyMan5 = new ItemInfo()
             {
@@ -377,7 +398,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyMan5);
+            }; context.Items.Add(greyMan5);
 
             var greyMan6 = new ItemInfo()
             {
@@ -385,7 +406,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyMan6);
+            }; context.Items.Add(greyMan6);
 
             var greyMan7 = new ItemInfo()
             {
@@ -393,7 +414,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyMan7);
+            }; context.Items.Add(greyMan7);
 
             var greyMan8 = new ItemInfo()
             {
@@ -401,7 +422,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyMan8);
+            }; context.Items.Add(greyMan8);
 
             var redMan1 = new ItemInfo()
             {
@@ -409,7 +430,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redMan1);
+            }; context.Items.Add(redMan1);
 
             var redMan2 = new ItemInfo()
             {
@@ -417,7 +438,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redMan2);
+            }; context.Items.Add(redMan2);
 
             var redMan3 = new ItemInfo()
             {
@@ -425,7 +446,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redMan3);
+            }; context.Items.Add(redMan3);
 
             var redMan4 = new ItemInfo()
             {
@@ -433,7 +454,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redMan4);
+            }; context.Items.Add(redMan4);
 
             var redMan5 = new ItemInfo()
             {
@@ -441,7 +462,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redMan5);
+            }; context.Items.Add(redMan5);
 
             var redMan6 = new ItemInfo()
             {
@@ -449,7 +470,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redMan6);
+            }; context.Items.Add(redMan6);
 
             var redMan7 = new ItemInfo()
             {
@@ -457,7 +478,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redMan7);
+            }; context.Items.Add(redMan7);
 
             var redMan8 = new ItemInfo()
             {
@@ -465,7 +486,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redMan8);
+            }; context.Items.Add(redMan8);
 
             var tanMan1 = new ItemInfo()
             {
@@ -473,7 +494,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tanMan1);
+            }; context.Items.Add(tanMan1);
 
             var tanMan2 = new ItemInfo()
             {
@@ -481,7 +502,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tanMan2);
+            }; context.Items.Add(tanMan2);
 
             var tanMan3 = new ItemInfo()
             {
@@ -489,7 +510,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tanMan3);
+            }; context.Items.Add(tanMan3);
 
             var tanMan4 = new ItemInfo()
             {
@@ -497,7 +518,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tanMan4);
+            }; context.Items.Add(tanMan4);
 
             var tanMan5 = new ItemInfo()
             {
@@ -505,7 +526,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tanMan5);
+            }; context.Items.Add(tanMan5);
 
             var tanMan6 = new ItemInfo()
             {
@@ -513,7 +534,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tanMan6);
+            }; context.Items.Add(tanMan6);
 
             var tanMan7 = new ItemInfo()
             {
@@ -521,7 +542,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tanMan7);
+            }; context.Items.Add(tanMan7);
 
             var tanMan8 = new ItemInfo()
             {
@@ -529,7 +550,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tanMan8);
+            }; context.Items.Add(tanMan8);
 
             var whiteMan1 = new ItemInfo()
             {
@@ -537,7 +558,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(whiteMan1);
+            }; context.Items.Add(whiteMan1);
 
             var whiteMan2 = new ItemInfo()
             {
@@ -545,7 +566,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(whiteMan2);
+            }; context.Items.Add(whiteMan2);
 
             var whiteMan3 = new ItemInfo()
             {
@@ -553,7 +574,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(whiteMan3);
+            }; context.Items.Add(whiteMan3);
 
             var whiteMan4 = new ItemInfo()
             {
@@ -561,7 +582,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(whiteMan4);
+            }; context.Items.Add(whiteMan4);
 
             var whiteMan5 = new ItemInfo()
             {
@@ -569,7 +590,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(whiteMan5);
+            }; context.Items.Add(whiteMan5);
 
             var whiteMan6 = new ItemInfo()
             {
@@ -577,7 +598,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(whiteMan6);
+            }; context.Items.Add(whiteMan6);
 
             var whiteMan7 = new ItemInfo()
             {
@@ -585,7 +606,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(whiteMan7);
+            }; context.Items.Add(whiteMan7);
 
             var whiteMan8 = new ItemInfo()
             {
@@ -593,7 +614,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 5,
                 Type = SlotType.Hair,
                 MaxQuantity = 1,
-            }; _context.Items.Add(whiteMan8);
+            }; context.Items.Add(whiteMan8);
 
             var pantsBlue1_long = new ItemInfo()
             {
@@ -601,7 +622,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 10,
                 Type = SlotType.Pants,
                 MaxQuantity = 1,
-            }; _context.Items.Add(pantsBlue1_long);
+            }; context.Items.Add(pantsBlue1_long);
 
             var pantsBlue2_long = new ItemInfo()
             {
@@ -609,7 +630,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 10,
                 Type = SlotType.Pants,
                 MaxQuantity = 1,
-            }; _context.Items.Add(pantsBlue2_long);
+            }; context.Items.Add(pantsBlue2_long);
 
             var pantsBrown_long = new ItemInfo()
             {
@@ -617,7 +638,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 10,
                 Type = SlotType.Pants,
                 MaxQuantity = 1,
-            }; _context.Items.Add(pantsBrown_long);
+            }; context.Items.Add(pantsBrown_long);
 
             var pantsGreen_long = new ItemInfo()
             {
@@ -625,7 +646,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 10,
                 Type = SlotType.Pants,
                 MaxQuantity = 1,
-            }; _context.Items.Add(pantsGreen_long);
+            }; context.Items.Add(pantsGreen_long);
 
             var pantsGrey_long = new ItemInfo()
             {
@@ -633,7 +654,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 10,
                 Type = SlotType.Pants,
                 MaxQuantity = 1,
-            }; _context.Items.Add(pantsGrey_long);
+            }; context.Items.Add(pantsGrey_long);
 
             var pantsLightBlue_long = new ItemInfo()
             {
@@ -641,7 +662,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 10,
                 Type = SlotType.Pants,
                 MaxQuantity = 1,
-            }; _context.Items.Add(pantsLightBlue_long);
+            }; context.Items.Add(pantsLightBlue_long);
 
             var pantsNavy_long = new ItemInfo()
             {
@@ -649,7 +670,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 10,
                 Type = SlotType.Pants,
                 MaxQuantity = 1,
-            }; _context.Items.Add(pantsNavy_long);
+            }; context.Items.Add(pantsNavy_long);
 
             var pantsPine_long = new ItemInfo()
             {
@@ -657,7 +678,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 10,
                 Type = SlotType.Pants,
                 MaxQuantity = 1,
-            }; _context.Items.Add(pantsPine_long);
+            }; context.Items.Add(pantsPine_long);
 
             var pantsRed_long = new ItemInfo()
             {
@@ -665,7 +686,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 10,
                 Type = SlotType.Pants,
                 MaxQuantity = 1,
-            }; _context.Items.Add(pantsRed_long);
+            }; context.Items.Add(pantsRed_long);
 
             var pantsTan_long = new ItemInfo()
             {
@@ -673,7 +694,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 10,
                 Type = SlotType.Pants,
                 MaxQuantity = 1,
-            }; _context.Items.Add(pantsTan_long);
+            }; context.Items.Add(pantsTan_long);
 
             var pantsWhite_long = new ItemInfo()
             {
@@ -681,7 +702,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 10,
                 Type = SlotType.Pants,
                 MaxQuantity = 1,
-            }; _context.Items.Add(pantsWhite_long);
+            }; context.Items.Add(pantsWhite_long);
 
             var legYellow_long = new ItemInfo()
             {
@@ -689,7 +710,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 10,
                 Type = SlotType.Pants,
                 MaxQuantity = 1,
-            }; _context.Items.Add(legYellow_long);
+            }; context.Items.Add(legYellow_long);
 
             var blueArm_long = new ItemInfo()
             {
@@ -697,7 +718,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Arm,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blueArm_long);
+            }; context.Items.Add(blueArm_long);
 
             var greenArm_long = new ItemInfo()
             {
@@ -705,7 +726,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Arm,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greenArm_long);
+            }; context.Items.Add(greenArm_long);
 
             var greyArm_long = new ItemInfo()
             {
@@ -713,7 +734,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Arm,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyArm_long);
+            }; context.Items.Add(greyArm_long);
 
             var navyArm_long = new ItemInfo()
             {
@@ -721,7 +742,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Arm,
                 MaxQuantity = 1,
-            }; _context.Items.Add(navyArm_long);
+            }; context.Items.Add(navyArm_long);
 
             var pineArm_long = new ItemInfo()
             {
@@ -729,7 +750,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Arm,
                 MaxQuantity = 1,
-            }; _context.Items.Add(pineArm_long);
+            }; context.Items.Add(pineArm_long);
 
             var redArm_long = new ItemInfo()
             {
@@ -737,7 +758,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Arm,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redArm_long);
+            }; context.Items.Add(redArm_long);
 
             var armWhite_long = new ItemInfo()
             {
@@ -745,7 +766,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Arm,
                 MaxQuantity = 1,
-            }; _context.Items.Add(armWhite_long);
+            }; context.Items.Add(armWhite_long);
 
             var armYellow_long = new ItemInfo()
             {
@@ -753,7 +774,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Arm,
                 MaxQuantity = 1,
-            }; _context.Items.Add(armYellow_long);
+            }; context.Items.Add(armYellow_long);
 
             var blueShirt1 = new ItemInfo()
             {
@@ -761,7 +782,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blueShirt1);
+            }; context.Items.Add(blueShirt1);
 
             var blueShirt2 = new ItemInfo()
             {
@@ -769,7 +790,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blueShirt2);
+            }; context.Items.Add(blueShirt2);
 
             var blueShirt3 = new ItemInfo()
             {
@@ -777,7 +798,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blueShirt3);
+            }; context.Items.Add(blueShirt3);
 
             var blueShirt4 = new ItemInfo()
             {
@@ -785,7 +806,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blueShirt4);
+            }; context.Items.Add(blueShirt4);
 
             var blueShirt5 = new ItemInfo()
             {
@@ -793,7 +814,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blueShirt5);
+            }; context.Items.Add(blueShirt5);
 
             var blueShirt6 = new ItemInfo()
             {
@@ -801,7 +822,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blueShirt6);
+            }; context.Items.Add(blueShirt6);
 
             var blueShirt7 = new ItemInfo()
             {
@@ -809,7 +830,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blueShirt7);
+            }; context.Items.Add(blueShirt7);
 
             var blueShirt8 = new ItemInfo()
             {
@@ -817,7 +838,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blueShirt8);
+            }; context.Items.Add(blueShirt8);
 
             var greenShirt1 = new ItemInfo()
             {
@@ -825,7 +846,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greenShirt1);
+            }; context.Items.Add(greenShirt1);
 
             var greenShirt2 = new ItemInfo()
             {
@@ -833,7 +854,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greenShirt2);
+            }; context.Items.Add(greenShirt2);
 
             var greenShirt3 = new ItemInfo()
             {
@@ -841,7 +862,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greenShirt3);
+            }; context.Items.Add(greenShirt3);
 
             var greenShirt4 = new ItemInfo()
             {
@@ -849,7 +870,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greenShirt4);
+            }; context.Items.Add(greenShirt4);
 
             var greenShirt5 = new ItemInfo()
             {
@@ -857,7 +878,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greenShirt5);
+            }; context.Items.Add(greenShirt5);
 
             var greenShirt6 = new ItemInfo()
             {
@@ -865,7 +886,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greenShirt6);
+            }; context.Items.Add(greenShirt6);
 
             var greenShirt7 = new ItemInfo()
             {
@@ -873,7 +894,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greenShirt7);
+            }; context.Items.Add(greenShirt7);
 
             var greenShirt8 = new ItemInfo()
             {
@@ -881,7 +902,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greenShirt8);
+            }; context.Items.Add(greenShirt8);
 
             var greyShirt1 = new ItemInfo()
             {
@@ -889,7 +910,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyShirt1);
+            }; context.Items.Add(greyShirt1);
 
             var greyShirt2 = new ItemInfo()
             {
@@ -897,7 +918,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyShirt2);
+            }; context.Items.Add(greyShirt2);
 
             var greyShirt3 = new ItemInfo()
             {
@@ -905,7 +926,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyShirt3);
+            }; context.Items.Add(greyShirt3);
 
             var greyShirt4 = new ItemInfo()
             {
@@ -913,7 +934,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyShirt4);
+            }; context.Items.Add(greyShirt4);
 
             var greyShirt5 = new ItemInfo()
             {
@@ -921,7 +942,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyShirt5);
+            }; context.Items.Add(greyShirt5);
 
             var greyShirt6 = new ItemInfo()
             {
@@ -929,7 +950,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyShirt6);
+            }; context.Items.Add(greyShirt6);
 
             var greyShirt7 = new ItemInfo()
             {
@@ -937,7 +958,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyShirt7);
+            }; context.Items.Add(greyShirt7);
 
             var greyShirt8 = new ItemInfo()
             {
@@ -945,7 +966,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyShirt8);
+            }; context.Items.Add(greyShirt8);
 
             var navyShirt1 = new ItemInfo()
             {
@@ -953,7 +974,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(navyShirt1);
+            }; context.Items.Add(navyShirt1);
 
             var navyShirt2 = new ItemInfo()
             {
@@ -961,7 +982,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(navyShirt2);
+            }; context.Items.Add(navyShirt2);
 
             var navyShirt3 = new ItemInfo()
             {
@@ -969,7 +990,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(navyShirt3);
+            }; context.Items.Add(navyShirt3);
 
             var navyShirt4 = new ItemInfo()
             {
@@ -977,7 +998,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(navyShirt4);
+            }; context.Items.Add(navyShirt4);
 
             var navyShirt5 = new ItemInfo()
             {
@@ -985,7 +1006,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(navyShirt5);
+            }; context.Items.Add(navyShirt5);
 
             var navyShirt6 = new ItemInfo()
             {
@@ -993,7 +1014,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(navyShirt6);
+            }; context.Items.Add(navyShirt6);
 
             var navyShirt7 = new ItemInfo()
             {
@@ -1001,7 +1022,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(navyShirt7);
+            }; context.Items.Add(navyShirt7);
 
             var navyShirt8 = new ItemInfo()
             {
@@ -1009,7 +1030,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(navyShirt8);
+            }; context.Items.Add(navyShirt8);
 
             var pineShirt1 = new ItemInfo()
             {
@@ -1017,7 +1038,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(pineShirt1);
+            }; context.Items.Add(pineShirt1);
 
             var pineShirt2 = new ItemInfo()
             {
@@ -1025,7 +1046,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(pineShirt2);
+            }; context.Items.Add(pineShirt2);
 
             var pineShirt3 = new ItemInfo()
             {
@@ -1033,7 +1054,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(pineShirt3);
+            }; context.Items.Add(pineShirt3);
 
             var pineShirt4 = new ItemInfo()
             {
@@ -1041,7 +1062,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(pineShirt4);
+            }; context.Items.Add(pineShirt4);
 
             var pineShirt5 = new ItemInfo()
             {
@@ -1049,7 +1070,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(pineShirt5);
+            }; context.Items.Add(pineShirt5);
 
             var pineShirt6 = new ItemInfo()
             {
@@ -1057,7 +1078,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(pineShirt6);
+            }; context.Items.Add(pineShirt6);
 
             var pineShirt7 = new ItemInfo()
             {
@@ -1065,7 +1086,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(pineShirt7);
+            }; context.Items.Add(pineShirt7);
 
             var pineShirt8 = new ItemInfo()
             {
@@ -1073,7 +1094,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(pineShirt8);
+            }; context.Items.Add(pineShirt8);
 
             var redShirt1 = new ItemInfo()
             {
@@ -1081,7 +1102,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redShirt1);
+            }; context.Items.Add(redShirt1);
 
             var redShirt2 = new ItemInfo()
             {
@@ -1089,7 +1110,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redShirt2);
+            }; context.Items.Add(redShirt2);
 
             var redShirt3 = new ItemInfo()
             {
@@ -1097,7 +1118,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redShirt3);
+            }; context.Items.Add(redShirt3);
 
             var redShirt4 = new ItemInfo()
             {
@@ -1105,7 +1126,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redShirt4);
+            }; context.Items.Add(redShirt4);
 
             var redShirt5 = new ItemInfo()
             {
@@ -1113,7 +1134,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redShirt5);
+            }; context.Items.Add(redShirt5);
 
             var redShirt6 = new ItemInfo()
             {
@@ -1121,7 +1142,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redShirt6);
+            }; context.Items.Add(redShirt6);
 
             var redShirt7 = new ItemInfo()
             {
@@ -1129,7 +1150,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redShirt7);
+            }; context.Items.Add(redShirt7);
 
             var redShirt8 = new ItemInfo()
             {
@@ -1137,7 +1158,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redShirt8);
+            }; context.Items.Add(redShirt8);
 
             var whiteShirt1 = new ItemInfo()
             {
@@ -1145,7 +1166,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(whiteShirt1);
+            }; context.Items.Add(whiteShirt1);
 
             var whiteShirt2 = new ItemInfo()
             {
@@ -1153,7 +1174,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(whiteShirt2);
+            }; context.Items.Add(whiteShirt2);
 
             var whiteShirt3 = new ItemInfo()
             {
@@ -1161,7 +1182,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(whiteShirt3);
+            }; context.Items.Add(whiteShirt3);
 
             var whiteShirt4 = new ItemInfo()
             {
@@ -1169,7 +1190,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(whiteShirt4);
+            }; context.Items.Add(whiteShirt4);
 
             var whiteShirt5 = new ItemInfo()
             {
@@ -1177,7 +1198,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(whiteShirt5);
+            }; context.Items.Add(whiteShirt5);
 
             var whiteShirt6 = new ItemInfo()
             {
@@ -1185,7 +1206,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(whiteShirt6);
+            }; context.Items.Add(whiteShirt6);
 
             var whiteShirt7 = new ItemInfo()
             {
@@ -1193,7 +1214,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(whiteShirt7);
+            }; context.Items.Add(whiteShirt7);
 
             var whiteShirt8 = new ItemInfo()
             {
@@ -1201,7 +1222,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(whiteShirt8);
+            }; context.Items.Add(whiteShirt8);
 
             var shirtYellow1 = new ItemInfo()
             {
@@ -1209,7 +1230,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(shirtYellow1);
+            }; context.Items.Add(shirtYellow1);
 
             var shirtYellow2 = new ItemInfo()
             {
@@ -1217,7 +1238,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(shirtYellow2);
+            }; context.Items.Add(shirtYellow2);
 
             var shirtYellow3 = new ItemInfo()
             {
@@ -1225,7 +1246,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(shirtYellow3);
+            }; context.Items.Add(shirtYellow3);
 
             var shirtYellow4 = new ItemInfo()
             {
@@ -1233,7 +1254,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(shirtYellow4);
+            }; context.Items.Add(shirtYellow4);
 
             var shirtYellow5 = new ItemInfo()
             {
@@ -1241,7 +1262,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(shirtYellow5);
+            }; context.Items.Add(shirtYellow5);
 
             var shirtYellow6 = new ItemInfo()
             {
@@ -1249,7 +1270,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(shirtYellow6);
+            }; context.Items.Add(shirtYellow6);
 
             var shirtYellow7 = new ItemInfo()
             {
@@ -1257,7 +1278,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(shirtYellow7);
+            }; context.Items.Add(shirtYellow7);
 
             var shirtYellow8 = new ItemInfo()
             {
@@ -1265,7 +1286,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 12,
                 Type = SlotType.Shirt,
                 MaxQuantity = 1,
-            }; _context.Items.Add(shirtYellow8);
+            }; context.Items.Add(shirtYellow8);
 
             var blackShoe1 = new ItemInfo()
             {
@@ -1273,7 +1294,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blackShoe1);
+            }; context.Items.Add(blackShoe1);
 
             var blackShoe2 = new ItemInfo()
             {
@@ -1281,7 +1302,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blackShoe2);
+            }; context.Items.Add(blackShoe2);
 
             var blackShoe3 = new ItemInfo()
             {
@@ -1289,7 +1310,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blackShoe3);
+            }; context.Items.Add(blackShoe3);
 
             var blackShoe4 = new ItemInfo()
             {
@@ -1297,7 +1318,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blackShoe4);
+            }; context.Items.Add(blackShoe4);
 
             var blackShoe5 = new ItemInfo()
             {
@@ -1305,7 +1326,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blackShoe5);
+            }; context.Items.Add(blackShoe5);
 
             var blueShoe1 = new ItemInfo()
             {
@@ -1313,7 +1334,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blueShoe1);
+            }; context.Items.Add(blueShoe1);
 
             var blueShoe2 = new ItemInfo()
             {
@@ -1321,7 +1342,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blueShoe2);
+            }; context.Items.Add(blueShoe2);
 
             var blueShoe3 = new ItemInfo()
             {
@@ -1329,7 +1350,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blueShoe3);
+            }; context.Items.Add(blueShoe3);
 
             var blueShoe4 = new ItemInfo()
             {
@@ -1337,7 +1358,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blueShoe4);
+            }; context.Items.Add(blueShoe4);
 
             var blueShoe5 = new ItemInfo()
             {
@@ -1345,7 +1366,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(blueShoe5);
+            }; context.Items.Add(blueShoe5);
 
             var brownShoe1 = new ItemInfo()
             {
@@ -1353,7 +1374,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brownShoe1);
+            }; context.Items.Add(brownShoe1);
 
             var brownShoe2 = new ItemInfo()
             {
@@ -1361,7 +1382,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brownShoe2);
+            }; context.Items.Add(brownShoe2);
 
             var brownShoe3 = new ItemInfo()
             {
@@ -1369,7 +1390,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brownShoe3);
+            }; context.Items.Add(brownShoe3);
 
             var brownShoe4 = new ItemInfo()
             {
@@ -1377,7 +1398,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brownShoe4);
+            }; context.Items.Add(brownShoe4);
 
             var brownShoe5 = new ItemInfo()
             {
@@ -1385,7 +1406,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brownShoe5);
+            }; context.Items.Add(brownShoe5);
 
             var brown2Shoe1 = new ItemInfo()
             {
@@ -1393,7 +1414,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown2Shoe1);
+            }; context.Items.Add(brown2Shoe1);
 
             var brown2Shoe2 = new ItemInfo()
             {
@@ -1401,7 +1422,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown2Shoe2);
+            }; context.Items.Add(brown2Shoe2);
 
             var brown2Shoe3 = new ItemInfo()
             {
@@ -1409,7 +1430,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown2Shoe3);
+            }; context.Items.Add(brown2Shoe3);
 
             var brown2Shoe4 = new ItemInfo()
             {
@@ -1417,7 +1438,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown2Shoe4);
+            }; context.Items.Add(brown2Shoe4);
 
             var brown2Shoe5 = new ItemInfo()
             {
@@ -1425,7 +1446,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(brown2Shoe5);
+            }; context.Items.Add(brown2Shoe5);
 
             var greyShoe1 = new ItemInfo()
             {
@@ -1433,7 +1454,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyShoe1);
+            }; context.Items.Add(greyShoe1);
 
             var greyShoe2 = new ItemInfo()
             {
@@ -1441,7 +1462,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyShoe2);
+            }; context.Items.Add(greyShoe2);
 
             var greyShoe3 = new ItemInfo()
             {
@@ -1449,7 +1470,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyShoe3);
+            }; context.Items.Add(greyShoe3);
 
             var greyShoe4 = new ItemInfo()
             {
@@ -1457,7 +1478,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyShoe4);
+            }; context.Items.Add(greyShoe4);
 
             var greyShoe5 = new ItemInfo()
             {
@@ -1465,7 +1486,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(greyShoe5);
+            }; context.Items.Add(greyShoe5);
 
             var redShoe1 = new ItemInfo()
             {
@@ -1473,7 +1494,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redShoe1);
+            }; context.Items.Add(redShoe1);
 
             var redShoe2 = new ItemInfo()
             {
@@ -1481,7 +1502,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redShoe2);
+            }; context.Items.Add(redShoe2);
 
             var redShoe3 = new ItemInfo()
             {
@@ -1489,7 +1510,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redShoe3);
+            }; context.Items.Add(redShoe3);
 
             var redShoe4 = new ItemInfo()
             {
@@ -1497,7 +1518,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redShoe4);
+            }; context.Items.Add(redShoe4);
 
             var redShoe5 = new ItemInfo()
             {
@@ -1505,7 +1526,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(redShoe5);
+            }; context.Items.Add(redShoe5);
 
             var tanShoe1 = new ItemInfo()
             {
@@ -1513,7 +1534,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tanShoe1);
+            }; context.Items.Add(tanShoe1);
 
             var tanShoe2 = new ItemInfo()
             {
@@ -1521,7 +1542,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tanShoe2);
+            }; context.Items.Add(tanShoe2);
 
             var tanShoe3 = new ItemInfo()
             {
@@ -1529,7 +1550,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tanShoe3);
+            }; context.Items.Add(tanShoe3);
 
             var tanShoe4 = new ItemInfo()
             {
@@ -1537,7 +1558,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tanShoe4);
+            }; context.Items.Add(tanShoe4);
 
             var tanShoe5 = new ItemInfo()
             {
@@ -1545,7 +1566,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 15,
                 Type = SlotType.Shoe,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tanShoe5);
+            }; context.Items.Add(tanShoe5);
 
             var tint1_arm = new ItemInfo()
             {
@@ -1553,7 +1574,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Arm,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint1_arm);
+            }; context.Items.Add(tint1_arm);
 
             var tint1_hand = new ItemInfo()
             {
@@ -1561,7 +1582,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Hand,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint1_hand);
+            }; context.Items.Add(tint1_hand);
 
             var tint1_head = new ItemInfo()
             {
@@ -1569,7 +1590,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Head,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint1_head);
+            }; context.Items.Add(tint1_head);
 
             var tint1_leg = new ItemInfo()
             {
@@ -1577,7 +1598,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Leg,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint1_leg);
+            }; context.Items.Add(tint1_leg);
 
             var tint1_neck = new ItemInfo()
             {
@@ -1585,7 +1606,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Neck,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint1_neck);
+            }; context.Items.Add(tint1_neck);
 
             var tint2_arm = new ItemInfo()
             {
@@ -1593,7 +1614,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Arm,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint2_arm);
+            }; context.Items.Add(tint2_arm);
 
             var tint2_hand = new ItemInfo()
             {
@@ -1601,7 +1622,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Hand,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint2_hand);
+            }; context.Items.Add(tint2_hand);
 
             var tint2_head = new ItemInfo()
             {
@@ -1609,7 +1630,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Head,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint2_head);
+            }; context.Items.Add(tint2_head);
 
             var tint2_leg = new ItemInfo()
             {
@@ -1617,7 +1638,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Leg,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint2_leg);
+            }; context.Items.Add(tint2_leg);
 
             var tint2_neck = new ItemInfo()
             {
@@ -1625,7 +1646,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Neck,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint2_neck);
+            }; context.Items.Add(tint2_neck);
 
             var tint3_arm = new ItemInfo()
             {
@@ -1633,7 +1654,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Arm,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint3_arm);
+            }; context.Items.Add(tint3_arm);
 
             var tint3_hand = new ItemInfo()
             {
@@ -1641,7 +1662,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Hand,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint3_hand);
+            }; context.Items.Add(tint3_hand);
 
             var tint3_head = new ItemInfo()
             {
@@ -1649,7 +1670,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Head,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint3_head);
+            }; context.Items.Add(tint3_head);
 
             var tint3_leg = new ItemInfo()
             {
@@ -1657,7 +1678,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Leg,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint3_leg);
+            }; context.Items.Add(tint3_leg);
 
             var tint3_neck = new ItemInfo()
             {
@@ -1665,7 +1686,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Neck,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint3_neck);
+            }; context.Items.Add(tint3_neck);
 
             var tint4_arm = new ItemInfo()
             {
@@ -1673,7 +1694,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Arm,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint4_arm);
+            }; context.Items.Add(tint4_arm);
 
             var tint4_hand = new ItemInfo()
             {
@@ -1681,7 +1702,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Hand,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint4_hand);
+            }; context.Items.Add(tint4_hand);
 
             var tint4_head = new ItemInfo()
             {
@@ -1689,7 +1710,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Head,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint4_head);
+            }; context.Items.Add(tint4_head);
 
             var tint4_leg = new ItemInfo()
             {
@@ -1697,7 +1718,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Leg,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint4_leg);
+            }; context.Items.Add(tint4_leg);
 
             var tint4_neck = new ItemInfo()
             {
@@ -1705,7 +1726,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Neck,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint4_neck);
+            }; context.Items.Add(tint4_neck);
 
             var tint5_arm = new ItemInfo()
             {
@@ -1713,7 +1734,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Arm,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint5_arm);
+            }; context.Items.Add(tint5_arm);
 
             var tint5_hand = new ItemInfo()
             {
@@ -1721,7 +1742,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Hand,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint5_hand);
+            }; context.Items.Add(tint5_hand);
 
             var tint5_head = new ItemInfo()
             {
@@ -1729,7 +1750,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Head,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint5_head);
+            }; context.Items.Add(tint5_head);
 
             var tint5_leg = new ItemInfo()
             {
@@ -1737,7 +1758,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Leg,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint5_leg);
+            }; context.Items.Add(tint5_leg);
 
             var tint5_neck = new ItemInfo()
             {
@@ -1745,7 +1766,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Neck,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint5_neck);
+            }; context.Items.Add(tint5_neck);
 
             var tint6_arm = new ItemInfo()
             {
@@ -1753,7 +1774,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Arm,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint6_arm);
+            }; context.Items.Add(tint6_arm);
 
             var tint6_hand = new ItemInfo()
             {
@@ -1761,7 +1782,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Hand,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint6_hand);
+            }; context.Items.Add(tint6_hand);
 
             var tint6_head = new ItemInfo()
             {
@@ -1769,7 +1790,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Head,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint6_head);
+            }; context.Items.Add(tint6_head);
 
             var tint6_leg = new ItemInfo()
             {
@@ -1777,7 +1798,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Leg,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint6_leg);
+            }; context.Items.Add(tint6_leg);
 
             var tint6_neck = new ItemInfo()
             {
@@ -1785,7 +1806,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Neck,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint6_neck);
+            }; context.Items.Add(tint6_neck);
 
             var tint7_arm = new ItemInfo()
             {
@@ -1793,7 +1814,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Arm,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint7_arm);
+            }; context.Items.Add(tint7_arm);
 
             var tint7_hand = new ItemInfo()
             {
@@ -1801,7 +1822,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Hand,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint7_hand);
+            }; context.Items.Add(tint7_hand);
 
             var tint7_head = new ItemInfo()
             {
@@ -1809,7 +1830,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Head,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint7_head);
+            }; context.Items.Add(tint7_head);
 
             var tint7_leg = new ItemInfo()
             {
@@ -1817,7 +1838,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Leg,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint7_leg);
+            }; context.Items.Add(tint7_leg);
 
             var tint7_neck = new ItemInfo()
             {
@@ -1825,7 +1846,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Neck,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint7_neck);
+            }; context.Items.Add(tint7_neck);
 
             var tint8_arm = new ItemInfo()
             {
@@ -1833,7 +1854,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Arm,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint8_arm);
+            }; context.Items.Add(tint8_arm);
 
             var tint8_hand = new ItemInfo()
             {
@@ -1841,7 +1862,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Hand,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint8_hand);
+            }; context.Items.Add(tint8_hand);
 
             var tint8_head = new ItemInfo()
             {
@@ -1849,7 +1870,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Head,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint8_head);
+            }; context.Items.Add(tint8_head);
 
             var tint8_leg = new ItemInfo()
             {
@@ -1857,7 +1878,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Leg,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint8_leg);
+            }; context.Items.Add(tint8_leg);
 
             var tint8_neck = new ItemInfo()
             {
@@ -1865,7 +1886,7 @@ namespace QuizMania.WebAPI.Data
                 Cost = 8,
                 Type = SlotType.Neck,
                 MaxQuantity = 1,
-            }; _context.Items.Add(tint8_neck);
+            }; context.Items.Add(tint8_neck);
 
 
             #endregion
@@ -1877,7 +1898,7 @@ namespace QuizMania.WebAPI.Data
                 TotalXP = 5,
                 Gold = 3000,
                 HealthPoints = 100,
-            }; _context.Characters.Add(char1);
+            }; context.Characters.Add(char1);
 
             char1.Items.Add(new InventoryItem(blackShoe2, 1, isEquipped: true));
             char1.Items.Add(new InventoryItem(tint3_hand, 1, isEquipped: true));
@@ -1891,7 +1912,7 @@ namespace QuizMania.WebAPI.Data
                 TotalXP = 55,
                 Gold = 3000,
                 HealthPoints = 80,
-            }; _context.Characters.Add(char2);
+            }; context.Characters.Add(char2);
 
             char2.Items.Add(new InventoryItem(blueShoe5, 1, isEquipped: true));
             char2.Items.Add(new InventoryItem(tint6_hand, 1, isEquipped: true));
@@ -1986,18 +2007,8 @@ namespace QuizMania.WebAPI.Data
             quiz2.Questions.Add(question2);
             quiz2.Questions.Add(question3);
 
-            _context.Quizzes.Add(quiz1);
-            _context.Quizzes.Add(quiz2);
-
-            try
-            {
-                await _context.SaveChangesAsync();
-                return true; ;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            context.Quizzes.Add(quiz1);
+            context.Quizzes.Add(quiz2);
         }
     }
 }
