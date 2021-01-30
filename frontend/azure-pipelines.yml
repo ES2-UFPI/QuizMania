@@ -22,11 +22,11 @@ steps:
     workingDir: '$(System.DefaultWorkingDirectory)/frontend'
     
 - task: PublishTestResults@2
+  displayName: 'Publish Jest Unit Tests Results'
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: '**/TEST-*.xml'
+    testResultsFiles: 'junit.xml'
     searchFolder: '$(System.DefaultWorkingDirectory)/frontend'
     mergeTestResults: true
     failTaskOnFailedTests: true
     testRunTitle: 'Publish Jest Unit Tests Results'
-  displayName: 'Publish Jest Unit Tests Results'
