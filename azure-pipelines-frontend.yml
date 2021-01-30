@@ -17,8 +17,8 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    cd frontend && npm install -g npm@latest
-    cd frontend && npm run build
+    cd frontend
+    npm install -g npm@latest
 
 - script: 
     jest --ci --reporters=jest-junit --reporters=default
