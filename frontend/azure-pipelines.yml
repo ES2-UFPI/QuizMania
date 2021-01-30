@@ -19,8 +19,9 @@ steps:
 - task: Npm@1
   inputs:
     command: custom
-    customCommand: 'jest --ci --reporters=jest-junit --reporters=default'
+    customCommand: 'test --ci --reporters=jest-junit --reporters=default'
     workingDir: '$(System.DefaultWorkingDirectory)/frontend'
+    verbose: true
     
 - task: PublishTestResults@2
   displayName: 'Publish Jest Unit Tests Results'
