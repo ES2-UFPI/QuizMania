@@ -1,18 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using QuizMania.WebAPI.Models;
 using QuizMania.WebAPI.DTOs.Input;
 using QuizMania.WebAPI.DTOs.Output;
-using System.Linq;
-using System.Collections.Generic;
+using QuizMania.WebAPI.Models;
 
 namespace QuizMania.WebAPI.Services
 {
     public class CharacterService : ICharacterService
     {
         public const float LevelExperienceConst = 0.14f;
-        public const int MaxRankingPageSize = 100;
 
         private readonly ICharacterAsyncRepository _characterRepo;
         private readonly IItemAsyncRepository _itemsRepo;
@@ -194,8 +193,22 @@ namespace QuizMania.WebAPI.Services
             return _mapper.Map<ItemPurchaseResponseDTO>(purchase);
         }
 
-        public Task<CharacterRankingDTO> GetRanking(int pageSize = 20) {
-            throw new NotImplementedException();
+        public async Task<CharacterRankingDTO> GetRanking(int guildId = -1) {
+            if (guildId < -1) {
+                return null;
+            }
+
+            var characters = (List<Character>) await _characterRepo.GetAllCharactersAsync();
+
+            if (characters == null) {
+                return null;
+            }
+
+            var filteredByGuild = guildId < 0 ? characters : characters.Where(character => character.GuildId == guildId);
+
+            return new CharacterRankingDTO {
+                Ranking = _mapper.Map<ICollection<CharacterInfoDTO>>(filteredByGuild.OrderByDescending(c => c.TotalXP)),
+            };
         }
 
         private async Task<GoldExpense> TryExpendGoldInternal(GoldExpense expense, bool saveChanges = true)
