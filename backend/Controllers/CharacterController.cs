@@ -55,6 +55,7 @@ namespace QuizMania.WebAPI.Controllers
             return character != null ? Ok(character) : NotFound();
         }
 
+
         /// <remarks>
         /// <h2> **Description:** </h2>
         /// <h3> Retorna todas as guildas. </h3>
@@ -67,7 +68,17 @@ namespace QuizMania.WebAPI.Controllers
         }
 
 
-        
+        /// <remarks>
+        /// <h2> **Description:** </h2>
+        /// <h3> Retorna uma guilda com todos os seus membros. </h3>
+        /// </remarks>
+        [HttpGet("guilds/{id}")]
+        public async Task<ActionResult<GuildMembersDTO>> GetGuildsMembers(long id)
+        {
+            var guild = await _characterService.GetGuildMembersAsync(id);
+            return guild != null ? Ok(guild) : NotFound();
+        }
+
 
         /// <remarks>
         /// <h2> **Result values:** </h2> 
