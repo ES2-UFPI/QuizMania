@@ -1,21 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QuizMania.WebAPI.DTOs.Input;
 using QuizMania.WebAPI.DTOs.Output;
 using QuizMania.WebAPI.Services;
 
 
-namespace QuizMania.WebAPI.Controllers
-{
+namespace QuizMania.WebAPI.Controllers {
     [Route("/character")]
     [ApiController]
-    public class CharacterController : ControllerBase
-    {
+    public class CharacterController : ControllerBase {
         private readonly ICharacterService _characterService;
 
-        public CharacterController(ICharacterService characterService)
-        {
+        public CharacterController(ICharacterService characterService) {
             _characterService = characterService;
         }
 
@@ -25,10 +23,16 @@ namespace QuizMania.WebAPI.Controllers
         /// <h3> Retorna um character com suas informacoes básicas. </h3>
         /// </remarks>
         [HttpGet("{id}")]
-        public async Task<ActionResult<CharacterInfoDTO>> GetCharacter(long id)
-        {
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CharacterInfoDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetCharacter(long id) {
             var character = await _characterService.GetCharacterInfoAsync(id);
-            return character != null ? Ok(character) : NotFound();
+
+            if (character == null) {
+                return NotFound();
+            }
+
+            return Ok(character);
         }
 
 
@@ -37,10 +41,16 @@ namespace QuizMania.WebAPI.Controllers
         /// <h3> Retorna todos os itens da loja. </h3>
         /// </remarks>
         [HttpGet("items")]
-        public async Task<ActionResult<IEnumerable<ItemInfoDTO>>> GetItems()
-        {
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ItemInfoDTO>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetItems() {
             var items = await _characterService.GetItemsAsync();
-            return items != null ? Ok(items) : NotFound();
+
+            if (items == null) {
+                return NotFound();
+            }
+
+            return Ok(items);
         }
 
         /// <remarks>
@@ -48,10 +58,16 @@ namespace QuizMania.WebAPI.Controllers
         /// <h3> Retorna um character com seus itens. </h3>
         /// </remarks>
         [HttpGet("items/{id}")]
-        public async Task<ActionResult<CharacterItemsDTO>> GetCharacterItems(long id)
-        {
-            var character = await _characterService.GetCharacterItemsAsync(id);
-            return character != null ? Ok(character) : NotFound();
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CharacterItemsDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetCharacterItems(long id) {
+            var characterItems = await _characterService.GetCharacterItemsAsync(id);
+
+            if (characterItems == null) {
+                return NotFound();
+            }
+
+            return Ok(characterItems);
         }
 
 
@@ -65,14 +81,15 @@ namespace QuizMania.WebAPI.Controllers
         ///      item caso ele não esteja equipado e desequipa caso contrário. </h3>
         /// </remarks>
         [HttpPatch("items")]
-        public async Task<ActionResult<Un_EquipItemResponseDTO>> Un_EquipItem(Un_EquipItemRequestDTO un_equipItemRequest)
-        {
+        [ProducesResponseType(StatusCodes.Status200OK, Type         = typeof(Un_EquipItemResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type   = typeof(Un_EquipItemResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Un_EquipItemResponseDTO))]
+        public async Task<IActionResult> Un_EquipItem(Un_EquipItemRequestDTO un_equipItemRequest) {
             var result = await _characterService.Un_EquipItemAsync(un_equipItemRequest);
-            switch (result._result)
-            {
-                case Un_EquipItemResponseDTO.RequestResult.Success: return Ok(result);
+            switch (result._result) {
+                case Un_EquipItemResponseDTO.RequestResult.Success:           return Ok(result);
                 case Un_EquipItemResponseDTO.RequestResult.CharacterNotFound: return NotFound(result);
-                default: return BadRequest(result);
+                default:                                                      return BadRequest(result);
             }
         }
 
@@ -86,14 +103,15 @@ namespace QuizMania.WebAPI.Controllers
         /// <h3> Gasta a quantidade de ouro especificada do character informado. </h3>
         /// </remarks>
         [HttpPost("expendGold")]
-        public async Task<ActionResult<GoldExpenseResponseDTO>> TryExpendGold(GoldExpenseRequestDTO expenseRequest)
-        {
+        [ProducesResponseType(StatusCodes.Status200OK, Type         = typeof(GoldExpenseResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type   = typeof(GoldExpenseResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(GoldExpenseResponseDTO))]
+        public async Task<IActionResult> TryExpendGold(GoldExpenseRequestDTO expenseRequest) {
             var result = await _characterService.TryExpendGold(expenseRequest);
-            switch (result.Result)
-            {
-                case GoldExpenseResult.Authorized: return Ok(result);
+            switch (result.Result) {
+                case GoldExpenseResult.Authorized:        return Ok(result);
                 case GoldExpenseResult.CharacterNotFound: return NotFound(result);
-                default: return BadRequest(result);
+                default:                                  return BadRequest(result);
             }
         }
 
@@ -107,11 +125,12 @@ namespace QuizMania.WebAPI.Controllers
         /// <h3> O item especificado é comprado pelo character informado. </h3>
         /// </remarks>
         [HttpPost("items/purchase")]
-        public async Task<ActionResult<ItemPurchaseResponseDTO>> TryPurchaseItem(ItemPurchaseRequestDTO purchaseRequest)
-        {
+        [ProducesResponseType(StatusCodes.Status200OK, Type         = typeof(ItemPurchaseResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type   = typeof(ItemPurchaseResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ItemPurchaseResponseDTO))]
+        public async Task<IActionResult> TryPurchaseItem(ItemPurchaseRequestDTO purchaseRequest) {
             var result = await _characterService.TryPurchaseItem(purchaseRequest);
-            switch (result.Result)
-            {
+            switch (result.Result) {
                 case GoldExpenseResult.Authorized: return Ok(result);
                 case GoldExpenseResult.ItemNotFound:
                 case GoldExpenseResult.CharacterNotFound: return NotFound(result);
