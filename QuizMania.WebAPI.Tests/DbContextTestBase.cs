@@ -12,7 +12,6 @@ namespace QuizMania.WebAPI.Tests {
         private DatabaseContext                          _dbContext;
         private IMapper                                  _mapper;
 
-        protected DbContextOptionsBuilder<DatabaseContext> DbContextBuilder => _dbContextOptBuilder;
         protected DatabaseContext DbContext => _dbContext;
         protected IMapper Mapper => _mapper;
 
@@ -29,6 +28,10 @@ namespace QuizMania.WebAPI.Tests {
             if (_mapper == null) {
                 _mapper = new MapperConfiguration(mc => { mc.AddMaps(typeof(CharacterProfile).Assembly); }).CreateMapper();
             }
+        }
+
+        protected DatabaseContext GetUniqueDatabaseContext(string databaseName) {
+            return new DatabaseContext(new DbContextOptionsBuilder<DatabaseContext>().UseInMemoryDatabase(databaseName).Options);
         }
     }
 }

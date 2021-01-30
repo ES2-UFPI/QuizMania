@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QuizMania.WebAPI.DTOs.Input;
 using QuizMania.WebAPI.DTOs.Output;
+using QuizMania.WebAPI.Models;
 using QuizMania.WebAPI.Services;
 
 
@@ -70,6 +71,30 @@ namespace QuizMania.WebAPI.Controllers {
             return Ok(characterItems);
         }
 
+        /// <summary>
+        /// Retrieves a collection of Characters in descending order of total experience (XP).
+        /// </summary>
+        /// <param name="guildId">
+        /// <para>The ID of the Guild from which Characters will be retrieved.</para>
+        /// <para>Use -1 to query any and all Characters.</para>
+        /// <para>Use 0 to query Characters that are not part of a Guild.</para>
+        /// </param>
+        /// <returns>
+        /// <see cref="BadRequestResult"/> if <paramref name="guildId"/> is lesser than -1.
+        /// <see cref="OkObjectResult"/> otherwise, with a <see cref="CharacterRankingDTO"/> as object value.
+        /// </returns>
+        [HttpGet("ranking/{guildId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CharacterRankingDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetRanking(int guildId = -1) {
+            var ranking = await _characterService.GetRanking(guildId);
+
+            if (ranking == null) {
+                return BadRequest();
+            }
+
+            return Ok(ranking);
+        }
 
         /// <remarks>
         /// <h2> **Result values:** </h2> 
@@ -136,19 +161,6 @@ namespace QuizMania.WebAPI.Controllers {
                 case GoldExpenseResult.CharacterNotFound: return NotFound(result);
                 default: return BadRequest(result);
             }
-        }
-
-        [HttpGet("ranking/{pageCount}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CharacterRankingDTO))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetRanking(int pageSize) {
-            var ranking = await _characterService.GetRanking(pageSize);
-
-            if (ranking == null) {
-                return BadRequest();
-            }
-
-            return Ok(ranking);
         }
     }
 }
