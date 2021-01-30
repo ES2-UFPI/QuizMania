@@ -19,4 +19,5 @@ steps:
 - task: Npm@1
   inputs:
     command: 'ci'
+    workingDir: '$(System.DefaultWorkingDirectory)/frontend'
     verbose: true
