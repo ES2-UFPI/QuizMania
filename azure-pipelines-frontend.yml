@@ -18,6 +18,7 @@ steps:
 
 - script: |
     cd frontend && npm install -g npm@latest
+    cd frontend && npm run build
 
 - script: 
-    npm ci
+    jest --ci --reporters=jest-junit --reporters=default
