@@ -12,8 +12,9 @@ namespace QuizMania.WebAPI.Tests {
         private DatabaseContext                          _dbContext;
         private IMapper                                  _mapper;
 
+        protected DbContextOptionsBuilder<DatabaseContext> DbContextBuilder => _dbContextOptBuilder;
         protected DatabaseContext DbContext => _dbContext;
-        protected IMapper         Mapper    => _mapper;
+        protected IMapper Mapper => _mapper;
 
         [OneTimeSetUp]
         public void Setup() {
