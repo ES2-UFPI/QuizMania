@@ -1906,6 +1906,8 @@ namespace QuizMania.WebAPI.Data
             char1.Items.Add(new InventoryItem(armYellow_long, 1, isEquipped: true));
             char1.Items.Add(new InventoryItem(pantsGreen_long, 1, isEquipped: true));
 
+            char1.Guild = new Guild() { Name = "Abyss Watchers" };
+
             var char2 = new Character()
             {
                 Name = "Jurema",

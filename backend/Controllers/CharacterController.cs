@@ -43,6 +43,7 @@ namespace QuizMania.WebAPI.Controllers
             return items != null ? Ok(items) : NotFound();
         }
 
+
         /// <remarks>
         /// <h2> **Description:** </h2>
         /// <h3> Retorna um character com seus itens. </h3>
@@ -52,6 +53,33 @@ namespace QuizMania.WebAPI.Controllers
         {
             var character = await _characterService.GetCharacterItemsAsync(id);
             return character != null ? Ok(character) : NotFound();
+        }
+
+
+        
+
+
+        /// <remarks>
+        /// <h2> **Result values:** </h2> 
+        /// <h3> **200:** Sucess </h3>
+        /// <h3> **404:** CharacterNotFound, GuildNotFound </h3>
+        /// <h3> **400:** BadRequest </h3>
+        /// <h2> **Description:** </h2>
+        /// <h3> O character especificado entra/sai da guild informada, entra na guild 
+        ///      caso ele não esteja nela (por consequencia saindo da guilda que 
+        ///      ele esta, caso ele ja esteja em alguma) e sai caso contrário. </h3>
+        /// </remarks>
+        [HttpPatch("guilds")]
+        public async Task<ActionResult<Leave_JoinGuildResponseDTO>> Leave_JoinGuild(Leave_JoinGuildRequestDTO leave_joinRequest)
+        {
+            var result = await _characterService.Leave_JoinGuilddAsyc(leave_joinRequest);
+            switch (result._result)
+            {
+                case Leave_JoinGuildResponseDTO.RequestResult.Success: return Ok(result);
+                case Leave_JoinGuildResponseDTO.RequestResult.CharacterNotFound: return NotFound(result);
+                case Leave_JoinGuildResponseDTO.RequestResult.GuildNotFound: return NotFound(result);
+                default: return BadRequest(result);
+            }
         }
 
 

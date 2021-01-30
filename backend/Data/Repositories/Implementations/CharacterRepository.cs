@@ -17,24 +17,36 @@ namespace QuizMania.WebAPI
 
         public async Task<Character> GetCharacterAllAsync(long id)
         {
-            return await _context.Characters.Include(c => c.Items).ThenInclude(i => i.Item)
+            return await _context.Characters.Include(c => c.Guild)
+                                            .Include(c => c.Items).ThenInclude(i => i.Item)
                                             .Include(c => c.QuizFeedbacks).ThenInclude(qb => qb.Quiz)
                                             .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<Character> GetCharacterSimpleAsync(long id)
         {
-            return await _context.Characters.FirstOrDefaultAsync(c => c.Id == id);
+            return await _context.Characters.Include(c => c.Guild).FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<Character> GetCharacterItemsAsync(long id)
         {
-            return await _context.Characters.Include(c => c.Items).ThenInclude(i => i.Item).FirstOrDefaultAsync(c => c.Id == id);
+            return await _context.Characters.Include(c => c.Items).ThenInclude(i => i.Item)
+                                            .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<IEnumerable<ItemInfo>> GetAllItemsAsync()
         {
             return await _context.Items.Include(i => i.Effects).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Guild>> GetAllGuildsAsync()
+        {
+            return await _context.Guilds.ToListAsync();
+        }
+
+        public async Task<Guild> GetGuildMembersAsync(long id)
+        {
+            return await _context.Guilds.Include(g => g.Members).FirstOrDefaultAsync(g => g.Id == id);
         }
 
         public async Task SaveChangesAsync()

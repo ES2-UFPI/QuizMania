@@ -36,6 +36,8 @@ namespace QuizMania.WebAPI.Models
         [Required]
         public int Gold { get; set; }
 
+        public Guild Guild { get; set; }
+
         [Required]
         public virtual ICollection<Quiz> Quizzes { get; set; }
 

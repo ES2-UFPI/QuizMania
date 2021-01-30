@@ -39,6 +39,16 @@ namespace QuizMania.WebAPI.Services
             return _mapper.Map<IEnumerable<ItemInfoDTO>>(await _characterRepo.GetAllItemsAsync());
         }
 
+        public async Task<GuildMembersDTO> GetGuildMembersAsync(long id)
+        {
+            return _mapper.Map<GuildMembersDTO>(await _characterRepo.GetGuildMembersAsync(id));
+        }
+
+        public async Task<IEnumerable<GuildInfoDTO>> GetGuildsAsync()
+        {
+            return _mapper.Map<IEnumerable<GuildInfoDTO>>(await _characterRepo.GetAllGuildsAsync());
+        }
+
         public async Task<SaveQuizFeedbackResponseDTO.RequestResult> SaveQuizfeedback(QuizFeedback quizFeedback)
         {
             var character = await _characterRepo.GetCharacterAllAsync(quizFeedback.Character.Id);
@@ -71,6 +81,54 @@ namespace QuizMania.WebAPI.Services
             {
                 return SaveQuizFeedbackResponseDTO.RequestResult.BadRequest;
             }
+        }
+
+        public async Task<Leave_JoinGuildResponseDTO> Leave_JoinGuilddAsyc(Leave_JoinGuildRequestDTO leave_joinRequest)
+        {
+            var result = new Leave_JoinGuildResponseDTO
+            {
+                Request = leave_joinRequest
+            };
+
+            var character = await _characterRepo.GetCharacterSimpleAsync(leave_joinRequest.CharacterId);
+
+            if (character == null)
+            {
+                result._result = Leave_JoinGuildResponseDTO.RequestResult.CharacterNotFound;
+                return result;
+            }
+
+            var guild = await _characterRepo.GetGuildMembersAsync(leave_joinRequest.GuildId);
+
+            if (guild == null)
+            {
+                result._result = Leave_JoinGuildResponseDTO.RequestResult.GuildNotFound;
+                return result;
+            }
+
+            var member = guild.Members.FirstOrDefault(m => m.Id == character.Id);
+
+            if (member == null) 
+            {
+                character.Guild = guild; 
+            }
+            else
+            {
+                guild.Members.Remove(member);
+            }
+
+            try
+            {
+                await _characterRepo.SaveChangesAsync();
+                result._result = Leave_JoinGuildResponseDTO.RequestResult.Success;
+
+            }
+            catch (Exception)
+            {
+                result._result = Leave_JoinGuildResponseDTO.RequestResult.BadRequest;
+            }
+
+            return result;
         }
 
         public async Task<Un_EquipItemResponseDTO> Un_EquipItemAsync(Un_EquipItemRequestDTO un_equipRequest)
