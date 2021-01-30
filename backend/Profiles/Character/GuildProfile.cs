@@ -10,7 +10,6 @@ namespace QuizMania.WebAPI.Profiles
         public GuildProfile()
         {
             CreateMap<Guild, GuildInfoDTO>();
-            CreateMap<Guild, GuildMembersDTO>();
         }
     }
 }

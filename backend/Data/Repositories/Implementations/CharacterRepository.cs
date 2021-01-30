@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using QuizMania.WebAPI.Data;
@@ -47,6 +48,11 @@ namespace QuizMania.WebAPI
         public async Task<Guild> GetGuildMembersAsync(long id)
         {
             return await _context.Guilds.Include(g => g.Members).FirstOrDefaultAsync(g => g.Id == id);
+        }
+
+        public async Task<IEnumerable<Character>> GetAllCharsWithoutGuildAsync()
+        {
+            return await _context.Characters.Where(c => c.Guild == null).ToListAsync();
         }
 
         public async Task SaveChangesAsync()

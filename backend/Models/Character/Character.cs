@@ -22,9 +22,7 @@ namespace QuizMania.WebAPI.Models
         [Required]
         [MaxLength(32)]
         public string Name { get; set; }
-        
-        public int GuildId { get; set; }
-
+       
         [Required]
         public int HealthPoints { get; set; }
 

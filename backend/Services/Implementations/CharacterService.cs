@@ -39,11 +39,6 @@ namespace QuizMania.WebAPI.Services
             return _mapper.Map<IEnumerable<ItemInfoDTO>>(await _characterRepo.GetAllItemsAsync());
         }
 
-        public async Task<GuildMembersDTO> GetGuildMembersAsync(long id)
-        {
-            return _mapper.Map<GuildMembersDTO>(await _characterRepo.GetGuildMembersAsync(id));
-        }
-
         public async Task<IEnumerable<GuildInfoDTO>> GetGuildsAsync()
         {
             return _mapper.Map<IEnumerable<GuildInfoDTO>>(await _characterRepo.GetAllGuildsAsync());
@@ -251,21 +246,31 @@ namespace QuizMania.WebAPI.Services
             return _mapper.Map<ItemPurchaseResponseDTO>(purchase);
         }
 
-        public async Task<CharacterRankingDTO> GetRanking(int guildId = -1) {
+        public async Task<CharacterRankingDTO> GetRanking(long guildId) {
             if (guildId < -1) {
                 return null;
             }
 
-            var characters = (List<Character>) await _characterRepo.GetAllCharactersAsync();
+            List<Character> filteredCharacters = null;
 
-            if (characters == null) {
+            switch(guildId)
+            {
+                case -1: 
+                    filteredCharacters = (List<Character>)await _characterRepo.GetAllCharactersAsync();
+                    break;
+                case 0:  filteredCharacters = (List<Character>)await _characterRepo.GetAllCharsWithoutGuildAsync();
+                    break;
+                default: 
+                    filteredCharacters = (await _characterRepo.GetGuildMembersAsync(guildId)).Members.ToList();
+                    break;
+            }
+
+            if (filteredCharacters == null) {
                 return null;
             }
 
-            var filteredByGuild = guildId < 0 ? characters : characters.Where(character => character.GuildId == guildId);
-
             return new CharacterRankingDTO {
-                Ranking = _mapper.Map<ICollection<CharacterInfoDTO>>(filteredByGuild.OrderByDescending(c => c.TotalXP)),
+                Ranking = _mapper.Map<ICollection<CharacterInfoRankDTO>>(filteredCharacters.OrderByDescending(c => c.TotalXP)),
             };
         }
 

@@ -87,7 +87,7 @@ namespace QuizMania.WebAPI.Controllers {
         [HttpGet("ranking/{guildId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CharacterRankingDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetRanking(int guildId = -1) {
+        public async Task<IActionResult> GetRanking(long guildId) {
             var ranking = await _characterService.GetRanking(guildId);
 
             if (ranking == null) {
@@ -115,27 +115,6 @@ namespace QuizMania.WebAPI.Controllers {
 
             return Ok(guilds);
         }
-
-
-        /// <remarks>
-        /// <h2> **Description:** </h2>
-        /// <h3> Retorna uma guilda com todos os seus membros. </h3>
-        /// </remarks>
-        [HttpGet("guilds/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GuildMembersDTO))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetGuildsMembers(long id)
-        {
-            var guild = await _characterService.GetGuildMembersAsync(id);
-
-            if (guild == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(guild);
-        }
-
 
         /// <remarks>
         /// <h2> **Result values:** </h2> 

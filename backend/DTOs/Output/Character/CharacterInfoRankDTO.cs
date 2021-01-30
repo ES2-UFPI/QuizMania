@@ -14,5 +14,7 @@ namespace QuizMania.WebAPI.DTOs.Output
         public int TotalXP { get; set; }
 
         public int CurrentLevelXP { get; set; }
+
+        public int Level { get; set; }
     }
 }

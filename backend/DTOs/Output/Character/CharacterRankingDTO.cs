@@ -2,10 +2,10 @@
 
 namespace QuizMania.WebAPI.DTOs.Output {
     public class CharacterRankingDTO {
-        public virtual ICollection<CharacterInfoDTO> Ranking { get; set; }
+        public virtual ICollection<CharacterInfoRankDTO> Ranking { get; set; }
 
         public CharacterRankingDTO() {
-            Ranking = new HashSet<CharacterInfoDTO>();
+            Ranking = new HashSet<CharacterInfoRankDTO>();
         }
     }
 }
