@@ -137,5 +137,18 @@ namespace QuizMania.WebAPI.Controllers {
                 default: return BadRequest(result);
             }
         }
+
+        [HttpGet("ranking/{pageCount}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CharacterRankingDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetRanking(int pageSize) {
+            var ranking = await _characterService.GetRanking(pageSize);
+
+            if (ranking == null) {
+                return BadRequest();
+            }
+
+            return Ok(ranking);
+        }
     }
 }
