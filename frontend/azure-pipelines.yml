@@ -20,4 +20,13 @@ steps:
   inputs:
     command: 'ci'
     workingDir: '$(System.DefaultWorkingDirectory)/frontend'
-    verbose: true
+    
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/TEST-*.xml'
+    searchFolder: '$(System.DefaultWorkingDirectory)/frontend'
+    mergeTestResults: true
+    failTaskOnFailedTests: true
+    testRunTitle: 'Publish Jest Unit Tests Results'
+  displayName: 'Publish Jest Unit Tests Results'
