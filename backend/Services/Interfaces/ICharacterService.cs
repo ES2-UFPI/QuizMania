@@ -18,6 +18,6 @@ namespace QuizMania.WebAPI.Services
         Task<Un_EquipItemResponseDTO> Un_EquipItemAsync(Un_EquipItemRequestDTO un_equipRequest);
         Task<GoldExpenseResponseDTO> TryExpendGold(GoldExpenseRequestDTO expenseRequest);
         Task<ItemPurchaseResponseDTO> TryPurchaseItem(ItemPurchaseRequestDTO purchaseRequest);
-        Task<CharacterRankingDTO> GetRanking(int pageSize);
+        Task<CharacterRankingDTO> GetRanking(int guildId);
     }
 }
