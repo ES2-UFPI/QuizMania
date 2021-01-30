@@ -77,10 +77,18 @@ namespace QuizMania.WebAPI.Controllers {
         /// <h3> Retorna todas as guildas. </h3>
         /// </remarks>
         [HttpGet("guilds")]
-        public async Task<ActionResult<IEnumerable<GuildInfoDTO>>> GetGuilds()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GuildInfoDTO>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetGuilds()
         {
             var guilds = await _characterService.GetGuildsAsync();
-            return guilds != null ? Ok(guilds) : NotFound();
+            
+            if (guilds == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(guilds);
         }
 
 
@@ -89,10 +97,18 @@ namespace QuizMania.WebAPI.Controllers {
         /// <h3> Retorna uma guilda com todos os seus membros. </h3>
         /// </remarks>
         [HttpGet("guilds/{id}")]
-        public async Task<ActionResult<GuildMembersDTO>> GetGuildsMembers(long id)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GuildMembersDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetGuildsMembers(long id)
         {
             var guild = await _characterService.GetGuildMembersAsync(id);
-            return guild != null ? Ok(guild) : NotFound();
+
+            if (guild == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(guild);
         }
 
 
@@ -107,14 +123,17 @@ namespace QuizMania.WebAPI.Controllers {
         ///      ele esta, caso ele ja esteja em alguma) e sai caso contrário. </h3>
         /// </remarks>
         [HttpPatch("guilds")]
-        public async Task<ActionResult<Leave_JoinGuildResponseDTO>> Leave_JoinGuild(Leave_JoinGuildRequestDTO leave_joinRequest)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Leave_JoinGuildResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(Leave_JoinGuildResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Leave_JoinGuildResponseDTO))]
+        public async Task<IActionResult> Leave_JoinGuild(Leave_JoinGuildRequestDTO leave_joinRequest)
         {
             var result = await _characterService.Leave_JoinGuilddAsyc(leave_joinRequest);
             switch (result._result)
             {
-                case Leave_JoinGuildResponseDTO.RequestResult.Success: return Ok(result);
+                case Leave_JoinGuildResponseDTO.RequestResult.Success:           return Ok(result);
                 case Leave_JoinGuildResponseDTO.RequestResult.CharacterNotFound: return NotFound(result);
-                case Leave_JoinGuildResponseDTO.RequestResult.GuildNotFound: return NotFound(result);
+                case Leave_JoinGuildResponseDTO.RequestResult.GuildNotFound:     return NotFound(result);
                 default: return BadRequest(result);
             }
         }
@@ -180,10 +199,10 @@ namespace QuizMania.WebAPI.Controllers {
         public async Task<IActionResult> TryPurchaseItem(ItemPurchaseRequestDTO purchaseRequest) {
             var result = await _characterService.TryPurchaseItem(purchaseRequest);
             switch (result.Result) {
-                case GoldExpenseResult.Authorized: return Ok(result);
+                case GoldExpenseResult.Authorized:        return Ok(result);
                 case GoldExpenseResult.ItemNotFound:
                 case GoldExpenseResult.CharacterNotFound: return NotFound(result);
-                default: return BadRequest(result);
+                default:                                  return BadRequest(result);
             }
         }
 
