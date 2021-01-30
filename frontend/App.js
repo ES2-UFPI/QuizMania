@@ -9,6 +9,7 @@ import {
   XpGanho,
   GoldGanho,
   CriarQuiz,
+  RankingGeral,
   Perfil,
 } from "./src/screens";
 
@@ -65,6 +66,20 @@ export default function App() {
           name="Loja"
           component={UsarGold}
           options={{
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons
+                name="cart"
+                color={color}
+                size={25}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Ranking Geral"
+          component={RankingGeral}
+          options={{
+            title: 'Ranking',
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons
                 name="cart"

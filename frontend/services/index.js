@@ -150,6 +150,15 @@ class ApiConnection {
       throw error
     }
   }
+
+  async recuperarRanking(guilda=-1) {
+    try {
+      const response = await this.api.get(`/character/ranking/${guilda}`)
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
 }
 
 export default new ApiConnection();
