@@ -27,7 +27,12 @@ namespace QuizMania.WebAPI.Controllers
         public async Task<ActionResult<IEnumerable<QuizReadDTO>>> GetQuizzes()
         {
             var quizzes = await _quizService.GetQuizzesAsync();
-            return quizzes != null ? Ok(quizzes) : NotFound();
+
+            if (quizzes == null) {
+                return NotFound();
+            }
+            
+            return Ok(quizzes);
         }
 
 
@@ -39,7 +44,12 @@ namespace QuizMania.WebAPI.Controllers
         public async Task<ActionResult<QuizReadDTO>> GetQuiz(long id)
         {
             var quiz = await _quizService.GetQuizAsync(id);
-            return quiz != null ? Ok(quiz) : NotFound();
+            
+            if (quiz == null) {
+                return NotFound();
+            }
+            
+            return Ok(quiz);
         }
 
 

@@ -12,6 +12,7 @@ namespace QuizMania.WebAPI.Services
     public class CharacterService : ICharacterService
     {
         public const float LevelExperienceConst = 0.14f;
+        public const int MaxRankingPageSize = 100;
 
         private readonly ICharacterAsyncRepository _characterRepo;
         private readonly IItemAsyncRepository _itemsRepo;
@@ -249,6 +250,10 @@ namespace QuizMania.WebAPI.Services
             } while (false);
 
             return _mapper.Map<ItemPurchaseResponseDTO>(purchase);
+        }
+
+        public Task<CharacterRankingDTO> GetRanking(int pageSize = 20) {
+            throw new NotImplementedException();
         }
 
         private async Task<GoldExpense> TryExpendGoldInternal(GoldExpense expense, bool saveChanges = true)
