@@ -55,9 +55,19 @@ namespace QuizMania.WebAPI.Controllers
             return character != null ? Ok(character) : NotFound();
         }
 
+        /// <remarks>
+        /// <h2> **Description:** </h2>
+        /// <h3> Retorna todas as guildas. </h3>
+        /// </remarks>
+        [HttpGet("guilds")]
+        public async Task<ActionResult<IEnumerable<GuildInfoDTO>>> GetGuilds()
+        {
+            var guilds = await _characterService.GetGuildsAsync();
+            return guilds != null ? Ok(guilds) : NotFound();
+        }
+
 
         
-
 
         /// <remarks>
         /// <h2> **Result values:** </h2> 
