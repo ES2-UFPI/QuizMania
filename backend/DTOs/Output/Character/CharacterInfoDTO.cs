@@ -15,5 +15,7 @@
         public int CurrentLevelXP { get; set; }
 
         public int Gold { get; set; }
+
+        public GuildInfoDTO Guild {get; set;}
     }
 }

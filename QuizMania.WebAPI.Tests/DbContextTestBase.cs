@@ -30,7 +30,8 @@ namespace QuizMania.WebAPI.Tests {
             }
         }
 
-        protected DatabaseContext GetUniqueDatabaseContext(string databaseName) {
+        protected DatabaseContext GetUniqueDatabaseContext(string databaseName)
+        {
             return new DatabaseContext(new DbContextOptionsBuilder<DatabaseContext>().UseInMemoryDatabase(databaseName).Options);
         }
     }

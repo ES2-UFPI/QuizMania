@@ -54,6 +54,7 @@ namespace QuizMania.WebAPI.Controllers {
             return Ok(items);
         }
 
+
         /// <remarks>
         /// <h2> **Description:** </h2>
         /// <h3> Retorna um character com seus itens. </h3>
@@ -86,7 +87,7 @@ namespace QuizMania.WebAPI.Controllers {
         [HttpGet("ranking/{guildId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CharacterRankingDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetRanking(int guildId = -1) {
+        public async Task<IActionResult> GetRanking(long guildId = -1) {
             var ranking = await _characterService.GetRanking(guildId);
 
             if (ranking == null) {
@@ -95,6 +96,52 @@ namespace QuizMania.WebAPI.Controllers {
 
             return Ok(ranking);
         }
+
+        /// <remarks>
+        /// <h2> **Description:** </h2>
+        /// <h3> Retorna todas as guildas. </h3>
+        /// </remarks>
+        [HttpGet("guilds")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GuildInfoDTO>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetGuilds()
+        {
+            var guilds = await _characterService.GetGuildsAsync();
+            
+            if (guilds == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(guilds);
+        }
+
+        /// <remarks>
+        /// <h2> **Result values:** </h2> 
+        /// <h3> **200:** Sucess </h3>
+        /// <h3> **404:** CharacterNotFound, GuildNotFound </h3>
+        /// <h3> **400:** BadRequest </h3>
+        /// <h2> **Description:** </h2>
+        /// <h3> O character especificado entra/sai da guild informada, entra na guild 
+        ///      caso ele não esteja nela (por consequencia saindo da guilda que 
+        ///      ele esta, caso ele ja esteja em alguma) e sai caso contrário. </h3>
+        /// </remarks>
+        [HttpPatch("guilds")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Leave_JoinGuildResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(Leave_JoinGuildResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Leave_JoinGuildResponseDTO))]
+        public async Task<IActionResult> Leave_JoinGuild(Leave_JoinGuildRequestDTO leave_joinRequest)
+        {
+            var result = await _characterService.Leave_JoinGuilddAsyc(leave_joinRequest);
+            switch (result._result)
+            {
+                case Leave_JoinGuildResponseDTO.RequestResult.Success:           return Ok(result);
+                case Leave_JoinGuildResponseDTO.RequestResult.CharacterNotFound: return NotFound(result);
+                case Leave_JoinGuildResponseDTO.RequestResult.GuildNotFound:     return NotFound(result);
+                default: return BadRequest(result);
+            }
+        }
+
 
         /// <remarks>
         /// <h2> **Result values:** </h2> 
@@ -156,10 +203,10 @@ namespace QuizMania.WebAPI.Controllers {
         public async Task<IActionResult> TryPurchaseItem(ItemPurchaseRequestDTO purchaseRequest) {
             var result = await _characterService.TryPurchaseItem(purchaseRequest);
             switch (result.Result) {
-                case GoldExpenseResult.Authorized: return Ok(result);
+                case GoldExpenseResult.Authorized:        return Ok(result);
                 case GoldExpenseResult.ItemNotFound:
                 case GoldExpenseResult.CharacterNotFound: return NotFound(result);
-                default: return BadRequest(result);
+                default:                                  return BadRequest(result);
             }
         }
     }

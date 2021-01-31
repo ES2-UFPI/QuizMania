@@ -13,24 +13,29 @@ namespace QuizMania.WebAPI.Tests.Controllers {
     partial class CharacterControllerTests {
         private DatabaseContext GetRankingTestsDatabaseContext() {
             var context = GetUniqueDatabaseContext("RankingTestsDatabaseContext");
-            
-            context.Characters.Add(new Character {TotalXP = 5, GuildId = 0});
-            context.Characters.Add(new Character {TotalXP = 8, GuildId = 0});
-            context.Characters.Add(new Character {TotalXP = 2, GuildId = 0});
-            context.Characters.Add(new Character {TotalXP = 4, GuildId = 0});
+            context.Database.EnsureDeletedAsync().Wait();
+            context.Database.EnsureCreatedAsync().Wait();
 
-            context.Characters.Add(new Character {TotalXP = 5, GuildId = 1});
-            context.Characters.Add(new Character {TotalXP = 7, GuildId = 1});
-            context.Characters.Add(new Character {TotalXP = 9, GuildId = 1});
-            context.Characters.Add(new Character {TotalXP = 3, GuildId = 1});
-            context.Characters.Add(new Character {TotalXP = 7, GuildId = 1});
-            context.Characters.Add(new Character {TotalXP = 5, GuildId = 1});
+            var guild1 = new Guild();
+            var guild2 = new Guild();
 
-            context.Characters.Add(new Character {TotalXP = 1, GuildId = 2});
-            context.Characters.Add(new Character {TotalXP = 6, GuildId = 2});
-            context.Characters.Add(new Character {TotalXP = 8, GuildId = 2});
-            context.Characters.Add(new Character {TotalXP = 2, GuildId = 2});
-            context.Characters.Add(new Character {TotalXP = 6, GuildId = 2});
+            context.Characters.Add(new Character {TotalXP = 5 });
+            context.Characters.Add(new Character {TotalXP = 8 });
+            context.Characters.Add(new Character { TotalXP = 2 });
+            context.Characters.Add(new Character { TotalXP = 4 });
+
+            context.Characters.Add(new Character {TotalXP = 5, Guild = guild1});
+            context.Characters.Add(new Character {TotalXP = 7, Guild = guild1});
+            context.Characters.Add(new Character {TotalXP = 9, Guild = guild1});
+            context.Characters.Add(new Character {TotalXP = 3, Guild = guild1});
+            context.Characters.Add(new Character {TotalXP = 7, Guild = guild1});
+            context.Characters.Add(new Character {TotalXP = 5, Guild = guild1});
+
+            context.Characters.Add(new Character {TotalXP = 1, Guild = guild2});
+            context.Characters.Add(new Character {TotalXP = 6, Guild = guild2});
+            context.Characters.Add(new Character {TotalXP = 8, Guild = guild2});
+            context.Characters.Add(new Character {TotalXP = 2, Guild = guild2});
+            context.Characters.Add(new Character {TotalXP = 6, Guild = guild2});
 
             context.SaveChanges();
 
@@ -38,7 +43,7 @@ namespace QuizMania.WebAPI.Tests.Controllers {
         }
         
         [TestCase(-2)]
-        public async Task Test_GetRanking_InvalidGuildId(int guildId) {
+        public async Task Test_GetRanking_InvalidGuildId(long guildId) {
             var controller   = new CharacterController(new CharacterService(new CharacterRepository(DbContext), new ItemRepository(DbContext), Mapper));
             var actionResult = await controller.GetRanking(guildId);
 
@@ -46,7 +51,7 @@ namespace QuizMania.WebAPI.Tests.Controllers {
         }
         
         [TestCase(-1)]
-        public async Task Test_GetRanking_All(int guildId) {
+        public async Task Test_GetRanking_All(long guildId) {
             var context = GetRankingTestsDatabaseContext();
             var controller = new CharacterController(new CharacterService(new CharacterRepository(context), new ItemRepository(context), Mapper));
 
@@ -71,11 +76,13 @@ namespace QuizMania.WebAPI.Tests.Controllers {
         [TestCase(0)]
         [TestCase(1)]
         [TestCase(2)]
-        public async Task Test_GetRanking_ValidGuildId(int guildId) {
+        public async Task Test_GetRanking_ValidGuildId(long guildId) {
             var context = GetRankingTestsDatabaseContext();
             var controller   = new CharacterController(new CharacterService(new CharacterRepository(context), new ItemRepository(context), Mapper));
-
-            var characterCount = context.Characters.Count(character => character.GuildId == guildId);
+            
+            var characterCount = context.Characters.Count(character => guildId == 0 ?
+                                         character.Guild == null : character.Guild.Id == guildId);
+            
             var actionResult   = await controller.GetRanking(guildId);
 
             var okResult = actionResult as OkObjectResult;
