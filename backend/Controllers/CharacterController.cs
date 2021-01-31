@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QuizMania.WebAPI.DTOs.Input;
 using QuizMania.WebAPI.DTOs.Output;
-using QuizMania.WebAPI.Models;
 using QuizMania.WebAPI.Services;
-
 
 namespace QuizMania.WebAPI.Controllers {
     [Route("/character")]

@@ -8,6 +8,7 @@ using QuizMania.WebAPI.Data;
 using QuizMania.WebAPI.Services;
 using QuizMania.WebAPI.DTOs.Output;
 using QuizMania.WebAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace QuizMania.WebAPI.Tests.Controllers {
     partial class CharacterControllerTests {
@@ -79,11 +80,13 @@ namespace QuizMania.WebAPI.Tests.Controllers {
         public async Task Test_GetRanking_ValidGuildId(long guildId) {
             var context = GetRankingTestsDatabaseContext();
             var controller   = new CharacterController(new CharacterService(new CharacterRepository(context), new ItemRepository(context), Mapper));
-            
-            var characterCount = context.Characters.Count(character => guildId == 0 ?
+
+            var characterCount = await context.Characters.CountAsync(character => guildId == 0 ?
                                          character.Guild == null : character.Guild.Id == guildId);
             
             var actionResult   = await controller.GetRanking(guildId);
+
+            Assert.IsInstanceOf<OkObjectResult>(actionResult);
 
             var okResult = actionResult as OkObjectResult;
             Assert.NotNull(okResult);
