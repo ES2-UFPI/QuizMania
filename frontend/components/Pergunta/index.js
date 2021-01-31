@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { View, StyleSheet, Text, Animated } from "react-native";
 import { Alternativa } from "../index";
 import { Button } from "react-native-elements";
-
+import { StackActions } from '@react-navigation/native';
 export default function Pergunta({
   data,
   perguntaAtual,
@@ -136,6 +136,7 @@ export default function Pergunta({
         buttonStyle={{ borderRadius: 20 }}
         loading={loadingResposta}
         onPress={() => {
+          navigation.dispatch(StackActions.popToTop());
           navigation.navigate("XP Ganho", {dados: paramRota})
         }}
       />
