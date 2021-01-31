@@ -1891,6 +1891,33 @@ namespace QuizMania.WebAPI.Data
 
             #endregion
 
+            // mock guilds
+
+            var guild1 = new Guild() 
+            { 
+                Name = "Abyss Watchers" 
+            };
+
+            var guild2 = new Guild()
+            {
+                Name = "Warriors of Sunlight"
+            };
+
+            var guild3 = new Guild()
+            {
+                Name = "Blades of the Darkmoon"
+            };
+
+            var guild4 = new Guild()
+            {
+                Name = "Wisdom Magicians "
+            };
+
+            var guild5 = new Guild()
+            {
+                Name = "Chaos Servants"
+            };
+
             // mock characters
             var char1 = new Character()
             {
@@ -1906,6 +1933,8 @@ namespace QuizMania.WebAPI.Data
             char1.Items.Add(new InventoryItem(armYellow_long, 1, isEquipped: true));
             char1.Items.Add(new InventoryItem(pantsGreen_long, 1, isEquipped: true));
 
+            char1.Guild = guild1;
+
             var char2 = new Character()
             {
                 Name = "Jurema",
@@ -1919,6 +1948,8 @@ namespace QuizMania.WebAPI.Data
             char2.Items.Add(new InventoryItem(tint8_neck, 1, isEquipped: true));
             char2.Items.Add(new InventoryItem(armWhite_long, 1, isEquipped: true));
             char2.Items.Add(new InventoryItem(pantsLightBlue_long, 1, isEquipped: true));
+
+            char2.Guild = guild2;
 
             // mock quizzes
             var quiz1 = new Quiz()
