@@ -65,5 +65,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: getStatusBarHeight() + 10,
     marginHorizontal: 10,
+    display: 'flex'
   },
 });

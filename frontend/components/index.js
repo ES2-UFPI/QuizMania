@@ -9,4 +9,15 @@ import CardItem from "./CardItem";
 import Personagem from "./Personagem";
 import CharacterRanking from "./CharacterRanking";
 
-export { Container, Header, Pergunta, Alternativa, Gabarito, ProgressBar, ResponsiveList, CardItem, Personagem, CharacterRanking };
+export {
+  Container,
+  Header,
+  Pergunta,
+  Alternativa,
+  Gabarito,
+  ProgressBar,
+  ResponsiveList,
+  CardItem,
+  Personagem,
+  CharacterRanking,
+};
