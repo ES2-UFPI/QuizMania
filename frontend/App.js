@@ -9,6 +9,7 @@ import {
   XpGanho,
   GoldGanho,
   CriarQuiz,
+  RankingGeral,
   Perfil,
   ListarGuilda
 } from "./src/screens";
@@ -79,6 +80,20 @@ export default function App() {
           name="Listar Guildas"
           component={ListarGuilda}
           options={{
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons
+                name="cart"
+                color={color}
+                size={25}
+              />
+            ),
+          }}
+        />
+<Tab.Screen
+          name="Ranking Geral"
+          component={RankingGeral}
+          options={{
+            title: 'Ranking',
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons
                 name="cart"

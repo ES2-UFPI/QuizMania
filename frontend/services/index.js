@@ -151,6 +151,14 @@ class ApiConnection {
     }
   }
 
+  async recuperarRanking(guilda=-1) {
+    try {
+      const response = await this.api.get(`/character/ranking/${guilda}`)
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
   async recuperarGuildas() {
     try {
       const response = await this.api.get(`/character/guilds`)
