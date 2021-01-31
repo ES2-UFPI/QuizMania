@@ -34,7 +34,7 @@ steps:
   displayName: 'Publish Jest Unit Tests Results'
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: 'junit.xml'
+    testResultsFiles: '**/junit.xml'
     searchFolder: '$(System.DefaultWorkingDirectory)'
     mergeTestResults: true
     failTaskOnFailedTests: true
