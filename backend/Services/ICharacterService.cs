@@ -15,5 +15,6 @@ namespace QuizMania.WebAPI.Services
         Task<Un_EquipItemResponseDTO> Un_EquipItemAsync(Un_EquipItemRequestDTO useItemRequest);
         Task<GoldExpenseResponseDTO> TryExpendGold(GoldExpenseRequestDTO expenseRequest);
         Task<ItemPurchaseResponseDTO> TryPurchaseItem(ItemPurchaseRequestDTO purchaseRequest);
+        Task<CharacterRankingDTO> GetRanking(int guildId);
     }
 }

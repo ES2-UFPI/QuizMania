@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using QuizMania.WebAPI.Models;
 using QuizMania.WebAPI.DTOs.Input;
 using QuizMania.WebAPI.DTOs.Output;
-using System.Linq;
-using System.Collections.Generic;
+using QuizMania.WebAPI.Models;
 
 namespace QuizMania.WebAPI.Services
 {
@@ -26,7 +26,7 @@ namespace QuizMania.WebAPI.Services
 
         public async Task<CharacterInfoDTO> GetCharacterInfoAsync(long id)
         {
-            return _mapper.Map<CharacterInfoDTO>(await _characterRepo.GetCharacterAllAsync(id));
+            return _mapper.Map<CharacterInfoDTO>(await _characterRepo.GetCharacterSimpleAsync(id));
         }
 
         public async Task<CharacterItemsDTO> GetCharacterItemsAsync(long id)
@@ -191,6 +191,24 @@ namespace QuizMania.WebAPI.Services
             } while (false);
 
             return _mapper.Map<ItemPurchaseResponseDTO>(purchase);
+        }
+
+        public async Task<CharacterRankingDTO> GetRanking(int guildId = -1) {
+            if (guildId < -1) {
+                return null;
+            }
+
+            var characters = (List<Character>) await _characterRepo.GetAllCharactersAsync();
+
+            if (characters == null) {
+                return null;
+            }
+
+            var filteredByGuild = guildId < 0 ? characters : characters.Where(character => character.GuildId == guildId);
+
+            return new CharacterRankingDTO {
+                Ranking = _mapper.Map<ICollection<CharacterInfoDTO>>(filteredByGuild.OrderByDescending(c => c.TotalXP)),
+            };
         }
 
         private async Task<GoldExpense> TryExpendGoldInternal(GoldExpense expense, bool saveChanges = true)

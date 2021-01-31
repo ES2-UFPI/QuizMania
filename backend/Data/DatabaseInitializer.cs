@@ -2,14 +2,46 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QuizMania.WebAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace QuizMania.WebAPI.Data
 {
-    public static class DatabaseInitializer
+    public class DatabaseInitializer
     {
-        private static async Task ContextSeeder(DatabaseContext context)
+        private readonly DatabaseContext _context;
+
+        public DatabaseInitializer(DatabaseContext context)
+        {
+            _context = context;
+        }
+
+        public static async Task ContextSeederAsync(DatabaseContext context)
+        {
+            ContextAddElements(context);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<bool> SeederAsync()
+        {
+            Startup.inMemorySqliteConnection.Close();
+            Startup.inMemorySqliteConnection.Open();
+
+            ContextAddElements(_context);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true; ;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        private static void ContextAddElements(DatabaseContext context)
         {
             context.Database.EnsureCreated();
 
@@ -1864,7 +1896,7 @@ namespace QuizMania.WebAPI.Data
             {
                 Name = "Gandalf",
                 TotalXP = 5,
-                Gold = 300,
+                Gold = 3000,
                 HealthPoints = 100,
             }; context.Characters.Add(char1);
 
@@ -1878,7 +1910,7 @@ namespace QuizMania.WebAPI.Data
             {
                 Name = "Jurema",
                 TotalXP = 55,
-                Gold = 185,
+                Gold = 3000,
                 HealthPoints = 80,
             }; context.Characters.Add(char2);
 
@@ -1977,17 +2009,6 @@ namespace QuizMania.WebAPI.Data
 
             context.Quizzes.Add(quiz1);
             context.Quizzes.Add(quiz2);
-
-            await context.SaveChangesAsync();
-        }
-
-        public static async Task SeedAsync(IHost host)
-        {
-            using (var scope = host.Services.CreateScope())
-            using (var context = scope.ServiceProvider.GetService<DatabaseContext>())
-            {
-                await ContextSeeder(context);
-            }
         }
     }
 }

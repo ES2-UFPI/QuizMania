@@ -8,11 +8,7 @@ namespace QuizMania.WebAPI
     {
         public static void Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
-
-            DatabaseInitializer.SeedAsync(host).Wait();
-
-            host.Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

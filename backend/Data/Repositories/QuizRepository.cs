@@ -7,14 +7,9 @@ using QuizMania.WebAPI.Models;
 
 namespace QuizMania.WebAPI
 {
-    public class QuizRepository : IQuizAsyncRepository
+    public class QuizRepository : BaseRepository, IQuizAsyncRepository
     {
-        private readonly DatabaseContext _context;
-
-        public QuizRepository(DatabaseContext context)
-        {
-            _context = context;
-        }
+        public QuizRepository(DatabaseContext context) : base(context) { }
 
         public async Task<IEnumerable<Quiz>> GetAllQuizzesAsync()
         {
