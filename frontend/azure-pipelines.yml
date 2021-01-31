@@ -18,6 +18,12 @@ steps:
 
 - task: Npm@1
   inputs:
+    command: ci
+    workingDir: '$(System.DefaultWorkingDirectory)/frontend'
+    verbose: true
+
+- task: Npm@1
+  inputs:
     command: custom
     customCommand: 'test -- --ci --reporters=default --reporters=jest-junit'
     workingDir: '$(System.DefaultWorkingDirectory)/frontend'
