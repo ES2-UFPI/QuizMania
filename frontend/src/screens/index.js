@@ -7,4 +7,5 @@ import XpGanho from './Xp/Ganho'
 import GoldGanho from './Gold/Ganhar'
 import Perfil from './Perfil'
 import ListarGuilda from './Guilda/Listar'
-export { ResponderQuiz, ListarQuiz, ProgressaoNivel, UsarGold, XpGanho, GoldGanho, Perfil, CriarQuiz, ListarGuilda};
+import DetalharGuilda from './Guilda/Detalhar'
+export { ResponderQuiz, ListarQuiz, ProgressaoNivel, UsarGold, XpGanho, GoldGanho, Perfil, CriarQuiz, ListarGuilda, DetalharGuilda};

@@ -10,7 +10,8 @@ import {
   GoldGanho,
   CriarQuiz,
   Perfil,
-  ListarGuilda
+  ListarGuilda,
+  DetalharGuilda
 } from "./src/screens";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -31,6 +32,15 @@ const QuizStack = () => (
     <Stack.Screen name="XP Ganho" component={XpGanho} />
   </Stack.Navigator>
 );
+
+
+const GuildaStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="Listar Guildas" component={ListarGuilda} />
+    <Stack.Screen name="Detalhar Guilda" component={DetalharGuilda} />
+  </Stack.Navigator>
+);
+
 
 export default function App() {
   return (
@@ -76,8 +86,8 @@ export default function App() {
           }}
         />
         <Tab.Screen
-          name="Listar Guildas"
-          component={ListarGuilda}
+          name="Guildas"
+          component={GuildaStack}
           options={{
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons

@@ -65,6 +65,10 @@ export default function ListarGuildas({ navigation }) {
               item.participa ? alert("Você já participa desta guilda") :participarGuilda(item.id)
             }} title={item.participa ? 'Participando' :'Participar'} type='clear'/>
             <Button onPress={() => {
+              navigation.navigate('Detalhar Guilda', {
+                nome: item.name,
+                idGuilda: item.id
+              })
             }} title='Detalhar' type='clear'/>
           </Card>
         )}
