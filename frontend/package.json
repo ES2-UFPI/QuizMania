@@ -48,8 +48,11 @@
     "react-test-renderer": "~16.13.1"
   },
   "jest": {
-    "preset": "jest-expo"
-	"reporters": [ "default", "jest-junit" ]
+    "preset": "jest-expo",
+    "reporters": [
+      "default",
+      "jest-junit"
+    ]
   },
   "private": true
 }
