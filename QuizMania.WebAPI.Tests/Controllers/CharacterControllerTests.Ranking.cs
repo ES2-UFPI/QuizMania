@@ -13,6 +13,8 @@ namespace QuizMania.WebAPI.Tests.Controllers {
     partial class CharacterControllerTests {
         private DatabaseContext GetRankingTestsDatabaseContext() {
             var context = GetUniqueDatabaseContext("RankingTestsDatabaseContext");
+            context.Database.EnsureDeletedAsync().Wait();
+            context.Database.EnsureCreatedAsync().Wait();
 
             var guild1 = new Guild();
             var guild2 = new Guild();
@@ -41,7 +43,7 @@ namespace QuizMania.WebAPI.Tests.Controllers {
         }
         
         [TestCase(-2)]
-        public async Task Test_GetRanking_InvalidGuildId(int guildId) {
+        public async Task Test_GetRanking_InvalidGuildId(long guildId) {
             var controller   = new CharacterController(new CharacterService(new CharacterRepository(DbContext), new ItemRepository(DbContext), Mapper));
             var actionResult = await controller.GetRanking(guildId);
 
@@ -49,7 +51,7 @@ namespace QuizMania.WebAPI.Tests.Controllers {
         }
         
         [TestCase(-1)]
-        public async Task Test_GetRanking_All(int guildId) {
+        public async Task Test_GetRanking_All(long guildId) {
             var context = GetRankingTestsDatabaseContext();
             var controller = new CharacterController(new CharacterService(new CharacterRepository(context), new ItemRepository(context), Mapper));
 

@@ -87,7 +87,7 @@ namespace QuizMania.WebAPI.Controllers {
         [HttpGet("ranking/{guildId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CharacterRankingDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetRanking(long guildId) {
+        public async Task<IActionResult> GetRanking(long guildId = -1) {
             var ranking = await _characterService.GetRanking(guildId);
 
             if (ranking == null) {
