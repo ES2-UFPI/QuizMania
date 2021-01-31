@@ -29,13 +29,13 @@ export default function ListarQuizzes({navigation}) {
   const numColumns = 10;
   return (
     <Container navigation={navigation} >
+      <Text style={{ fontSize: 30, fontWeight: "bold" }}>Ranking Geral</Text>
       <FlatList
         horizontal
         data={characters}
-        contentContainerStyle={{backgroundColor:'gray'}}
-        style={{height: '100%', backgroundColor: 'red', flex: 1}}
+        style={{height: 400, alignSelf: 'baseline',marginTop: 200}}
         renderItem={({item, index}) => (
-          <CharacterRanking porcentagem={item.totalXP/maior * 100} nome={item.name}/>
+          <CharacterRanking porcentagem={item.totalXP/maior * 100} nome={item.name} xp={item.totalXP}/>
         )}
       />
     </Container>
