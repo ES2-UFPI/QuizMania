@@ -49,6 +49,7 @@
   },
   "jest": {
     "preset": "jest-expo"
+	"reporters": [ "default", "jest-junit" ]
   },
   "private": true
 }

@@ -18,7 +18,8 @@ steps:
 
 - task: Npm@1
   inputs:
-    command: ci
+    command: custom
+    customCommand: 'test --ci --reporters=default --reporters=jest-junit'
     workingDir: '$(System.DefaultWorkingDirectory)/frontend'
     verbose: true
     
@@ -26,7 +27,7 @@ steps:
   displayName: 'Publish Jest Unit Tests Results'
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: '**/junit.xml'
+    testResultsFiles: 'junit.xml'
     searchFolder: '$(System.DefaultWorkingDirectory)'
     mergeTestResults: true
     failTaskOnFailedTests: true
