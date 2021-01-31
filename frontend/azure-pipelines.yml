@@ -28,6 +28,7 @@ steps:
     customCommand: 'test -- --ci --reporters=default --reporters=jest-junit'
     workingDir: '$(System.DefaultWorkingDirectory)/frontend'
     verbose: true
+  continueOnError: true
     
 - task: PublishTestResults@2
   displayName: 'Publish Jest Unit Tests Results'
