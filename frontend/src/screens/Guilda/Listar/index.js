@@ -21,11 +21,37 @@ export default function ListarGuildas({ navigation }) {
     return unsubscribe;
   }, [navigation]);
 
-  async function getData() {}
+  async function getData() {
+    try {
+      const response = await API.recuperarGuildas()
+      const dadosPersonagem = await API.obterPersonagem({id: 1})
+      console.log(dadosPersonagem)
+      const novosDados = response.map(item => {
+        console.log("rooi" , item)
+        const participa = dadosPersonagem.guild && dadosPersonagem.guild.id == item.id
+        return {...item, participa}
+
+      })
+      setGuildas(novosDados)
+    } catch (error) {
+      alert(error)
+    }
+  }
+
+  async function participarGuilda(id) {
+    try {
+      const response = await API.participarGuilda(id)
+      alert("Você agora participa dessa guilda!")
+      await getData()
+    } catch (error) {
+      alert(error)
+    }
+  }
 
 
   return (
     <Container navigation={navigation} refresh>
+      <Text style={{ fontSize: 30, fontWeight: "bold" }}>Guildas</Text>
       <FlatList
         data={guildas}
         renderItem={({ item, index }) => (
@@ -33,8 +59,13 @@ export default function ListarGuildas({ navigation }) {
             <TouchableOpacity
               onPress={() =>{}}
             >
-              <Card.Title>{item.title}</Card.Title>
+              <Card.Title>{item.name}</Card.Title>
             </TouchableOpacity>
+            <Button onPress={() => {
+              item.participa ? alert("Você já participa desta guilda") :participarGuilda(item.id)
+            }} title={item.participa ? 'Participando' :'Participar'} type='clear'/>
+            <Button onPress={() => {
+            }} title='Detalhar' type='clear'/>
           </Card>
         )}
       />

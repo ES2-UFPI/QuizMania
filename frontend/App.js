@@ -10,6 +10,7 @@ import {
   GoldGanho,
   CriarQuiz,
   Perfil,
+  ListarGuilda
 } from "./src/screens";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -64,6 +65,19 @@ export default function App() {
         <Tab.Screen
           name="Loja"
           component={UsarGold}
+          options={{
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons
+                name="cart"
+                color={color}
+                size={25}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Listar Guildas"
+          component={ListarGuilda}
           options={{
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons

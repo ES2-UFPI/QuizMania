@@ -150,6 +150,28 @@ class ApiConnection {
       throw error
     }
   }
+
+  async recuperarGuildas() {
+    try {
+      const response = await this.api.get(`/character/guilds`)
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async participarGuilda(id) {
+    data = {
+      characterId: 1,
+      guildId: id
+    }
+    try {
+      const response = await this.api.patch(`/character/guilds`, data)
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
 }
 
 export default new ApiConnection();
