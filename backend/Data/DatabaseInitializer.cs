@@ -1951,6 +1951,97 @@ namespace QuizMania.WebAPI.Data
 
             char2.Guild = guild2;
 
+            var char3 = new Character()
+            {
+                Name = "Lautrec",
+                TotalXP = 200,
+                Gold = 3000,
+                HealthPoints = 120,
+            }; context.Characters.Add(char3);
+
+            var char4 = new Character()
+            {
+                Name = "Solaire",
+                TotalXP = 60,
+                Gold = 3000,
+                HealthPoints = 90,
+            }; context.Characters.Add(char4);
+
+            var char5 = new Character()
+            {
+                Name = "Guts",
+                TotalXP = 300,
+                Gold = 3000,
+                HealthPoints = 200,
+            }; context.Characters.Add(char5);
+
+            var char6 = new Character()
+            {
+                Name = "Serpico",
+                TotalXP = 30,
+                Gold = 3000,
+                HealthPoints = 60,
+            }; context.Characters.Add(char6);
+
+            var char7 = new Character()
+            {
+                Name = "Clint E.",
+                TotalXP = 150,
+                Gold = 3000,
+                HealthPoints = 130,
+            }; context.Characters.Add(char7);
+
+            var char8 = new Character()
+            {
+                Name = "Ornstein",
+                TotalXP = 3,
+                Gold = 3000,
+                HealthPoints = 80,
+            }; context.Characters.Add(char8);
+
+            var char9 = new Character()
+            {
+                Name = "Ingward",
+                TotalXP = 2,
+                Gold = 3000,
+                HealthPoints = 40,
+            }; context.Characters.Add(char9);
+
+            var char10 = new Character()
+            {
+                Name = "Havel",
+                TotalXP = 160,
+                Gold = 3000,
+                HealthPoints = 150,
+            }; context.Characters.Add(char10);
+
+            var char11 = new Character()
+            {
+                Name = "Griffith",
+                TotalXP = 100,
+                Gold = 3000,
+                HealthPoints = 90,
+            }; context.Characters.Add(char11);
+
+            var char12 = new Character()
+            {
+                Name = "Skull Knight",
+                TotalXP = 230,
+                Gold = 3000,
+                HealthPoints = 170,
+            }; context.Characters.Add(char12);
+
+            char3.Guild = guild1;
+            char4.Guild = guild2;
+            char5.Guild = guild1;
+            char6.Guild = guild2;
+            char7.Guild = guild3;
+            char8.Guild = guild3;
+            char9.Guild = guild2;
+            char10.Guild = guild2;
+            char11.Guild = guild4;
+            char12.Guild = guild4;
+
             // mock quizzes
             var quiz1 = new Quiz()
             {
