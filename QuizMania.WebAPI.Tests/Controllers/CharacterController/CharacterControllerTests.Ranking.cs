@@ -11,7 +11,8 @@ using QuizMania.WebAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace QuizMania.WebAPI.Tests.Controllers {
-    partial class CharacterControllerTests {
+    partial class CharacterControllerTests 
+    {
         private DatabaseContext GetRankingTestsDatabaseContext() {
             var context = GetUniqueDatabaseContext("RankingTestsDatabaseContext");
             context.Database.EnsureDeletedAsync().Wait();
@@ -41,14 +42,6 @@ namespace QuizMania.WebAPI.Tests.Controllers {
             context.SaveChanges();
 
             return context;
-        }
-        
-        [TestCase(-2)]
-        public async Task Test_GetRanking_InvalidGuildId(long guildId) {
-            var controller   = new CharacterController(new CharacterService(new CharacterRepository(DbContext), new ItemRepository(DbContext), Mapper));
-            var actionResult = await controller.GetRanking(guildId);
-
-            Assert.IsInstanceOf<BadRequestResult>(actionResult);
         }
         
         [TestCase(-1)]
@@ -101,6 +94,15 @@ namespace QuizMania.WebAPI.Tests.Controllers {
                 Assert.LessOrEqual(character.TotalXP, previous);
                 previous = character.TotalXP;
             }
+        }
+
+        [TestCase(-2)]
+        public async Task Test_GetRanking_InvalidGuildId(long guildId)
+        {
+            var controller = new CharacterController(new CharacterService(new CharacterRepository(DbContext), new ItemRepository(DbContext), Mapper));
+            var actionResult = await controller.GetRanking(guildId);
+
+            Assert.IsInstanceOf<BadRequestResult>(actionResult);
         }
     }
 }

@@ -7,6 +7,8 @@ using QuizMania.WebAPI.Services;
 using QuizMania.WebAPI.DTOs.Output;
 using QuizMania.WebAPI.DTOs.Input;
 using QuizMania.WebAPI.Models;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace QuizMania.WebAPI.Tests.Controllers
 {
@@ -31,16 +33,23 @@ namespace QuizMania.WebAPI.Tests.Controllers
             return context;
         }
 
-        [TestCase(1, 999)]
-        [TestCase(999, 1)]
-        public async Task Test_Leave_JoinGuild_GuildOrCharacterNotFound(long characterId, long guildId)
+        [Test]
+        public async Task Test_GetGuilds_Success()
         {
             var context = GetGuildTestsDatabaseContext();
             var controller = new CharacterController(new CharacterService(new CharacterRepository(context), new ItemRepository(context), Mapper));
 
-            var actionResult = await controller.Leave_JoinGuild(new Leave_JoinGuildRequestDTO { CharacterId = characterId, GuildId = guildId});
-            
-            Assert.IsInstanceOf<NotFoundObjectResult>(actionResult);
+            var guildCount = await context.Guilds.CountAsync();
+
+            var actionResult = await controller.GetGuilds();
+            Assert.IsInstanceOf<OkObjectResult>(actionResult);
+
+            var okResult = actionResult as OkObjectResult;
+            var guildsInfoDTO = okResult.Value as ICollection<GuildInfoDTO>;
+
+            Assert.NotNull(guildsInfoDTO);
+
+            Assert.AreEqual(guildCount, guildsInfoDTO.Count);
         }
 
         [TestCase(1, 1)]
@@ -60,6 +69,18 @@ namespace QuizMania.WebAPI.Tests.Controllers
             
             Assert.NotNull(response);
             Assert.AreEqual(Leave_JoinGuildResponseDTO.RequestResult.Success.ToString(), response.Result);
+        }
+
+        [TestCase(1, 999)]
+        [TestCase(999, 1)]
+        public async Task Test_Leave_JoinGuild_GuildNotFoundOrCharacterNotFound(long characterId, long guildId)
+        {
+            var context = GetGuildTestsDatabaseContext();
+            var controller = new CharacterController(new CharacterService(new CharacterRepository(context), new ItemRepository(context), Mapper));
+
+            var actionResult = await controller.Leave_JoinGuild(new Leave_JoinGuildRequestDTO { CharacterId = characterId, GuildId = guildId });
+
+            Assert.IsInstanceOf<NotFoundObjectResult>(actionResult);
         }
     }
 }
