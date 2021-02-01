@@ -85,7 +85,7 @@ export default function App() {
           component={GuildaStack}
           options={{
             tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="cart" color={color} size={25} />
+              <MaterialCommunityIcons name="account-group" color={color} size={25} />
             ),
           }}
         />
@@ -95,7 +95,7 @@ export default function App() {
           options={{
             title: "Ranking",
             tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="cart" color={color} size={25} />
+              <MaterialCommunityIcons name="trophy" color={color} size={25} />
             ),
           }}
         />

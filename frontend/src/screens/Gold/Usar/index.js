@@ -42,10 +42,10 @@ function Usar(props, { navigation, route }) {
   async function getData() {
     try {
       const data = await API.recuperarItens().then(async (response) => {
-        console.log("response", response.length);
+        //console.log("response", response.length);
         await API.recuperarItensComprados().then(async (itensComprados) => {
           const { items } = itensComprados;
-          console.log("itens comprados", items.length);
+          //console.log("itens comprados", items.length);
           const itensModelados = response.map((item, index) => {
             const is_comprado = items.find(
               (element) => element.item.name == item.name
@@ -76,7 +76,7 @@ function Usar(props, { navigation, route }) {
     // const unsubscribe = navigation.addListener("focus", () => {
     //   getData();
     //   force(setp + 1);
-    //   //console.log("chamou")
+    //   ////console.log("chamou")
     // });
 
     // // Return the function to unsubscribe from the event so it gets removed on unmount
@@ -84,7 +84,7 @@ function Usar(props, { navigation, route }) {
   }, [navigation]);
 
   function filtrar(value) {
-    //console.log(itens.filter((item, index) => item.slotType == value))
+    ////console.log(itens.filter((item, index) => item.slotType == value))
     setCategoria(value);
     if (value === "") {
       setItensFiltrados(itens);
@@ -115,7 +115,7 @@ function Usar(props, { navigation, route }) {
         extraData={setp}
         renderItem={({ item, index }) => (
           <Card containerStyle={{ width: 150 }}>
-            {/* {//console.log(item)} */}
+            {/* {////console.log(item)} */}
             {cosmeticos[item.name] && (
               <Image
                 source={cosmeticos[item.name].image || {}}
@@ -173,7 +173,7 @@ function Usar(props, { navigation, route }) {
                     alert(
                       "Não foi possível equipar seu personagem com esse item."
                     );
-                    //console.log(error)
+                    ////console.log(error)
                   }
                 }}
               />

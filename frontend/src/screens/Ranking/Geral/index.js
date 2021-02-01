@@ -11,7 +11,7 @@ export default function ListarQuizzes({navigation}) {
   async function getData() {
     try {
       const response = await API.recuperarRanking()
-      console.log(response.ranking)
+      //console.log(response.ranking)
       const xps = response.ranking.map(item => item.totalXP)
       const maiorXp = Math.max(...xps)
       setMaior(maiorXp)

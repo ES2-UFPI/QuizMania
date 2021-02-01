@@ -19,7 +19,7 @@ export default function ListarQuizzes({ navigation }) {
   const [lxp, setlxp] = useState("");
   const [nome, setNome] = useState("")
   // useEffect(() => {
-  //   //console.log(navigation)
+  //   ////console.log(navigation)
 
   // }, [navigation.isFocused()]);
 
@@ -28,7 +28,7 @@ export default function ListarQuizzes({ navigation }) {
     const unsubscribe = navigation.addListener("focus", () => {
       getData();
       setStep(step + 1);
-      //console.log("chamou")
+      ////console.log("chamou")
     });
 
     // Return the function to unsubscribe from the event so it gets removed on unmount
@@ -62,7 +62,7 @@ export default function ListarQuizzes({ navigation }) {
 
     } catch (error) {
       alert("Erro ao deletar o quiz.")
-      //console.log(error)
+      ////console.log(error)
     }
 
   }

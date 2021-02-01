@@ -13,9 +13,9 @@ export default function ListarQuizzes({navigation, route}) {
 
   async function getData() {
     try {
-      console.log(idGuilda, nome)
+      //console.log(idGuilda, nome)
       const response = await API.recuperarRanking(idGuilda)
-      console.log("bwq kvbevkbrwvhjjvhrbtjh",response.ranking)
+      //console.log("bwq kvbevkbrwvhjjvhrbtjh",response.ranking)
       const xps = response.ranking.map(item => item.totalXP)
       const maiorXp = Math.max(...xps)
       setMaior(maiorXp)
