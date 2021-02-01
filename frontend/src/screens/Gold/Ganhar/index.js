@@ -3,7 +3,7 @@ import { Text, View, FlatList, Modal, StyleSheet, Alert, Image, TouchableOpacity
 import { Button, Card } from "react-native-elements";
 import { Container, Header, ProgressBar } from "../../../../components";
 import { useFocusEffect } from "@react-navigation/native";
-
+import { StackActions } from '@react-navigation/native';
 export default function XpGanho({ navigation, route }) {
   const [xpAtual, setXpAtual] = useState(300);
   const [xpMax, setxpMax] = useState(600);
@@ -59,7 +59,7 @@ export default function XpGanho({ navigation, route }) {
               />
               <Text style={{marginVertical: 30}}>Você ganhou {route.params.dados.goldGanho} GOLD</Text>
               <Button title="Continuar " onPress={() => {
-                route.params.dados.nivelGanho > 0 ? navigation.navigate("Progressão", {dados: route.params.dados}) :  navigation.goBack() ; navigation.goBack(); navigation.goBack()
+                route.params.dados.nivelGanho > 0 ? navigation.navigate("Progressão", {dados: route.params.dados}) :  navigation.dispatch(StackActions.popToTop());
                 setRendernew(false)
               }}/>
             </View>

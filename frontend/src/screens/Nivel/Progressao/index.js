@@ -14,6 +14,7 @@ import { Container, Header, ProgressBar } from "../../../../components";
 import { useFocusEffect } from "@react-navigation/native";
 import LottieView from "lottie-react-native";
 
+import { StackActions } from '@react-navigation/native';
 export default function AvancoNivel({ navigation }) {
   const [xpAtual, setXpAtual] = useState(300);
   const [xpMax, setxpMax] = useState(600);
@@ -68,10 +69,7 @@ export default function AvancoNivel({ navigation }) {
               />
               <Text style={{marginVertical: 30}}>Você avançou de nível!</Text>
               <Button title="Continuar " onPress={() => {
-                navigation.goBack()
-                navigation.goBack()
-                navigation.goBack()
-                navigation.goBack()
+                 navigation.dispatch(StackActions.popToTop());
               }}/>
             </View>
           </View>

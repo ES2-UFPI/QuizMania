@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using QuizMania.WebAPI.Models;
 using QuizMania.WebAPI.DTOs.Input;
 using QuizMania.WebAPI.DTOs.Output;
-using System.Linq;
-using System.Collections.Generic;
+using QuizMania.WebAPI.Models;
 
 namespace QuizMania.WebAPI.Services
 {
@@ -26,7 +26,7 @@ namespace QuizMania.WebAPI.Services
 
         public async Task<CharacterInfoDTO> GetCharacterInfoAsync(long id)
         {
-            return _mapper.Map<CharacterInfoDTO>(await _characterRepo.GetCharacterAllAsync(id));
+            return _mapper.Map<CharacterInfoDTO>(await _characterRepo.GetCharacterSimpleAsync(id));
         }
 
         public async Task<CharacterItemsDTO> GetCharacterItemsAsync(long id)
@@ -37,6 +37,11 @@ namespace QuizMania.WebAPI.Services
         public async Task<IEnumerable<ItemInfoDTO>> GetItemsAsync()
         {
             return _mapper.Map<IEnumerable<ItemInfoDTO>>(await _characterRepo.GetAllItemsAsync());
+        }
+
+        public async Task<IEnumerable<GuildInfoDTO>> GetGuildsAsync()
+        {
+            return _mapper.Map<IEnumerable<GuildInfoDTO>>(await _characterRepo.GetAllGuildsAsync());
         }
 
         public async Task<SaveQuizFeedbackResponseDTO.RequestResult> SaveQuizfeedback(QuizFeedback quizFeedback)
@@ -71,6 +76,54 @@ namespace QuizMania.WebAPI.Services
             {
                 return SaveQuizFeedbackResponseDTO.RequestResult.BadRequest;
             }
+        }
+
+        public async Task<Leave_JoinGuildResponseDTO> Leave_JoinGuilddAsyc(Leave_JoinGuildRequestDTO leave_joinRequest)
+        {
+            var result = new Leave_JoinGuildResponseDTO
+            {
+                Request = leave_joinRequest
+            };
+
+            var character = await _characterRepo.GetCharacterSimpleAsync(leave_joinRequest.CharacterId);
+
+            if (character == null)
+            {
+                result._result = Leave_JoinGuildResponseDTO.RequestResult.CharacterNotFound;
+                return result;
+            }
+
+            var guild = await _characterRepo.GetGuildMembersAsync(leave_joinRequest.GuildId);
+
+            if (guild == null)
+            {
+                result._result = Leave_JoinGuildResponseDTO.RequestResult.GuildNotFound;
+                return result;
+            }
+
+            var member = guild.Members.FirstOrDefault(m => m.Id == character.Id);
+
+            if (member == null) 
+            {
+                character.Guild = guild; 
+            }
+            else
+            {
+                guild.Members.Remove(member);
+            }
+
+            try
+            {
+                await _characterRepo.SaveChangesAsync();
+                result._result = Leave_JoinGuildResponseDTO.RequestResult.Success;
+
+            }
+            catch (Exception)
+            {
+                result._result = Leave_JoinGuildResponseDTO.RequestResult.BadRequest;
+            }
+
+            return result;
         }
 
         public async Task<Un_EquipItemResponseDTO> Un_EquipItemAsync(Un_EquipItemRequestDTO un_equipRequest)
@@ -191,6 +244,34 @@ namespace QuizMania.WebAPI.Services
             } while (false);
 
             return _mapper.Map<ItemPurchaseResponseDTO>(purchase);
+        }
+
+        public async Task<CharacterRankingDTO> GetRanking(long guildId) {
+            if (guildId < -1) {
+                return null;
+            }
+
+            List<Character> filteredCharacters = null;
+
+            switch(guildId)
+            {
+                case -1: 
+                    filteredCharacters = (List<Character>)await _characterRepo.GetAllCharactersAsync();
+                    break;
+                case 0:  filteredCharacters = (List<Character>)await _characterRepo.GetAllCharsWithoutGuildAsync();
+                    break;
+                default: 
+                    filteredCharacters = (await _characterRepo.GetGuildMembersAsync(guildId)).Members.ToList();
+                    break;
+            }
+
+            if (filteredCharacters == null) {
+                return null;
+            }
+
+            return new CharacterRankingDTO {
+                Ranking = _mapper.Map<ICollection<CharacterInfoRankDTO>>(filteredCharacters.OrderByDescending(c => c.TotalXP)),
+            };
         }
 
         private async Task<GoldExpense> TryExpendGoldInternal(GoldExpense expense, bool saveChanges = true)

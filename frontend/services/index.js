@@ -39,12 +39,12 @@ class ApiConnection {
   async responderQuiz(data) {
     data["characterId"] = 1
     try {
-      //console.log(data)
+      ////console.log(data)
       const response = await this.api.post(`quiz/feedback`, data);
       return response.data;
     } catch (error) {
       //alert(error)
-      //console.log("error: ", error.response) 
+      ////console.log("error: ", error.response) 
     }
   }
 
@@ -73,7 +73,7 @@ class ApiConnection {
   }
 
   async deletarPergunta(data) {
-    //console.log(data)
+    ////console.log(data)
     try {
       const response = await this.api.delete(`quiz/question`, {data});
       
@@ -145,6 +145,37 @@ class ApiConnection {
   async recuperarItens() {
     try {
       const response = await this.api.get(`/character/items`)
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async recuperarRanking(guilda=-1) {
+    try {
+      const response = await this.api.get(`/character/ranking/${guilda}`)
+      return response.data
+    } catch (error) {
+      //console.log(error)
+      throw error
+    }
+  }
+  async recuperarGuildas() {
+    try {
+      const response = await this.api.get(`/character/guilds`)
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async participarGuilda(id) {
+    data = {
+      characterId: 1,
+      guildId: id
+    }
+    try {
+      const response = await this.api.patch(`/character/guilds`, data)
       return response.data
     } catch (error) {
       throw error

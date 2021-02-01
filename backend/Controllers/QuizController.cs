@@ -19,18 +19,42 @@ namespace QuizMania.WebAPI.Controllers
             _quizService = quizService;
         }
 
+
+        /// <remarks>
+        /// <h2> **Description:** </h2>
+        /// <h3> Retorna todos os quizzes. </h3>
+        /// </remarks>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<QuizReadDTO>>> GetQuizzes()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<QuizReadDTO>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetQuizzes()
         {
             var quizzes = await _quizService.GetQuizzesAsync();
-            return quizzes != null ? Ok(quizzes) : NotFound();
+
+            if (quizzes == null) {
+                return NotFound();
+            }
+            
+            return Ok(quizzes);
         }
 
+
+        /// <remarks>
+        /// <h2> **Description:** </h2>
+        /// <h3> Retorna um determinado quiz. </h3>
+        /// </remarks>
         [HttpGet("{id}")]
-        public async Task<ActionResult<QuizReadDTO>> GetQuiz(long id)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(QuizReadDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetQuiz(long id)
         {
             var quiz = await _quizService.GetQuizAsync(id);
-            return quiz != null ? Ok(quiz) : NotFound();
+            
+            if (quiz == null) {
+                return NotFound();
+            }
+            
+            return Ok(quiz);
         }
 
 
@@ -39,9 +63,14 @@ namespace QuizMania.WebAPI.Controllers
         /// <h3> **200:** Sucess </h3>
         /// <h3> **404:** OwnerNotFound </h3>
         /// <h3> **400:** BadRequest, EmptyAtribute, QuestionWithoutCorrectAnswer </h3>
+        /// <h2> **Description:** </h2>
+        /// <h3> O character especificado salva o quiz informado. </h3>
         /// </remarks>
         [HttpPost]
-        public async Task<ActionResult<SaveQuizResponseDTO>> PostQuiz(SaveQuiz_QuizDTO quizReceived)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SaveQuizResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(SaveQuizResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(SaveQuizResponseDTO))]
+        public async Task<IActionResult> PostQuiz(SaveQuiz_QuizDTO quizReceived)
         {
             var result = await _quizService.SaveQuizAsync(quizReceived);
             switch (result._result)
@@ -58,9 +87,14 @@ namespace QuizMania.WebAPI.Controllers
         /// <h3> **200:** Sucess </h3>
         /// <h3> **404:** QuizNotFound </h3>
         /// <h3> **400:** BadRequest, CharacterNotOwner </h3>
+        /// <h2> **Description:** </h2>
+        /// <h3> Deleta o quiz especificado. </h3>
         /// </remarks>
         [HttpDelete]
-        public async Task<ActionResult<DeleteQuizResponseDTO>> DeleteQuiz(DeleteQuizRequestDTO deleteRequest)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DeleteQuizResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(DeleteQuizResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(DeleteQuizResponseDTO))]
+        public async Task<IActionResult> DeleteQuiz(DeleteQuizRequestDTO deleteRequest)
         {
             var result = await _quizService.DeleteQuizAsync(deleteRequest);
             switch (result._result)
@@ -77,9 +111,14 @@ namespace QuizMania.WebAPI.Controllers
         /// <h3> **200:** Sucess </h3>
         /// <h3> **404:** QuizNotFound </h3>
         /// <h3> **400:** BadRequest, EmptyAtribute, QuestionWithoutCorrectAnswer, CharacterNotOwner </h3>
+        /// <h2> **Description:** </h2>
+        /// <h3> O character especificado adiciona uma nova questão ao quiz informado. </h3>
         /// </remarks>
         [HttpPost("question")]
-        public async Task<ActionResult<QuestionReadDTO>> PostQuestion(SaveQuestion_QuestionDTO questionReceived)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(QuestionReadDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(QuestionReadDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(QuestionReadDTO))]
+        public async Task<IActionResult> PostQuestion(SaveQuestion_QuestionDTO questionReceived)
         {
             var result = await _quizService.SaveQuestionAsync(questionReceived);
             switch (result._result)
@@ -96,9 +135,14 @@ namespace QuizMania.WebAPI.Controllers
         /// <h3> **200:** Sucess </h3>
         /// <h3> **404:** QuizNotFound, QuestionNotFound </h3>
         /// <h3> **400:** BadRequest, CharacterNotOwner </h3>
+        /// <h2> **Description:** </h2>
+        /// <h3> O character especificado deleta questão do quiz informado. </h3>
         /// </remarks>
         [HttpDelete("question")]
-        public async Task<ActionResult<DeleteQuestionResponseDTO>> DeleteQuestion(DeleteQuestionRequestDTO deleteRequest)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DeleteQuestionResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(DeleteQuestionResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(DeleteQuestionResponseDTO))]
+        public async Task<IActionResult> DeleteQuestion(DeleteQuestionRequestDTO deleteRequest)
         {
             var result = await _quizService.DeleteQuestionAsync(deleteRequest);
             switch (result._result)
@@ -116,9 +160,14 @@ namespace QuizMania.WebAPI.Controllers
         /// <h3> **200:** Sucess </h3>
         /// <h3> **404:** CharacterNotFound, QuizNotFound, QuestionNotFound, AnswerNotFound </h3>
         /// <h3> **400:** BadRequest, InvalidQuizFeedback, QuizWithoutQuestions </h3>
+        /// <h2> **Description:** </h2>
+        /// <h3> O character especificado responde o quiz informado. </h3>
         /// </remarks>
         [HttpPost("feedback")]
-        public async Task<ActionResult<SaveQuizFeedbackResponseDTO>> PostQuizFeedback(SaveQuizFb_QuizFeedbackDTO quizFbReceived)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SaveQuizFeedbackResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(SaveQuizFeedbackResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(SaveQuizFeedbackResponseDTO))]
+        public async Task<IActionResult> PostQuizFeedback(SaveQuizFb_QuizFeedbackDTO quizFbReceived)
         {
             var result = await _quizService.SaveQuizFeedbackAsync(quizFbReceived);
             switch (result._result)
@@ -131,83 +180,5 @@ namespace QuizMania.WebAPI.Controllers
                 default: return BadRequest(result);
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //// PUT: api/Quiz/5
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutQuiz(ulong id, Quiz quiz)
-        //{
-        //    if (id != quiz.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(quiz).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!QuizExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
-        //// POST: api/Quiz
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPost]
-        //public async Task<ActionResult<Quiz>> PostQuiz(Quiz quiz)
-        //{
-        //    _context.Quizzes.Add(quiz);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetQuiz", new { id = quiz.Id }, quiz);
-        //}
-
-        //// DELETE: api/Quiz/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteQuiz(ulong id)
-        //{
-        //    var quiz = await _context.Quizzes.FindAsync(id);
-        //    if (quiz == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.Quizzes.Remove(quiz);
-        //    await _context.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
-
-        //private bool QuizExists(ulong id)
-        //{
-        //    return _context.Quizzes.Any(e => e.Id == id);
-        //}
     }
 }

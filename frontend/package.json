@@ -21,6 +21,7 @@
     "expo-status-bar": "~1.0.2",
     "expo-three": "^5.5.1",
     "expo-updates": "~0.3.2",
+    "jest-expo": "^40.0.2",
     "lottie-react-native": "~2.6.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -37,17 +38,21 @@
     "react-native-status-bar-height": "^2.6.0",
     "react-native-tab-view": "^2.15.2",
     "react-native-unimodules": "~0.11.0",
-    "react-native-web": "~0.13.12",
-    "three": "^0.124.0"
+    "react-native-web": "~0.13.12"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
     "babel-jest": "~25.2.6",
     "jest": "~25.2.6",
+    "jest-junit": "^12.0.0",
     "react-test-renderer": "~16.13.1"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "jest-expo",
+    "reporters": [
+      "default",
+      "jest-junit"
+    ]
   },
   "private": true
 }

@@ -1,0 +1,41 @@
+# Node.js with React
+# Build a Node.js project that uses React.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- main
+- develop
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- task: Npm@1
+  inputs:
+    command: ci
+    workingDir: '$(System.DefaultWorkingDirectory)/frontend'
+    verbose: true
+
+- task: Npm@1
+  inputs:
+    command: custom
+    customCommand: 'test -- --ci --reporters=default --reporters=jest-junit'
+    workingDir: '$(System.DefaultWorkingDirectory)/frontend'
+    verbose: true
+  continueOnError: true
+    
+- task: PublishTestResults@2
+  displayName: 'Publish Jest Unit Tests Results'
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/junit.xml'
+    searchFolder: '$(System.DefaultWorkingDirectory)'
+    mergeTestResults: true
+    failTaskOnFailedTests: true
+    testRunTitle: 'Publish Jest Unit Tests Results'

@@ -2,14 +2,46 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QuizMania.WebAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace QuizMania.WebAPI.Data
 {
-    public static class DatabaseInitializer
+    public class DatabaseInitializer
     {
-        private static async Task ContextSeeder(DatabaseContext context)
+        private readonly DatabaseContext _context;
+
+        public DatabaseInitializer(DatabaseContext context)
+        {
+            _context = context;
+        }
+
+        public static async Task ContextSeederAsync(DatabaseContext context)
+        {
+            ContextAddElements(context);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<bool> SeederAsync()
+        {
+            Startup.inMemorySqliteConnection.Close();
+            Startup.inMemorySqliteConnection.Open();
+
+            ContextAddElements(_context);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true; ;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        private static void ContextAddElements(DatabaseContext context)
         {
             context.Database.EnsureCreated();
 
@@ -1859,12 +1891,39 @@ namespace QuizMania.WebAPI.Data
 
             #endregion
 
+            // mock guilds
+
+            var guild1 = new Guild() 
+            { 
+                Name = "Abyss Watchers" 
+            }; context.Guilds.Add(guild1);
+
+            var guild2 = new Guild()
+            {
+                Name = "Warriors of Sunlight"
+            }; context.Guilds.Add(guild2);
+
+            var guild3 = new Guild()
+            {
+                Name = "Blades of the Darkmoon"
+            }; context.Guilds.Add(guild3);
+
+            var guild4 = new Guild()
+            {
+                Name = "Wisdom Magicians "
+            }; context.Guilds.Add(guild4);
+
+            var guild5 = new Guild()
+            {
+                Name = "Chaos Servants"
+            }; context.Guilds.Add(guild5);
+
             // mock characters
             var char1 = new Character()
             {
                 Name = "Gandalf",
                 TotalXP = 5,
-                Gold = 300,
+                Gold = 3000,
                 HealthPoints = 100,
             }; context.Characters.Add(char1);
 
@@ -1874,11 +1933,13 @@ namespace QuizMania.WebAPI.Data
             char1.Items.Add(new InventoryItem(armYellow_long, 1, isEquipped: true));
             char1.Items.Add(new InventoryItem(pantsGreen_long, 1, isEquipped: true));
 
+            char1.Guild = guild1;
+
             var char2 = new Character()
             {
                 Name = "Jurema",
                 TotalXP = 55,
-                Gold = 185,
+                Gold = 3000,
                 HealthPoints = 80,
             }; context.Characters.Add(char2);
 
@@ -1887,6 +1948,99 @@ namespace QuizMania.WebAPI.Data
             char2.Items.Add(new InventoryItem(tint8_neck, 1, isEquipped: true));
             char2.Items.Add(new InventoryItem(armWhite_long, 1, isEquipped: true));
             char2.Items.Add(new InventoryItem(pantsLightBlue_long, 1, isEquipped: true));
+
+            char2.Guild = guild2;
+
+            var char3 = new Character()
+            {
+                Name = "Lautrec",
+                TotalXP = 200,
+                Gold = 3000,
+                HealthPoints = 120,
+            }; context.Characters.Add(char3);
+
+            var char4 = new Character()
+            {
+                Name = "Solaire",
+                TotalXP = 60,
+                Gold = 3000,
+                HealthPoints = 90,
+            }; context.Characters.Add(char4);
+
+            var char5 = new Character()
+            {
+                Name = "Guts",
+                TotalXP = 300,
+                Gold = 3000,
+                HealthPoints = 200,
+            }; context.Characters.Add(char5);
+
+            var char6 = new Character()
+            {
+                Name = "Serpico",
+                TotalXP = 30,
+                Gold = 3000,
+                HealthPoints = 60,
+            }; context.Characters.Add(char6);
+
+            var char7 = new Character()
+            {
+                Name = "Clint E.",
+                TotalXP = 150,
+                Gold = 3000,
+                HealthPoints = 130,
+            }; context.Characters.Add(char7);
+
+            var char8 = new Character()
+            {
+                Name = "Ornstein",
+                TotalXP = 3,
+                Gold = 3000,
+                HealthPoints = 80,
+            }; context.Characters.Add(char8);
+
+            var char9 = new Character()
+            {
+                Name = "Ingward",
+                TotalXP = 2,
+                Gold = 3000,
+                HealthPoints = 40,
+            }; context.Characters.Add(char9);
+
+            var char10 = new Character()
+            {
+                Name = "Havel",
+                TotalXP = 160,
+                Gold = 3000,
+                HealthPoints = 150,
+            }; context.Characters.Add(char10);
+
+            var char11 = new Character()
+            {
+                Name = "Griffith",
+                TotalXP = 100,
+                Gold = 3000,
+                HealthPoints = 90,
+            }; context.Characters.Add(char11);
+
+            var char12 = new Character()
+            {
+                Name = "Skull K.",
+                TotalXP = 230,
+                Gold = 3000,
+                HealthPoints = 170,
+            }; context.Characters.Add(char12);
+
+            char3.Guild = guild1;
+            char4.Guild = guild2;
+            char5.Guild = guild1;
+            char6.Guild = guild2;
+            char7.Guild = guild3;
+            char8.Guild = guild3;
+            char9.Guild = guild2;
+            char10.Guild = guild2;
+            char11.Guild = guild4;
+            char12.Guild = guild4;
 
             // mock quizzes
             var quiz1 = new Quiz()
@@ -1977,17 +2131,6 @@ namespace QuizMania.WebAPI.Data
 
             context.Quizzes.Add(quiz1);
             context.Quizzes.Add(quiz2);
-
-            await context.SaveChangesAsync();
-        }
-
-        public static async Task SeedAsync(IHost host)
-        {
-            using (var scope = host.Services.CreateScope())
-            using (var context = scope.ServiceProvider.GetService<DatabaseContext>())
-            {
-                await ContextSeeder(context);
-            }
         }
     }
 }

@@ -103,25 +103,25 @@ export default function ListarQuizzes({ navigation, route }) {
       setCharacter(data.owner.id)
       setPerguntas(data.questions);
       setTitulo(data.title)
-      //console.log(perguntas)
+      ////console.log(perguntas)
     } catch (error) {
       alert(error.response.data.result)
     }
   }
 
   async function submit() {
-    //console.log(perguntas)
+    ////console.log(perguntas)
     const request = {}
     request['questions'] = perguntas.filter((item, index) => item != null)
     request['title'] = titulo
     try {
-      //console.log(JSON.stringify(request))
+      ////console.log(JSON.stringify(request))
       const response = await API.criarQuiz(request)
       alert(response.result)
       navigation.goBack()
     } catch (error) {
       alert(error.response.result)
-      //console.log(error)
+      ////console.log(error)
     }
   }
 
@@ -147,7 +147,7 @@ export default function ListarQuizzes({ navigation, route }) {
         await getData()
       } catch (error) {
         alert("Erro ao deletar pergunta")
-        //console.log(error)
+        ////console.log(error)
       }
 
     } else {
@@ -280,20 +280,20 @@ export default function ListarQuizzes({ navigation, route }) {
           if(quiz) {
             novaPergunta['quizId'] = quiz
             try {
-              //console.log(JSON.stringify(novaPergunta))
+              ////console.log(JSON.stringify(novaPergunta))
               const response = await API.criarPergunta(novaPergunta)
               alert("Sua pergunta foi cadastrada com sucesso ao quiz!")
               await getData() 
             } catch (error) {
               alert("Erro ao cadastrar sua pergunta...")
-              //console.log(error)
+              ////console.log(error)
             }
             
           } else {
 
             perguntas.push(novaPergunta);
             setPerguntas(perguntas);
-            //console.log(perguntas);
+            ////console.log(perguntas);
             setAlternativas([]);
             
           }
