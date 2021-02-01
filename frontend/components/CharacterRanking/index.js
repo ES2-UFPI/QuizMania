@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, View, Text} from 'react-native'
 
 
 export default function ResponsiveList({porcentagem, nome, xp}) {
-  console.log(porcentagem.toString() + '%')
+  //console.log(porcentagem.toString() + '%')
   return(
     <View style={{...styles.container, height: '100%'}}>
       <Text style={{textAlign: 'center'}}>{nome}</Text>

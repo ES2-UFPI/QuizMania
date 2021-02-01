@@ -14,7 +14,7 @@ export default function ListarGuildas({ navigation }) {
     const unsubscribe = navigation.addListener("focus", () => {
       getData();
       setStep(step + 1);
-      //console.log("chamou")
+      ////console.log("chamou")
     });
 
     // Return the function to unsubscribe from the event so it gets removed on unmount
@@ -25,9 +25,9 @@ export default function ListarGuildas({ navigation }) {
     try {
       const response = await API.recuperarGuildas()
       const dadosPersonagem = await API.obterPersonagem({id: 1})
-      console.log(dadosPersonagem)
+      //console.log(dadosPersonagem)
       const novosDados = response.map(item => {
-        console.log("rooi" , item)
+        //console.log("rooi" , item)
         const participa = dadosPersonagem.guild && dadosPersonagem.guild.id == item.id
         return {...item, participa}
 
@@ -65,6 +65,10 @@ export default function ListarGuildas({ navigation }) {
               item.participa ? alert("Você já participa desta guilda") :participarGuilda(item.id)
             }} title={item.participa ? 'Participando' :'Participar'} type='clear'/>
             <Button onPress={() => {
+              navigation.navigate('Detalhar Guilda', {
+                nome: item.name,
+                idGuilda: item.id
+              })
             }} title='Detalhar' type='clear'/>
           </Card>
         )}

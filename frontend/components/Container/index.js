@@ -11,7 +11,7 @@ export default function container({ children, notscroll, navigation,refresh, fle
   useEffect(() => {
     // const unsubscribe = navigation.addListener("focus", () => {
     //   setStep(step + 1);
-    //   //console.log("chamou")
+    //   ////console.log("chamou")
     // });
 
     // // Return the function to unsubscribe from the event so it gets removed on unmount
