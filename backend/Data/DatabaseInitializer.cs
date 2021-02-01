@@ -2025,7 +2025,7 @@ namespace QuizMania.WebAPI.Data
 
             var char12 = new Character()
             {
-                Name = "Skull Knight",
+                Name = "Skull K.",
                 TotalXP = 230,
                 Gold = 3000,
                 HealthPoints = 170,
