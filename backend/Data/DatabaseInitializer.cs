@@ -1896,27 +1896,27 @@ namespace QuizMania.WebAPI.Data
             var guild1 = new Guild() 
             { 
                 Name = "Abyss Watchers" 
-            };
+            }; context.Guilds.Add(guild1);
 
             var guild2 = new Guild()
             {
                 Name = "Warriors of Sunlight"
-            };
+            }; context.Guilds.Add(guild2);
 
             var guild3 = new Guild()
             {
                 Name = "Blades of the Darkmoon"
-            };
+            }; context.Guilds.Add(guild3);
 
             var guild4 = new Guild()
             {
                 Name = "Wisdom Magicians "
-            };
+            }; context.Guilds.Add(guild4);
 
             var guild5 = new Guild()
             {
                 Name = "Chaos Servants"
-            };
+            }; context.Guilds.Add(guild5);
 
             // mock characters
             var char1 = new Character()

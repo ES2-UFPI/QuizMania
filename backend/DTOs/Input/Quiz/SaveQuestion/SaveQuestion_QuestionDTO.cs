@@ -5,9 +5,9 @@ namespace QuizMania.WebAPI.DTOs.Input
 {
     public class SaveQuestion_QuestionDTO
     {
-        public long QuizId { get; set; }
-
         public long CharacterId { get; set; }
+
+        public long QuizId { get; set; }
 
         [Required]
         [MaxLength(512)]

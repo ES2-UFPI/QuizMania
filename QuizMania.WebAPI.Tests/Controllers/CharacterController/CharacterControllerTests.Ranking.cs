@@ -8,9 +8,11 @@ using QuizMania.WebAPI.Data;
 using QuizMania.WebAPI.Services;
 using QuizMania.WebAPI.DTOs.Output;
 using QuizMania.WebAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace QuizMania.WebAPI.Tests.Controllers {
-    partial class CharacterControllerTests {
+    partial class CharacterControllerTests 
+    {
         private DatabaseContext GetRankingTestsDatabaseContext() {
             var context = GetUniqueDatabaseContext("RankingTestsDatabaseContext");
             context.Database.EnsureDeletedAsync().Wait();
@@ -42,14 +44,6 @@ namespace QuizMania.WebAPI.Tests.Controllers {
             return context;
         }
         
-        [TestCase(-2)]
-        public async Task Test_GetRanking_InvalidGuildId(long guildId) {
-            var controller   = new CharacterController(new CharacterService(new CharacterRepository(DbContext), new ItemRepository(DbContext), Mapper));
-            var actionResult = await controller.GetRanking(guildId);
-
-            Assert.IsInstanceOf<BadRequestResult>(actionResult);
-        }
-        
         [TestCase(-1)]
         public async Task Test_GetRanking_All(long guildId) {
             var context = GetRankingTestsDatabaseContext();
@@ -79,11 +73,13 @@ namespace QuizMania.WebAPI.Tests.Controllers {
         public async Task Test_GetRanking_ValidGuildId(long guildId) {
             var context = GetRankingTestsDatabaseContext();
             var controller   = new CharacterController(new CharacterService(new CharacterRepository(context), new ItemRepository(context), Mapper));
-            
-            var characterCount = context.Characters.Count(character => guildId == 0 ?
+
+            var characterCount = await context.Characters.CountAsync(character => guildId == 0 ?
                                          character.Guild == null : character.Guild.Id == guildId);
             
             var actionResult   = await controller.GetRanking(guildId);
+
+            Assert.IsInstanceOf<OkObjectResult>(actionResult);
 
             var okResult = actionResult as OkObjectResult;
             Assert.NotNull(okResult);
@@ -98,6 +94,15 @@ namespace QuizMania.WebAPI.Tests.Controllers {
                 Assert.LessOrEqual(character.TotalXP, previous);
                 previous = character.TotalXP;
             }
+        }
+
+        [TestCase(-2)]
+        public async Task Test_GetRanking_InvalidGuildId(long guildId)
+        {
+            var controller = new CharacterController(new CharacterService(new CharacterRepository(DbContext), new ItemRepository(DbContext), Mapper));
+            var actionResult = await controller.GetRanking(guildId);
+
+            Assert.IsInstanceOf<BadRequestResult>(actionResult);
         }
     }
 }

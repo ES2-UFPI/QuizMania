@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QuizMania.WebAPI.DTOs.Input;
 using QuizMania.WebAPI.DTOs.Output;
-using QuizMania.WebAPI.Models;
 using QuizMania.WebAPI.Services;
-
 
 namespace QuizMania.WebAPI.Controllers {
     [Route("/character")]
@@ -192,7 +190,7 @@ namespace QuizMania.WebAPI.Controllers {
         /// <h2> **Result values:** </h2> 
         /// <h3> **200:** Authorized </h3>
         /// <h3> **404:** ItemNotFound, CharacterNotFound </h3>
-        /// <h3> **400:** BadRequest, NotEnoughResources, ItemNotFound, ReachedItemMaxQuantity </h3>
+        /// <h3> **400:** BadRequest, NotEnoughResources, ReachedItemMaxQuantity </h3>
         /// <h2> **Description:** </h2>
         /// <h3> O item especificado é comprado pelo character informado. </h3>
         /// </remarks>
