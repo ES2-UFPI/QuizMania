@@ -2043,19 +2043,484 @@ namespace QuizMania.WebAPI.Data
             char12.Guild = guild4;
 
             // mock quizzes
-            var quiz1 = new Quiz()
+            var techQuiz = new Quiz()
             {
-                Title = "Quiz 1 Title",
+                Title = "Tech Quiz",
                 Owner = char1,
             };
 
-            var quiz2 = new Quiz()
+            var sportsQuiz = new Quiz()
             {
-                Title = "Quiz 2 Title",
+                Title = "Sports Quiz",
+                Owner = char1,
+            };
+
+            var scienceQuiz = new Quiz()
+            {
+                Title = "Science Quiz",
+                Owner = char2,
+            };
+
+            var testQuiz = new Quiz()
+            {
+                Title = "Test Quiz",
                 Owner = char2,
             };
 
             var question1 = new Question()
+            {
+                Text = "What is often seen as the smallest unit of memory?",
+                Answers = new List<Answer>()
+                {
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "kilobyte",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "bit",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = true,
+                        Text = "byte",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "petabyte",
+                    },
+                }
+            };
+
+            var question2 = new Question()
+            {
+                Text = "What does “HTTP” stand for?",
+                Answers = new List<Answer>()
+                {
+                    new Answer()
+                    {
+                        IsCorrect = true,
+                        Text = "HyperText Transfer Protocol",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "HyperThreading Transfer Protocol",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "HyperTransfer Text Protocol",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "High Transmission Transfer Protocol",
+                    },
+                }
+            };
+
+            var question3 = new Question()
+            {
+                Text = "Is Java a type of OS?",
+                Answers = new List<Answer>()
+                {
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "Yes",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = true,
+                        Text = "No",
+                    },
+                }
+            };
+
+            var question4 = new Question()
+            {
+                Text = "What year was the very first model of the iPhone released?",
+                Answers = new List<Answer>()
+                {
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "2006",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "2001",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "2015",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = true,
+                        Text = "2007",
+                    },
+                }
+            };
+
+            var question5 = new Question()
+            {
+                Text = "What is Ajax?",
+                Answers = new List<Answer>()
+                {
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "A programmin language",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "A framework",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "An Operational System",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = true,
+                        Text = "A set of techiniques",
+                    },
+                }
+            };
+
+            var question6 = new Question()
+            {
+                Text = "How many soccer players should each team have on the field at the start of each match?",
+                Answers = new List<Answer>()
+                {
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "22",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "10",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = true,
+                        Text = "11",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "23",
+                    },
+                }
+            };
+
+            var question7 = new Question()
+            {
+                Text = "When Michael Jordan played for the Chicago Bulls, how many NBA Championships did he win?",
+                Answers = new List<Answer>()
+                {
+                    new Answer()
+                    {
+                        IsCorrect = true,
+                        Text = "6",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "1",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "14",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "5",
+                    },
+                }
+            };
+
+            var question8 = new Question()
+            {
+                Text = "Which Williams sister has won more Grand Slam titles?",
+                Answers = new List<Answer>()
+                {
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "Mars",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "Venus",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = true,
+                        Text = "Serena",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "Selena",
+                    },
+                }
+            };
+
+            var question9 = new Question()
+            {
+                Text = "What country won the very first FIFA World Cup in 1930?",
+                Answers = new List<Answer>()
+                {
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "Germany",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "England",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "Brazil",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = true,
+                        Text = "Uruguay",
+                    },
+                }
+            };
+
+            var question10 = new Question()
+            {
+                Text = "Which racer holds the record for the most Grand Prix wins?",
+                Answers = new List<Answer>()
+                {
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "Juan Manuel Fangio",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = true,
+                        Text = "Michael Schumacher",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "Ayrton Senna",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "Alain Prost",
+                    },
+                }
+            };
+
+            var question11 = new Question()
+            {
+                Text = "Who discovered penicillin?",
+                Answers = new List<Answer>()
+                {
+                    new Answer()
+                    {
+                        IsCorrect = true,
+                        Text = "Alexander Fleming",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "Gregor Mendel",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "Charles Darwin",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "Louis Pasteur",
+                    },
+                }
+            };
+
+            var question12 = new Question()
+            {
+                Text = "Who was the first woman to win a Nobel Prize (in 1903)?",
+                Answers = new List<Answer>()
+                {
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "Ada Lovelace",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = true,
+                        Text = "Marie Curie",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "Tiera Guinn",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "Rosalind Franklin",
+                    },
+                }
+            };
+
+            var question13 = new Question()
+            {
+                Text = "What is the symbol for potassium?",
+                Answers = new List<Answer>()
+                {
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "P",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "S",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = true,
+                        Text = "K",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "T",
+                    },
+                }
+            };
+
+            var question14 = new Question()
+            {
+                Text = "Which planet has the most gravity?",
+                Answers = new List<Answer>()
+                {
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "Earth",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "Mars",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "Uranus",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = true,
+                        Text = "Jupiter",
+                    },
+                }
+            };
+
+            var question15 = new Question()
+            {
+                Text = "How many molecules of oxygen does Ozone have?",
+                Answers = new List<Answer>()
+                {
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "2",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = true,
+                        Text = "3",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "6",
+                    },
+
+                    new Answer()
+                    {
+                        IsCorrect = false,
+                        Text = "8",
+                    },
+                }
+            };
+
+            var question16 = new Question()
             {
                 Text = "What is the answer to the meaning of life, the universe and everything?",
                 Answers = new List<Answer>()
@@ -2086,7 +2551,7 @@ namespace QuizMania.WebAPI.Data
                 }
             };
 
-            var question2 = new Question()
+            var question17 = new Question()
             {
                 Text = "This is a true or false question. True or False?",
                 Answers = new List<Answer>()
@@ -2105,7 +2570,7 @@ namespace QuizMania.WebAPI.Data
                         }
             };
 
-            var question3 = new Question()
+            var question18 = new Question()
             {
                 Text = "All options are correct. Which options are correct?",
                 Answers = new List<Answer>()
@@ -2124,13 +2589,32 @@ namespace QuizMania.WebAPI.Data
                         }
             };
 
-            quiz1.Questions.Add(question1);
+            techQuiz.Questions.Add(question1);
+            techQuiz.Questions.Add(question2);
+            techQuiz.Questions.Add(question3);
+            techQuiz.Questions.Add(question4);
+            techQuiz.Questions.Add(question5);
 
-            quiz2.Questions.Add(question2);
-            quiz2.Questions.Add(question3);
+            sportsQuiz.Questions.Add(question6);
+            sportsQuiz.Questions.Add(question7);
+            sportsQuiz.Questions.Add(question8);
+            sportsQuiz.Questions.Add(question9);
+            sportsQuiz.Questions.Add(question10);
 
-            context.Quizzes.Add(quiz1);
-            context.Quizzes.Add(quiz2);
+            scienceQuiz.Questions.Add(question11);
+            scienceQuiz.Questions.Add(question12);
+            scienceQuiz.Questions.Add(question13);
+            scienceQuiz.Questions.Add(question14);
+            scienceQuiz.Questions.Add(question15);
+
+            testQuiz.Questions.Add(question16);
+            testQuiz.Questions.Add(question17);
+            testQuiz.Questions.Add(question18);
+
+            context.Quizzes.Add(techQuiz);
+            context.Quizzes.Add(sportsQuiz);
+            context.Quizzes.Add(scienceQuiz);
+            context.Quizzes.Add(testQuiz);
         }
     }
 }

@@ -16,6 +16,8 @@ namespace QuizMania.WebAPI
 {
     public class Startup
     {
+        readonly string AllowNullOriginCors = "_allowNullOriginCors";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -26,6 +28,8 @@ namespace QuizMania.WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>{ options.AddPolicy(name: AllowNullOriginCors, builder => { builder.WithOrigins("null").AllowAnyHeader().AllowAnyMethod(); }); });
+
             services.AddControllers();
 
             services.AddScoped<IQuizAsyncRepository, QuizRepository>();
@@ -72,6 +76,8 @@ namespace QuizMania.WebAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(AllowNullOriginCors);
 
             app.UseAuthorization();
 
